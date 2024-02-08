@@ -1,20 +1,8 @@
-import mysql from 'mysql2/promise';
+const express = require("express");
 
-// Create the connection to database
-const connection = await mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: "root",
-  database: 'mydb',
-});
+const app = express();
+const port = process.env.PORT || 3000;
 
-try {
-    const [results, fields] = await connection.query(
-      'SHOW TABLES'
-    );
-  
-    console.log(results); // results contains rows returned by server
-    console.log(fields); // fields contains extra meta data about results, if available
-  } catch (err) {
-    console.log(err);
-  }
+app.listen(port,()=>{
+    console.log("Ok");
+})
