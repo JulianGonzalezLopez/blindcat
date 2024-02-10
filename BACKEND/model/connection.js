@@ -18,19 +18,7 @@ async function openConnection(){
     }
 }
 
-async function basicUsage(){
-    let connection = await openConnection();
-    try {
-        const [results, fields] = await connection.query(
-          'SHOW TABLES'
-        );
-      
-        console.log(results); // results contains rows returned by server
-        console.log(fields); // fields contains extra meta data about results, if available
-      } catch (err) {
-        console.log(err);
-      }
 
+module.exports = {
+  openConnection
 }
-
-basicUsage();
