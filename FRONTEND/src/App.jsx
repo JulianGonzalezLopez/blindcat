@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Signup from './components/Signup';
 function App() {
   const [logged,setLogged] = useState(false);
+  const [username,setUsername] = useState("");
 
   useEffect(() => {
 
@@ -27,7 +28,7 @@ function App() {
     <>
       <Header></Header>
       <main className='main'>
-        {logged ? <Posts></Posts> : <><Login></Login> <Signup></Signup></>}
+        {logged ? <Posts></Posts> : <><Login logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Login> <Signup logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Signup></>}
       </main>
     </>
   )
