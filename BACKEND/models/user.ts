@@ -1,19 +1,24 @@
-const {openConnection} = require("./connection.js");
+import  openConnection  from "./connection.ts";
 
 async function createUser(user){
     
     try{
         if(user.newUsername == null || user.newPassword == null || user.reNewPassword == null){
-            console.log("nono");
+            throw {"en":"At least one of the inputs is null"}
         }
-        let connection = await openConnection();
+        let connection = await openConnection()
 
-        const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.newUsername]);
-        if(results.length > 0){
-            throw {en:"This user already exists"}
+        if (connection instanceof Error){
+            throw connection;
         }
         else{
-            await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.newUsername, user.newPassword]);    
+            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.newUsername]);
+            if(results.length > 0){
+                throw {en:"This user already exists"}
+            }
+            else{
+                await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.newUsername, user.newPassword]);    
+            }
         }
     }
     catch(e){
@@ -55,7 +60,7 @@ async function getUser(user){
     }
 }
 
-module.exports = {
+export default {
     createUser,
     getUsers,
     getUser

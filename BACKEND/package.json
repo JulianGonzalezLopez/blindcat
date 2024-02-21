@@ -2,11 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "type": "commonjs",
-  "main": "index.js",
+  "type": "module",
+  "main": "index.ts",
   "scripts": {
-    "test": "nodemon index.js"
-    
+    "test": "nodemon index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +15,8 @@
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
   }
 }
