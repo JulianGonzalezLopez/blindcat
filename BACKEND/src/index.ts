@@ -1,7 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-
-const {createUser, getUser} = require("./model/users");
+import express from "express";
+import cors from "cors";
+/// @ts-ignore
+import { createUser, getUser } from "./models/user"
 
 const app = express();
 const port = process.env.PORT || 3001;
