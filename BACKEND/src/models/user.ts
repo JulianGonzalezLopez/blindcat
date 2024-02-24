@@ -1,9 +1,25 @@
 import  openConnection  from "./connection.js";
 
-async function createUser(user  : any){
+interface User{
+    username: string,
+    password: string,
+};
+
+interface NewUser{
+    username: string,
+    password: string,
+    rePassword: string
+};
+
+async function createUser(user  : NewUser){
     
     try{
-        if(user.newUsername == null || user.newPassword == null || user.reNewPassword == null){
+
+        if(user.password != user.rePassword){
+            throw({"en":"Passwords does not match"});
+        }
+
+        if(user.username == null || user.password == null || user.rePassword == null){
             throw {"en":"At least one of the inputs is null"}
         }
         let connection = await openConnection()
@@ -11,13 +27,16 @@ async function createUser(user  : any){
         if (connection instanceof Error){
             throw connection;
         }
+        else if(typeof connection === "undefined"){
+            throw {"en":"Failed to open a connection"};
+        }
         else{
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.newUsername]);
+            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.username]);
             if(Array.isArray(results) && results.length !== 0){
                 throw {en:"This user already exists"}
             }
             else{
-                await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.newUsername, user.newPassword]);    
+                await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);    
             }
         }
     }
@@ -26,62 +45,59 @@ async function createUser(user  : any){
     }
 }
 
-async function getUsers(user : any){
+async function getUsers() : Promise<any[]>{
     try{
-        if(user.newUsername == null){
-            console.log("nono");
-        }
         let connection = await openConnection();
 
         if (connection instanceof Error){
             throw connection;
         }
+        else if(typeof connection === "undefined"){
+            throw {"en":"Failed to open a connection"};
+        }
         else{
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.newUsername]);
+            const [results, fields] = await connection.execute("SELECT * FROM users");
 
             if(Array.isArray(results) && results.length !== 0){
-                throw {en:"This user already exists"}
+                return Promise.resolve(results);
             }
             else{
-                const results = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.newUsername]);
-                console.log(results);
+                return Promise.resolve([]);
             }
         }
-
     }
     catch(e){
         console.log(e);
+        return Promise.reject([]);
     }
 }
 
-async function getUser(user  : any){
+async function getUser(user  : User){
     try{
-        if(user.newUsername == null){
+        if(user.username == null){
             console.log("nono");
         }
+
         let connection = await openConnection();
 
         if (connection instanceof Error){
             throw connection;
         }
+        else if(typeof connection == "undefined"){
+            throw "";
+        }
         else{
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.newUsername]);
+            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.username]);
             
             if(Array.isArray(results) && results.length !== 0){
-                throw {en:"This user already exists"}
+                //DEVOLVER USER
             }
             else{
-                const [results, fields]  = await connection.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
+                //DEVOLVER ERROR
+            }
                 
-                console.log(results);
-                if(Array.isArray(results) && results.length !== 0){
-                    throw {en:"The user does not exists or the password is wrong"}
-                }
-                else{
-                    return true;
-                }
+
         }
-    }
     }
     catch(e){
         console.log(e);
