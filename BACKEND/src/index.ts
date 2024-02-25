@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import signup from "./controllers/signup";
+import signup from "./routes/signup.js";
 
 
 const app = express();
@@ -15,22 +15,7 @@ app.get("/ok",(req,res)=>{
     res.send("ok");
 })
 
-// app.post("/login", async (req,res)=>{
-//     let val = await getUser(req.body);
-//     if(val == true){
-//         res.send({"en":{
-//             username:req.body.username,
-//             message:"Logged in"
-//         }});
-//     }
-//     else{
-//         console.log("nao");
-//     }
-// });
-
 app.use(signup);
-
-
 
 app.listen(port,()=>{
     console.log("opa");
