@@ -15,7 +15,7 @@ app.get("/ok",(req,res)=>{
     res.send("ok");
 })
 
-app.use(signup);
+app.use("/signup",signup);
 
 app.listen(port,()=>{
     console.log("opa");
