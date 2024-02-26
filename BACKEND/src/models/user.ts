@@ -3,8 +3,8 @@ import openConnection from "../connection.js"
 interface User{
     username: string,
     password?: string,
-    cantidad_posts: number,
-    karma: number,
+    cantidad_posts?: number,
+    karma?: number,
 };
 
 async function getUsers(){
@@ -59,9 +59,37 @@ async function getUser(username : string){
     }
 }
 
+async function matchData(user: User){
+    try{
+        if(user.username == ""){
+            Promise.reject({"en":"You forgot to send an username, silly"});
+        }
+
+        let connection = await openConnection();
+
+        if (connection instanceof Error || typeof connection === "undefined"){
+            Promise.reject({"en":"Failed to connect"});
+        }
+        else{
+            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
+            
+            if(Array.isArray(results) && results.length !== 0){
+                Promise.resolve(results);
+            }
+            else{
+                Promise.reject("The user does not exist");
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+    }
+}
+
 const User = {
     getUser,
-    getUsers
+    getUsers,
+    matchData
 }
 
 export default User;
