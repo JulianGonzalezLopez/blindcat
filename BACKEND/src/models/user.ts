@@ -62,27 +62,27 @@ async function getUser(username : string){
 async function matchData(user: User){
     try{
         if(user.username == ""){
-            Promise.reject({"en":"You forgot to send an username, silly"});
+            throw {"en":"You forgot to send an username, silly"};
         }
 
         let connection = await openConnection();
 
         if (connection instanceof Error || typeof connection === "undefined"){
-            Promise.reject({"en":"Failed to connect"});
+            throw {"en":"Failed to connect"};
         }
         else{
             const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
             
             if(Array.isArray(results) && results.length !== 0){
-                Promise.resolve(results);
+                return true;
             }
             else{
-                Promise.reject("The user does not exist");
+                throw {"en":"That combination does not exist"};
             }
         }
     }
     catch(e){
-        console.log(e);
+        throw e;
     }
 }
 

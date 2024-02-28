@@ -6,6 +6,8 @@ interface NewUser{
     rePassword: string
 };
 
+
+//QUIERO PASAR TODO A TRY CATCH Y USAR THROWS, FALTA ACTUALIZAR
 async function createNewUser(user : NewUser){
     try{
         if(user.password != user.rePassword){

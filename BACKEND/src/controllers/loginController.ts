@@ -1,5 +1,6 @@
 import { Request,Response } from "express";
 import User from "../models/user.js";
+import authControler from "./authControler.js";
 
 async function login(req: Request,res: Response){
         const {username, password} = req.body;
@@ -13,13 +14,20 @@ async function login(req: Request,res: Response){
             res.end("???");
             return true;
         }
-        let response = await User.matchData({username, password})
-        .then(data=>{
-            res.json(data); //The user has been created successfully
-        })
-        .catch(data=>{
-            res.json(data); //Response: This username is alredy taken
-        })
+
+        try{
+            let response = await User.matchData({username, password});
+            if(response == true){
+                let token = authControler.authorize(username);
+                console.log("Logged in");
+                console.log(token);
+                return token;
+            }
+        }
+        catch (err){
+            console.log("Error logging in");
+            res.json(err);
+        }
 }
 
 export default{
