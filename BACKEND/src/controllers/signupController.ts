@@ -1,6 +1,7 @@
 import { Request,Response } from "express";
 import NewUser from "../models/NewUser.js";
 
+
 async function createUser(req: Request,res: Response){
         const {username, password, rePassword} = req.body;
         console.log(req.body);
