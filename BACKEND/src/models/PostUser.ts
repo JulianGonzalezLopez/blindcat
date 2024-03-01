@@ -6,8 +6,6 @@ interface UsersPost{
     post_id: number,
 };
 
-
-
 async function createNewUsersPosts(usersPost : UsersPost){
     try{
         if(usersPost.user_id == null || usersPost.post_id == null){
@@ -20,7 +18,7 @@ async function createNewUsersPosts(usersPost : UsersPost){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            await connection.execute("INSERT INTO users_posts(title, content) VALUES (?,?)",[usersPost.user_id, usersPost.post_id]);    
+            await connection.execute("INSERT INTO users_posts(user_id, post_id) VALUES (?,?)",[usersPost.user_id, usersPost.post_id]);    
             return Promise.resolve({"en":"The usersPost has been created successfully"})
         }
     }
