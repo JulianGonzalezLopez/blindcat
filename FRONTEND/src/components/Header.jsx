@@ -1,9 +1,9 @@
 import "./Header.css";
 
-function Header() {
+function Header({username, setUsername}) {
   return (
     <header className="header">
-        <p>USERNAME</p>
+        <p>{username || ""}</p>
         <form action="">
             <button>Create</button>
         </form>

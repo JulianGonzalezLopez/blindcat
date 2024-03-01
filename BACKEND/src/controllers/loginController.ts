@@ -21,6 +21,7 @@ async function login(req: Request,res: Response){
                 let token = authControler.authorize(username);
                 console.log("Logged in");
                 console.log(token);
+                res.json(token);
                 return token;
             }
         }

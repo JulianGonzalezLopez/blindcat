@@ -2,6 +2,13 @@ import { Request,Response } from "express";
 import PostUser from "../models/PostUser.js";
 import Post from "../models/Post.js";
 
+async function getPosts(req: Request,res: Response){
+    let response = await Post.getPosts();
+    console.log(response);
+    res.json(response);
+}
+
+
 async function createPost(req: Request,res: Response){
         const {title, content} = req.body;
 
@@ -43,5 +50,6 @@ async function createPost(req: Request,res: Response){
 }
 
 export default{
-    createPost
+    createPost,
+    getPosts
 }

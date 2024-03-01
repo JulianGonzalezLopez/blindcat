@@ -7,6 +7,7 @@ import Signup from './components/Signup';
 function App() {
   const [logged,setLogged] = useState(false);
   const [username,setUsername] = useState("");
+  const [token, setToken] = useState("");
 
   useEffect(() => {
 
@@ -26,9 +27,9 @@ function App() {
 
   return (
     <>
-      <Header></Header>
+      <Header username={username} setUsername={setUsername}></Header>
       <main className='main'>
-        {logged ? <Posts></Posts> : <><Login logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Login> <Signup logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Signup></>}
+        {logged ? <Posts token={token} ></Posts> : <><Login token={token} setToken={setToken} logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Login> <Signup logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Signup></>}
       </main>
     </>
   )

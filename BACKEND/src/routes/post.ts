@@ -9,4 +9,6 @@ router.get("/",(req,res)=>{
 
 router.post("/",postController.createPost);
 
+router.get("/all", postController.getPosts);
+
 export default router;

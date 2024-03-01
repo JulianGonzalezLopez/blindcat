@@ -3,70 +3,50 @@ import { useState } from "react";
 
 function Signup({username, setUsername, logged, setLogged}) {
 
-  const [formData, setFormData] = useState({
-    // Inicializa tus campos de formulario si es necesario
-    newUsername: '',
-    newPassword: '',
-    reNewPassword: ''
-});
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-// Función para manejar el cambio en los campos de formulario
-const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData(prevState => ({
-        ...prevState,
-        [name]: value
-    }));
-};
+    const formData = new FormData(event.target);
 
-const handleSubmit = async (event) => {
-  event.preventDefault();
+    const requestData = {
+      username: formData.get('username'),
+      password: formData.get('password'),
+      rePassword: formData.get('rePassword')
+    };
 
-  if (newPassword !== reNewPassword) {
-      console.log(newPassword);
-      console.log(reNewPassword);
-      alert("The passwords are not the same")
-      return;
-  }
-
-  try {
+    try {
       const response = await fetch('http://localhost:3001/signup', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              newUsername,
-              newPassword,
-              reNewPassword
-          })
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
       });
 
-      console.log(response);
-
-      if (!response.ok) {
-          throw new Error('Hubo un problema al registrar el usuario');
+      if (response.ok) {
+        setLogged(true); // Establecer logged en true si el registro es exitoso
+      } else {
+        console.error('Error al registrarse:', response.statusText);
+        // Aquí puedes manejar el error de registro de alguna manera
       }
+    } catch (error) {
+      console.error('Error al conectarse al servidor:', error);
+      // Aquí puedes manejar errores de conexión de red
+    }
+  };
 
-      // Si la solicitud fue exitosa, puedes hacer algo aquí, como redirigir al usuario a otra página o mostrar un mensaje de éxito
-      console.log('Usuario registrado exitosamente');
-  } catch (error) {
-      console.error('Error al enviar datos:', error.message);
-      // Puedes manejar el error de acuerdo a tus necesidades, por ejemplo, mostrando un mensaje de error al usuario
-  }
-}
 
   return (
     <div className="form-container">
       <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="newUsername">Username</label>
-        <input type="text" id="newUsername" name="newUsername" value={formData.newUsername}  onChange={handleChange} required />
-        <label htmlFor="newPassword">Password</label>
-        <input type="password" id="newPassword" name="newPassword" value={formData.newPassword}  onChange={handleChange} required />
+      <form action="http://localhost:3001/signup" method="post" onSubmit={handleSubmit}>
+        <label htmlFor="username">Username</label>
+        <input type="text" id="username" name="username" required />
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" name="password" required />
         <label htmlFor="newPassword">Repeat password</label>
-        <input type="password" id="reNewPassword" name="reNewPassword" value={formData.reNewPassword}  onChange={handleChange} required />
-        <button type="submit" className="login-button">Sign Up</button>
+        <input type="password" id="rePassword" name="rePassword" required />
+        <button type="submit" className="login-button" >Sign Up</button>
       </form>
     </div>
   )
