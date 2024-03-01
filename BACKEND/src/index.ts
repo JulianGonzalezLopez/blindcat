@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import signup from "./routes/signup.js";
 import login from "./routes/login.js";
+import post from "./routes/post.js";
 import authControler from "./controllers/authControler.js";
-
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -19,7 +19,11 @@ app.get("/ok",(req,res)=>{
 //Rutas sin token
 app.use("/signup",signup);
 app.use("/login", login);
+
 app.use(authControler.checkAuthorization);
+
+app.use("/post",post);
+//Rutas con token
 
 
 app.listen(port,()=>{

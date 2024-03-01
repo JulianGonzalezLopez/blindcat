@@ -18,8 +18,11 @@ async function createNewPost(post : Post){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            await connection.execute("INSERT INTO posts(title, content) VALUES (?,?)",[post.title, post.content]);    
-            return Promise.resolve({"en":"The post has been created successfully"})
+            const [rows, fields] = await connection.execute("INSERT INTO posts(title, content) VALUES (?,?)",[post.title, post.content]);    
+            //@ts-ignore
+            console.log('ID del registro insertado:', rows.insertId);
+            //@ts-ignore
+            return Promise.resolve(rows.insertId)
         }
     }
     catch(e){
