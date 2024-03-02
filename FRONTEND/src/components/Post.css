@@ -5,8 +5,6 @@
     padding: 1rem;
 }
 
-.post > img{
-    min-width: 100px;
-    min-height: 100px;
-    border: 1px solid black;
+.post-container > *{
+    color: black;
 }

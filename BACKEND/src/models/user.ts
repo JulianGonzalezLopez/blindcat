@@ -74,7 +74,13 @@ async function matchData(user: User){
             const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
             
             if(Array.isArray(results) && results.length !== 0){
-                return true;
+                console.log("ESTE  ROMPE TODO!!!");
+                console.log(results);
+                return {
+                    status:true,
+                    //@ts-ignore
+                    user_id:results[0].id
+                };
             }
             else{
                 throw {"en":"That combination does not exist"};

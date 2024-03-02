@@ -1,6 +1,6 @@
 import "./FormLoginSignup.css";
 
-function Login({username, setUsername, logged, setLogged, token, setToken}) {
+function Login({username, setUsername, logged, setLogged, token, setToken, setUserId}) {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -22,8 +22,15 @@ function Login({username, setUsername, logged, setLogged, token, setToken}) {
       });
   
       if (response.ok) {
-        let tk = await response.json();
+        let res = await response.json();
+        let tk = res.token;
+        let user_id = res.user_id;
+        console.log("A VER SI ESTO ROMPE TODO");
+        console.log(res);
+        console.log(tk);
+        console.log(user_id);
         setToken(tk);
+        setUserId(user_id);
         setLogged(true); // Establecer logged en true si el inicio de sesión es exitoso
         setUsername(formData.get('username'));
         console.log("OK");

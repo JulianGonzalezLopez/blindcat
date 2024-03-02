@@ -17,12 +17,12 @@ async function login(req: Request,res: Response){
 
         try{
             let response = await User.matchData({username, password});
-            if(response == true){
+            if(response.status == true){
                 let token = authControler.authorize(username);
                 console.log("Logged in");
-                console.log(token);
-                res.json(token);
-                return token;
+                console.log(response);
+                res.json({token:token, user_id:response.user_id});
+                return {token:token, user_id:response.user_id};
             }
         }
         catch (err){
