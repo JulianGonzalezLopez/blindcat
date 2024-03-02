@@ -1,7 +1,7 @@
 // Modal as a separate component
 import { useEffect, useRef } from "react";
 
-function Modal({ openModal, closeModal, children, token, userId }) {
+function Modal({ openModal, closeModal, token, userId, fetchData}) {
   const ref = useRef();
 
   const handleSubmit = async (event) => {
@@ -28,10 +28,12 @@ function Modal({ openModal, closeModal, children, token, userId }) {
         },
         body: JSON.stringify(requestData)
       });
-
-      if (response.ok) {
-        console.log("CERATEEEE");
-        closeModal();
+      console.log("!!!!!!!!!!");
+      await fetchData();
+      console.log("!!!!!!!!!!");
+      if (response.ok) { 
+        console.log("creado");
+        
       } else {
         console.error('Error al CREAR POST:');
         // Aquí puedes manejar el error de registro de alguna manera
@@ -40,6 +42,8 @@ function Modal({ openModal, closeModal, children, token, userId }) {
       console.error('Error al conectarse al servidor:');
       // Aquí puedes manejar errores de conexión de red
     }
+    console.log("NO LLEGA ACÁ");
+    
   };
 
 
@@ -63,7 +67,7 @@ function Modal({ openModal, closeModal, children, token, userId }) {
         <input type="text" id="title" name="title" required />
         <label htmlFor="content">Content</label>
         <textarea name="content" id="content" cols="30" rows="10"></textarea>
-        <button className="login-button" type="submit">Send</button>
+        <button className="login-button" type="submit" onClick={closeModal}>Send</button>
       </form>
 
       <button onClick={closeModal}>

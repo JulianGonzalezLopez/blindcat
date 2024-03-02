@@ -42,6 +42,7 @@ async function createPost(req: Request,res: Response){
             let response = await Post.createNewPost({title, content});
             let post_id = response;
             await PostUser.createNewUsersPosts({user_id, post_id});
+            res.send("ok"); // => Esto lo tengo que cambiar
         }
         catch (err){
             console.log("Error creating a Post in");

@@ -1,6 +1,21 @@
 import "./FormLoginSignup.css";
 
-function Login({username, setUsername, logged, setLogged, token, setToken, setUserId}) {
+
+function Login({username, setUsername, logged, setLogged, setToken, setUserId, setLastPosts}) {
+
+
+  async function fetchData(token){
+    let posts = await fetch("http://localhost:3001/post/all",
+    {
+      headers: new Headers({
+        "Authorization": token
+      })
+    }
+    );
+    let postsJSON = await posts.json();
+    setLastPosts(postsJSON);
+
+  };
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -33,6 +48,7 @@ function Login({username, setUsername, logged, setLogged, token, setToken, setUs
         setUserId(user_id);
         setLogged(true); // Establecer logged en true si el inicio de sesión es exitoso
         setUsername(formData.get('username'));
+        fetchData(tk);
         console.log("OK");
       } else {
         console.error('Error al iniciar sesión:', response.statusText);

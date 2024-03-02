@@ -11,35 +11,35 @@ function App() {
   const [token, setToken] = useState("");
   const [modal, setModal] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [lastPosts,setLastPosts] = useState([]); //NECESITO UN BOTON FIXED QUE SE ENCARGUE DE ACTUALIZAR A PEDIDO DE LA PERSONA
 
-  useEffect(() => {
-
-    async function asd(){
-      const res = await fetch("http://localhost:3001/ok");
-      if (!res.ok) {
-        throw new Error(`Error ${res.status}: ${res.statusText}`);
-      }
-      console.log(res);
-      const resJSON = await res.text();
-      console.log(resJSON);
-    };
-
-    asd();
-
-  }, []);
+  async function fetchData(){
+    console.log("FETCH REPIOLA");
+    let posts = await fetch("http://localhost:3001/post/all",
+    {
+      headers: new Headers({
+        "Authorization": token
+      })
+    }
+    );
+    let postsJSON = await posts.json();
+    console.log(postsJSON);
+    setLastPosts(postsJSON);
+  }
 
   return (
     <>
       <Header token={token} openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
-      {token && <Modal userId={userId} token={token} openModal={modal} closeModal={() => setModal(false)}></Modal>}
+      {token && <Modal fetchData={fetchData} userId={userId} token={token} openModal={modal} closeModal={() => setModal(false)}></Modal>}
       <main className='main'>
         {logged ? 
-          <Posts token={token} ></Posts> : 
-          <><Login token={token} setUserId={setUserId} setToken={setToken} logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Login> <Signup logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Signup>
+          <Posts lastPosts={lastPosts} token={token} ></Posts> : 
+          <><Login token={token} setUserId={setUserId} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername}></Login> <Signup logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Signup>
         </>}
       </main>
     </>
   )
 }
+
 
 export default App

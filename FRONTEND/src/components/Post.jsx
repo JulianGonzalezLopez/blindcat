@@ -8,8 +8,8 @@ function Post({title,content}) {
   return (
     <div className="post-container">
         <div className="post" onClick={()=> setFocus(!focus)}>
-            <h3>{title}</h3>
-            <p>{content}</p>
+            <h3 className="title">{title}</h3>
+            <p className="content">{content}</p>
         </div>
         {focus && <Comments></Comments>}
         
