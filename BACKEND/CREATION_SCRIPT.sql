@@ -14,6 +14,7 @@ CREATE TABLE posts(
     title varchar(32) NOT NULL,
     content varchar(1000) NOT NULL,
     likes INT NOT NULL DEFAULT 0,
+    category varchar(32) NOT NULL,
     PRIMARY KEY(id)
 );
 
