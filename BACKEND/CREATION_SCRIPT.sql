@@ -17,6 +17,22 @@ CREATE TABLE posts(
     PRIMARY KEY(id)
 );
 
+CREATE TABLE comments(
+    id int not null AUTOINCREMENT,
+    content varchar(300) NOT NULL,
+    creator_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(creator_id) REFERENCES users(id)
+);
+
+CREATE TABLE posts_comments(
+    comment_id INT NOT NULL,
+    post_id INT NOT NULL,
+    PRIMARY KEY(comment_id,post_id),
+    FOREIGN KEY(comment_id) REFERENCES comments(id),
+    FOREIGN KEY(post_id) REFERENCES posts(id)
+);
+
 CREATE TABLE users_posts(
     user_id INT NOT NULL,
     post_id INT NOT NULL,
