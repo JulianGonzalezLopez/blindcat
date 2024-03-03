@@ -4,36 +4,18 @@ import Post from "../models/Post.js";
 
 async function getPosts(req: Request,res: Response){
     let response = await Post.getPosts();
-    console.log(response);
     res.json(response);
 }
 
 
 async function createPost(req: Request,res: Response){
-        const {title, content} = req.body;
-
-        let user_id : number;
-        if(typeof req.body.user_id == "string"){
-            user_id = parseInt(req.body.user_id,10);
-        }
-        else{
-            user_id = req.body.user_id;
-        }
-
+        const {title, content, user_id} = req.body;
         // if(title != "" || content != ""){
         //     console.log("Fallo en asercion")
         //     res.end("???");
         //     return true;
         // }
-    
-        if(typeof title != "string" || typeof content != "string" || typeof user_id != "number"){
-            console.log("Fallo en tipos")
-            console.log(title);
-            console.log(typeof title);
-            console.log(content);
-            console.log(typeof content);
-            console.log(user_id);
-            console.log(typeof user_id);
+        if(typeof title != "string" || typeof content != "string"){
             res.end("???");
             return true;
         }

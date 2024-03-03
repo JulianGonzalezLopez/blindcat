@@ -18,9 +18,8 @@ async function login(req: Request,res: Response){
         try{
             let response = await User.matchData({username, password});
             if(response.status == true){
-                let token = authControler.authorize(username);
+                let token = authControler.authorize(response.user_id);
                 console.log("Logged in");
-                console.log(response);
                 res.json({token:token, user_id:response.user_id});
                 return {token:token, user_id:response.user_id};
             }

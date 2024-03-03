@@ -4,8 +4,6 @@ import NewUser from "../models/NewUser.js";
 
 async function createUser(req: Request,res: Response){
         const {username, password, rePassword} = req.body;
-        console.log(req.body);
-        console.log(username, password, rePassword)
         if(username == "" || password == "" || rePassword == ""){
             res.end("???");
             return true;
