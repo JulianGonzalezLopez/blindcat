@@ -57,8 +57,7 @@ async function getPosts(){
 }
 
 
-
 export default {
     createNewPost,
-    getPosts
+    getPosts,
 }
