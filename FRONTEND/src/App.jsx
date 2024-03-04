@@ -3,14 +3,18 @@ import Header from "./components/Header";
 import Posts from "./components/Posts";
 import Login from './components/Login';
 import Modal from "./components/Modal";
-import { useEffect, useState } from "react";
 import Signup from './components/Signup';
+import FormsContainer from './components/FormsContainer';
+import Comments from './components/Comments';
+import CommentsSection from './components/CommentsSection';
+import { useEffect, useState } from "react";
+
 function App() {
   const [logged,setLogged] = useState(false);
   const [username,setUsername] = useState("");
   const [token, setToken] = useState("");
+  const [selectedPost,setSelectedPost] = useState("");
   const [modal, setModal] = useState(false);
-  const [userId, setUserId] = useState(0);
   const [lastPosts,setLastPosts] = useState([]); //NECESITO UN BOTON FIXED QUE SE ENCARGUE DE ACTUALIZAR A PEDIDO DE LA PERSONA
 
   async function fetchData(){
@@ -30,12 +34,15 @@ function App() {
   return (
     <>
       <Header token={token} openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
-      {token && <Modal fetchData={fetchData} userId={userId} token={token} openModal={modal} closeModal={() => setModal(false)}></Modal>}
+      {token && <Modal fetchData={fetchData} token={token} openModal={modal} closeModal={() => setModal(false)}></Modal>}
       <main className='main'>
         {logged ? 
-          <Posts lastPosts={lastPosts} token={token} ></Posts> : 
-          <><Login token={token} setUserId={setUserId} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername}></Login> <Signup logged={logged} setLogged={setLogged} username={username} setUsername={setUsername}></Signup>
-        </>}
+          <>
+            <Posts lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost}></Posts>
+            <CommentsSection></CommentsSection>
+          </> : 
+          <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername}></FormsContainer>  
+        }
       </main>
     </>
   )

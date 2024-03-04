@@ -1,0 +1,30 @@
+.comments-section{
+    grid-area: 1 / 3 / 2 / 6;
+    align-self: start;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.comment-form{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 30vh;
+}
+
+.comment-form textarea{
+    box-sizing: border-box;
+    resize: none;
+    width: 100%;
+    padding: .5rem;
+    font-family:inherit;
+}
+
+.comment-form > .send-btn{
+    margin-top: .5rem;
+    width: 100px;
+    align-self: flex-end;
+}

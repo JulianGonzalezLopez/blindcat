@@ -2,7 +2,13 @@ import "./Comments.css";
 import Comment from "./Comment";
 function Comments() {
   return (
-    <div>
+    <div className="comments">
+        <Comment></Comment>
+        <Comment></Comment>
+        <Comment></Comment>
+        <Comment></Comment>
+        <Comment></Comment>
+        <Comment></Comment>
         <Comment></Comment>
         <Comment></Comment>
         <Comment></Comment>

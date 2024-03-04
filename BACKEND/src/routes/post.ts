@@ -11,4 +11,6 @@ router.post("/",postController.createPost);
 
 router.get("/all", postController.getPosts);
 
+router.get("/comment", postController.commentPost);
+
 export default router;

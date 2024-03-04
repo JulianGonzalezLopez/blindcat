@@ -9,13 +9,19 @@
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     min-height: 50%;
+    width: 350px;
+    box-sizing: border-box;
+  }
+
+  .form-container > *, .form-container > * > *{
+    color: black ;
   }
   
   .form-container h2 {
     margin-bottom: 20px;
   }
   
-  form {
+  .form-container > form {
     width: 100%;
     max-width: 400px;
   }

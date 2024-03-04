@@ -1,18 +1,15 @@
-.post-container{
+.post{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 1rem;
+    flex-direction: column;
+    padding: .5rem;
+    margin: .2rem;
+    border: 1px solid black;
 }
 
-.post-container > *{
+.post > *{
     color: black;
+    text-align: left;
+    overflow-wrap: anywhere;
 }
-
-.content{
-    width: 350px; /* o cualquier ancho que desees */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; 
-}
-/*asasd*/

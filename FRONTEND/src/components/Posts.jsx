@@ -3,7 +3,7 @@ import "./Posts.css";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 
-function Posts({token, lastPosts}) {
+function Posts({token, lastPosts, setSelectedPost}) {
   const [focus, setFocus] = useState(false);
   console.log("ACACACACACACA");
   console.log(lastPosts);
@@ -11,9 +11,12 @@ function Posts({token, lastPosts}) {
 
   return (
     <>
-    {lastPosts.map(post=>
-      <Post title={post.title} content={post.content} likes={post.likes}></Post>
+    <div className="posts">
+      {lastPosts.map(post=>
+        <Post title={post.title} content={post.content} likes={post.likes} setSelectedPost={setSelectedPost} ></Post>
       )}
+    </div>
+    
     </>
   )
 }

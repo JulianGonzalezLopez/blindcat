@@ -1,17 +1,23 @@
+
 #root {
   /* max-width: 1280px; */
+  max-height: 100vh;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-align: center;
-  width: 100%;
+  font-family: "Roboto", sans-serif;
+  /*width: 100vw;*/
 }
 
 
 .main{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  justify-content: start;
+  height: 90vh;
+  width: 100vw;
 }
