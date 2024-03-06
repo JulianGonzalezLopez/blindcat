@@ -1,13 +1,14 @@
 import "./CommentsSection.css"
 import Comments from "./Comments";
 
-const handleSubmit = async (event) => {
+const handleSubmit = async (event, token, post_id) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
 
     const requestData = {
-      comment: formData.get('comment'),
+      content: formData.get('content'),
+      post_id: post_id
     };
 
     try {
@@ -27,20 +28,21 @@ const handleSubmit = async (event) => {
       }
     } catch (error) {
       console.error('Error al conectarse al servidor:');
+      console.log(error);
       // Aquí puedes manejar errores de conexión de red
     }  
   };
 
 
 
-function CommentsSection({token}) {
+function CommentsSection({token, relatedComments, post_id}) {
   return (
     <div className="comments-section">
-        <form className="comment-form" onSubmit={handleSubmit}>
-        <textarea name="comment" id="comment" cols="30" rows="10" placeholder="Escribe un comentario" ></textarea>
+      <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id) }}>
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Escribe un comentario" ></textarea>
         <input  className="send-btn" type="submit" value="Enviar" />
         </form>
-        <Comments></Comments>
+        <Comments relatedComments={relatedComments}></Comments>
     </div>
   )
 }

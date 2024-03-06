@@ -1,10 +1,12 @@
 import "./Comment.css";
 
-function Comment() {
+function Comment({content}) {
+
+  console.log(content);
+
   return (
     <div className="comment">
-        <p>USERNAME</p>
-        <p>COMMENT</p>
+      <p>{content}</p>
     </div>
   )
 }

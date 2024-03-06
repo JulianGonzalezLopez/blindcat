@@ -25,7 +25,6 @@ app.use(authControler.checkAuthorization);
 app.use("/post",post);
 //Rutas con token
 
-
 app.listen(port,()=>{
     console.log("opa");
 })

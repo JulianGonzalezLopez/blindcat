@@ -31,6 +31,37 @@ async function createNewPostComment(postComment : PostComment){
     }
 }
 
+async function getPostsCommets(post_id: any){
+
+    try{
+        if(typeof post_id == "undefined"){
+            throw "error";
+        }
+
+        let connection = await openConnection();
+
+        if (connection instanceof Error || typeof connection === "undefined"){
+            Promise.reject([]);
+        }
+        else{
+            const [results, fields] = await connection.execute("SELECT * from posts_comments where post_id = ?",[post_id]);
+
+            if(Array.isArray(results) && results.length !== 0){
+                console.log(results);
+                return Promise.resolve(results);
+            }
+            else{
+                return Promise.resolve([]);
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+        Promise.reject([]);
+    }
+}
+
 export default{
-    createNewPostComment
+    createNewPostComment,
+    getPostsCommets
 }

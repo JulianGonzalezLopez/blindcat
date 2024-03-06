@@ -1,17 +1,15 @@
 import "./Comments.css";
 import Comment from "./Comment";
-function Comments() {
+function Comments({relatedComments}) {
+
+  console.log(relatedComments);
+
   return (
     <div className="comments">
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
-        <Comment></Comment>
+      {relatedComments.map(commentData=>(
+        <Comment content={commentData.content} key={commentData.id}></Comment>
+        // <p>{commentData.content}</p>
+      ))}
     </div>
   )
 }

@@ -9,12 +9,19 @@ const SECRET = process.env.SECRET as string || "default_secret"; // Usando una a
 function checkAuthorization(req: Request,res: Response,next: Function){
     console.log("Tiene token?");
     console.log(req.headers["authorization"] ? "Si" : "No");
+    console.log(req.headers["authorization"]);
     if(typeof req.headers["authorization"] !== "undefined"){
       jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
-        console.log("ESTO ESTO ESTO");
+        console.log("ESTO ESTO ESTO!!");
         console.log(authData)
+        console.log("ESTO ESTO ESTO!!");
+        if(typeof authData == "undefined"){
+          throw "error";
+        }
         //@ts-ignore
         req.user_id = authData.user_id;
+        //@ts-ignore
+        console.log("Me aseguro que el id esté:" + req.user_id);
         console.log("ESTO ESTO ESTO");
         if(err){
           

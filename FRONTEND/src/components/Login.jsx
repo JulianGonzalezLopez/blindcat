@@ -39,6 +39,7 @@ function Login({username, setUsername, logged, setLogged, setToken, setUserId, s
       if (response.ok) {
         let res = await response.json();
         let tk = res.token;
+        console.log(tk);
         setToken(tk);
         setLogged(true); // Establecer logged en true si el inicio de sesión es exitoso
         setUsername(formData.get('username'));
