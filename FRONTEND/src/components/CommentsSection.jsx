@@ -1,7 +1,27 @@
 import "./CommentsSection.css"
 import Comments from "./Comments";
+import { useState } from "react";
 
-const handleSubmit = async (event, token, post_id) => {
+async function fetchData(token, post_id, setRelatedCommets) {
+  try {
+    let url = `http://localhost:3001/post/${post_id}/comments`;
+    let relatedComments = await fetch(url, {
+      headers: new Headers({
+        "Authorization": token
+      })
+    });
+    let relatedCommentsJSON = await relatedComments.json();
+    console.log(relatedCommentsJSON);
+    setRelatedCommets(relatedCommentsJSON);
+    return relatedCommentsJSON;
+
+  } catch (error) {
+    console.error("Error al obtener los comentarios relacionados:", error);
+    throw error;
+  }
+}
+
+const handleSubmit = async (event, token, post_id, setRelatedCommets, setPostContent) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -22,6 +42,8 @@ const handleSubmit = async (event, token, post_id) => {
       });
       if (response.ok) { 
         console.log("creado");
+        fetchData(token, post_id, setRelatedCommets);
+        setPostContent("");
       } else {
         console.error('Error al CREAR POST:');
         // Aquí puedes manejar el error de registro de alguna manera
@@ -35,11 +57,15 @@ const handleSubmit = async (event, token, post_id) => {
 
 
 
-function CommentsSection({token, relatedComments, post_id}) {
+function CommentsSection({token, setRelatedCommets, relatedComments, post_id}) {
+  const [postContent, setPostContent] = useState(''); 
+
+
+
   return (
     <div className="comments-section">
-      <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id) }}>
-        <textarea name="content" id="content" cols="30" rows="10" placeholder="Escribe un comentario" ></textarea>
+      <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id, setRelatedCommets, setPostContent) }}>
+        <textarea name="content" id="content" cols="30" rows="10" placeholder="Escribe un comentario" value={postContent} onChange={e => setPostContent(e.target.value)}></textarea>
         <input  className="send-btn" type="submit" value="Enviar" />
         </form>
         <Comments relatedComments={relatedComments}></Comments>
