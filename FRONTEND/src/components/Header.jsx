@@ -19,8 +19,8 @@ function Header({username, setUsername, openModal, token, setToken, setLogged}) 
   return (
     <header className="header">
         <img className="logo" src={logo} alt="" />
-        <p>{username || ""}</p>
         {token && <>
+          <p>{username || ""}</p>
           <button onClick={handleClick}>Create</button>
           <select name="category" id="category">
                 <option value="" disabled selected>Categories</option>
