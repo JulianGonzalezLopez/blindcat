@@ -64,8 +64,10 @@ async function getPostUser(post_id: number) {
         } else {
             const [results, fields] = await connection.execute("SELECT * from users_posts where post_id = ?", [post_id]);
             connection.end();
-
+            console.log("QUE CARAJO ESTÁ PASANDO");
+            console.log(results);
             if (Array.isArray(results) && results.length !== 0) {
+                console.log("ESTO LO VAMOS A DEOLVER AHORA");
                 console.log(results);
                 return results[0]; // No es necesario usar Promise.resolve, ya que 'results[0]' ya es el valor que queremos devolver
             } else {

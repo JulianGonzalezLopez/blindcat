@@ -42,10 +42,8 @@ async function getPosts(){
         else{
             const [results, fields] = await connection.execute("SELECT * from posts");
             connection.end();
-            
+
             if(Array.isArray(results) && results.length !== 0){
-                console.log("Posts:");
-                console.log(results);
                 return Promise.resolve(results);
             }
             else{

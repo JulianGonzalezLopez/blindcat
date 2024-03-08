@@ -6,7 +6,7 @@ dotenv.config();
 const SECRET = process.env.SECRET as string || "default_secret"; // Usando una aserción de tipo
 
 
-function checkAuthorization(req: Request,res: Response,next: Function){
+function checkAuthorization(req: Request,res: Response,next?: Function){
 
     if(typeof req.headers["authorization"] !== "undefined"){
       jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
@@ -25,7 +25,7 @@ function checkAuthorization(req: Request,res: Response,next: Function){
           res.send(false);
         }
         else{
-            next();
+            next ? next() : null;
         }
       });
     }

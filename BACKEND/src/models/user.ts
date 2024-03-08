@@ -70,11 +70,13 @@ async function getUserById(id: number) {
             throw new Error("Failed to connect");
         } else {
             const [results, fields] = await connection.execute("SELECT * FROM users WHERE  id = ?", [id]);
-            connection.end();
-
+            console.log("------------------------------");
+            //@ts-ignore
+            console.log(results[0].username);
+            console.log("------------------------------");
             if (Array.isArray(results) && results.length !== 0) {
                 //@ts-ignore
-                return results[0];
+                return results[0].username;
             } else {
                 throw new Error("The user does not exist");
             }
@@ -84,7 +86,6 @@ async function getUserById(id: number) {
         throw e; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
     }
 }
-
 
 async function matchData(user: User){
     try{
