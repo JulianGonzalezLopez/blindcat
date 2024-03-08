@@ -4,7 +4,6 @@ import authControler from "./authControler.js";
 
 async function login(req: Request,res: Response){
         const {username, password} = req.body;
-        console.log(req.body);
         if(username == "" || password == ""){
             res.end("???");
             return true;
