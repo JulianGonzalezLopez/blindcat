@@ -46,8 +46,6 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
     
   };
 
-
-
   useEffect(() => {
     if (openModal) {
       ref.current?.showModal();
