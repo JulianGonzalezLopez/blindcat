@@ -18,6 +18,19 @@ function App() {
   const [lastPosts,setLastPosts] = useState([]); //NECESITO UN BOTON FIXED QUE SE ENCARGUE DE ACTUALIZAR A PEDIDO DE LA PERSONA
   const [relatedComments, setRelatedCommets] = useState([]);
 
+
+  async function fetchData(){
+    let posts = await fetch("http://localhost:3001/post/all",
+    {
+      headers: new Headers({
+        "Authorization": token
+      })
+    }
+    );
+    let postsJSON = await posts.json();
+    setLastPosts(postsJSON);
+  }
+
   useEffect(() => {
 
     async function fetchPosts(token){
@@ -67,22 +80,6 @@ function App() {
       // Realizar limpieza, si es necesario
     };
   }, []); // El segundo argumento de useEffect ([]) indica que este efecto se ejecuta solo una vez, al montar el componente
-
-
-
-  async function fetchData(){
-    console.log("FETCH REPIOLA");
-    let posts = await fetch("http://localhost:3001/post/all",
-    {
-      headers: new Headers({
-        "Authorization": token
-      })
-    }
-    );
-    let postsJSON = await posts.json();
-    console.log(postsJSON);
-    setLastPosts(postsJSON);
-  }
 
   return (
     <>

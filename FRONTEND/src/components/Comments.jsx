@@ -7,7 +7,7 @@ function Comments({relatedComments}) {
   return (
     <div className="comments">
       {relatedComments.map(commentData=>(
-        <Comment content={commentData.content} key={commentData.id}></Comment>
+        <Comment content={commentData.content} username={commentData.username} key={commentData.id}></Comment>
         // <p>{commentData.content}</p>
       ))}
     </div>

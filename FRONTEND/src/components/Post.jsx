@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function Post({title,content, likes, setSelectedPost, post_id, token, setRelatedCommets}) {
 
-  async function fetchData(token, postId) {
+  async function fetchData(token, post_id) {
     try {
       let url = `http://localhost:3001/post/${post_id}/comments`;
       let relatedComments = await fetch(url, {

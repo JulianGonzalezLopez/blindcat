@@ -18,7 +18,6 @@ async function getUsers(){
             const [results, fields] = await connection.execute("SELECT username, cantidad_posts, karma FROM users");
 
             if(Array.isArray(results) && results.length !== 0){
-                console.log(results);
                 return Promise.resolve(results);
             }
             else{
@@ -59,6 +58,34 @@ async function getUser(username : string){
     }
 }
 
+async function getUserById(id: number) {
+    try {
+        if (id == null) {
+            throw new Error("You forgot to send an id, silly");
+        }
+
+        let connection = await openConnection();
+
+        if (connection instanceof Error || typeof connection === "undefined") {
+            throw new Error("Failed to connect");
+        } else {
+            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  id = ?", [id]);
+            connection.end();
+
+            if (Array.isArray(results) && results.length !== 0) {
+                //@ts-ignore
+                return results[0];
+            } else {
+                throw new Error("The user does not exist");
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        throw e; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+    }
+}
+
+
 async function matchData(user: User){
     try{
         if(user.username == ""){
@@ -72,10 +99,9 @@ async function matchData(user: User){
         }
         else{
             const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
-            
+            connection.end();
+
             if(Array.isArray(results) && results.length !== 0){
-                console.log("ESTE  ROMPE TODO!!!");
-                console.log(results);
                 return {
                     status:true,
                     //@ts-ignore
@@ -95,7 +121,8 @@ async function matchData(user: User){
 const User = {
     getUser,
     getUsers,
-    matchData
+    matchData,
+    getUserById
 }
 
 export default User;

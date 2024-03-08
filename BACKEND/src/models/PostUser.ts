@@ -19,6 +19,7 @@ async function createNewUsersPosts(usersPost : UsersPost){
         }
         else{
             await connection.execute("INSERT INTO users_posts(user_id, post_id) VALUES (?,?)",[usersPost.user_id, usersPost.post_id]);    
+            connection.end();
             return Promise.resolve({"en":"The usersPost has been created successfully"})
         }
     }
@@ -36,7 +37,8 @@ async function getUsersPosts(){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * from user_posts");
+            const [results, fields] = await connection.execute("SELECT * from users_posts");
+            connection.end();
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
@@ -53,6 +55,29 @@ async function getUsersPosts(){
     }
 }
 
+async function getPostUser(post_id: number) {
+    try {
+        let connection = await openConnection();
+
+        if (connection instanceof Error || typeof connection === "undefined") {
+            throw new Error("Failed to connect");
+        } else {
+            const [results, fields] = await connection.execute("SELECT * from users_posts where post_id = ?", [post_id]);
+            connection.end();
+
+            if (Array.isArray(results) && results.length !== 0) {
+                console.log(results);
+                return results[0]; // No es necesario usar Promise.resolve, ya que 'results[0]' ya es el valor que queremos devolver
+            } else {
+                return []; // No es necesario usar Promise.resolve, ya que estamos devolviendo un valor estático
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        throw e; // Re-lanzamos el error para que la función que llama a 'getPostUser' pueda manejarlo
+    }
+}
+
 async function getUserPost(usersPost: UsersPost){
     try{
         let connection = await openConnection();
@@ -61,7 +86,8 @@ async function getUserPost(usersPost: UsersPost){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * from user_posts WHERE user_id = ? AND post_id = ? ",[usersPost.user_id, usersPost.post_id]);
+            const [results, fields] = await connection.execute("SELECT * from users_posts WHERE user_id = ? AND post_id = ? ",[usersPost.user_id, usersPost.post_id]);
+            connection.end();
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
@@ -82,5 +108,6 @@ async function getUserPost(usersPost: UsersPost){
 export default{
     getUserPost,
     getUsersPosts,
+    getPostUser,
     createNewUsersPosts
 }

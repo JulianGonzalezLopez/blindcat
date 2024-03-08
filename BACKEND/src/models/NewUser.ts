@@ -24,6 +24,8 @@ async function createNewUser(user : NewUser){
         }
         else{
             const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.username]);
+            connection.end();
+            
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
                 console.log("todo mal");
