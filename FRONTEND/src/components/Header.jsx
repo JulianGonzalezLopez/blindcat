@@ -1,7 +1,7 @@
 import "./Header.css";
 import logo from "../assets/logo.jpg";
 
-function Header({username, setUsername, openModal, token, setToken, setLogged}) {
+function Header({username, setUsername, openModal, token, setToken, setLogged, setNsfw, nsfw}) {
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -22,15 +22,11 @@ function Header({username, setUsername, openModal, token, setToken, setLogged}) 
         {token && <>
           <p>{username || ""}</p>
           <button onClick={handleClick}>Create</button>
-          <select name="category" id="category">
-                <option value="" disabled selected>Categories</option>
-                <option value="">1</option>
-                <option value="">1</option>
-                <option value="">1</option>
-                <option value="">1</option>
-                <option value="">1</option>
-            </select>
-            <button onClick={logout}>Log out</button>
+          <label class="switch">
+            <input type="checkbox" onClick={()=>{setNsfw(!nsfw)}} />
+            <span class="slider round"></span>
+          </label>
+          <button onClick={logout}>Log out</button>
         </>     
         }
     </header>
