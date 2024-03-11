@@ -2,7 +2,7 @@ import Comments from "./Comments";
 import "./Post.css";
 import { useState } from "react";
 
-function Post({title,content, likes, setSelectedPost, post_id, token, setRelatedCommets}) {
+function Post({title,content, likes, setSelectedPost, post_id, token, setRelatedCommets, creator_username}) {
 
   async function fetchData(token, post_id) {
     try {
@@ -30,8 +30,8 @@ function Post({title,content, likes, setSelectedPost, post_id, token, setRelated
           fetchData(token,post_id);
         }}>
             <h3 className="title">{title}</h3>
-            <p className="content">{content}</p>
-            <p>Likes: {likes}</p>     
+            <p className="post-content">{content}</p>
+            <p className="creator">- {creator_username}</p>     
     </div>
   )
 }

@@ -17,7 +17,7 @@ function App() {
   const [modal, setModal] = useState(false);
   const [lastPosts,setLastPosts] = useState([]); //NECESITO UN BOTON FIXED QUE SE ENCARGUE DE ACTUALIZAR A PEDIDO DE LA PERSONA
   const [relatedComments, setRelatedCommets] = useState([]);
-
+  const [nsfw,setNsfw] = useState(false);
 
   async function fetchData(){
     let posts = await fetch("http://localhost:3001/post/all",
@@ -83,12 +83,12 @@ function App() {
 
   return (
     <>
-      <Header token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
+      <Header setNsfw={setNsfw} nsfw={nsfw} token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
       {token && <Modal fetchData={fetchData} token={token} openModal={modal} closeModal={() => setModal(false)}></Modal>}
       <main className='main'>
         {logged ? 
           <>
-            <Posts lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
+            <Posts nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
             {selectedPost && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
           </> : 
           <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername}></FormsContainer>  

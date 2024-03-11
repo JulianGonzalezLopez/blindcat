@@ -9,7 +9,5 @@
 }
 
 .post > *{
-    color: black;
-    text-align: left;
     overflow-wrap: anywhere;
 }

@@ -11,60 +11,67 @@ import jwt from "jsonwebtoken";
 const SECRET = process.env.SECRET as string || "default_secret"; // Usando una aserción de tipo
 
 
+//FALTA ERROR HANDLING
 async function getPosts(req: Request,res: Response){
     let response = await Post.getPosts();
-    console.log("Ahora buscamos esto");
-    console.log(response);
     if(response != undefined){
-        console.log("Response no es undefined");
-        let promise = response.map(async (post: any)=>{
+        let promise = response.map( async (post)=>{
+            //@ts-ignore
+            let obj = await PostUser.getPostUser(post.id);
             return {
                 ...post,
-                user_id: await PostUser.getPostUser(post.id)
+                //@ts-ignore
+                user_id: obj.user_id
             }
         });
+        let resolved = await Promise.all(promise);
+    
+        let promiseUsername = resolved.map(async (post)=>{
+            let username = await User.getUserById(post.user_id);
 
-        let resolutionUserId = await Promise.all(promise);
-        console.log(resolutionUserId);
+            let {user_id, ...resto} = post; 
 
+            return{
+                ...resto,
+                username
+            }
+        })
+    
+        let resolvedUsername = await Promise.all(promiseUsername);
+        console.log("Resolved with username");
+        console.log(resolvedUsername);
+        
 
-        // let relatedUsername = await User.getUserById(relatedUserId).username;
-        // console.log("Username del usuario buscado: " + relatedUsername);
-        // return {
-        //     ...post,
-        //     username: relatedUsername,
-        // }
-
-
-        let final = await Promise.all(promise);
-        console.log("A VER AHORA AHORA SIII");
-        console.log(final);
-
+    
+        res.json(resolvedUsername);
     }
+    res.end(false);
 
-    res.json(response);
 }
 
 
 async function createPost(req: Request,res: Response){
-        authControler.checkAuthorization(req,res);
-        const {title, content, user_id} = req.body;
+        const {title, content, nsfw, user_id} = req.body;
         // if(title != "" || content != ""){
         //     console.log("Fallo en asercion")
         //     res.end("???");
         //     return true;
         // }
+
+        console.log("22222222222222222222222222222222222");
+        console.log(title, content, nsfw, user_id);
         if(typeof title != "string" || typeof content != "string"){
             res.end("???");
             return true;
         }
 
         try{
-            let response = await Post.createNewPost({title, content});
+            let response = await Post.createNewPost({title, content, nsfw});
             let post_id = response;
             console.log("VALORES DUDOSOS");
             console.log(post_id);
             console.log(user_id);
+            console.log(nsfw);
             await PostUser.createNewUsersPosts({user_id, post_id});
             res.send("ok"); // => Esto lo tengo que cambiar
         }

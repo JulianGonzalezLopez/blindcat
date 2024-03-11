@@ -6,8 +6,8 @@ function Comment({content,username}) {
 
   return (
     <div className="comment">
-      <p>{content}</p>
-      <p>{username}</p>
+      <p className="comment-text">{content}</p>
+      <p className="creator">- {username}</p>
     </div>
   )
 }

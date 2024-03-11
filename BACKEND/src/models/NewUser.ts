@@ -24,16 +24,18 @@ async function createNewUser(user : NewUser){
         }
         else{
             const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.username]);
-            connection.end();
             
+
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
                 console.log("todo mal");
+                connection.end();
                 return Promise.reject({"en":"This username is already taken"})
             }
             else{
                 console.log("todo bien");
-                await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);    
+                await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);  
+                connection.end();  
                 return Promise.resolve({"en":"The user has been created successfully"})
             }
         }

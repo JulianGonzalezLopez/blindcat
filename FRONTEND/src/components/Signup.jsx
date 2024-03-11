@@ -24,7 +24,7 @@ function Signup({username, setUsername, logged, setLogged}) {
       });
 
       if (response.ok) {
-        setLogged(true); // Establecer logged en true si el registro es exitoso
+        event.target.reset();
       } else {
         console.error('Error al registrarse:', response.statusText);
         // Aquí puedes manejar el error de registro de alguna manera

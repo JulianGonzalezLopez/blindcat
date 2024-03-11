@@ -12,7 +12,7 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
     const requestData = {
       title: formData.get('title'),
       content: formData.get('content'),
-      user_id: userId
+      nsfw: formData.get("nsfw")
     };
 
     console.log(requestData);
@@ -63,6 +63,7 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" name="title" required />
+        <label htmlFor="nsfw">NSFW <input type="checkbox" name="nsfw" id="nsfw" /></label>
         <label htmlFor="content">Content</label>
         <textarea name="content" id="content" cols="30" rows="10"></textarea>
         <button className="login-button" type="submit" onClick={closeModal}>Send</button>

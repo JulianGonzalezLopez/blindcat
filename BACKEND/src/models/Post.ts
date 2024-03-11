@@ -3,7 +3,8 @@ import openConnection from "../connection.js"
 interface Post{
     id?: number,
     title: string,
-    content: string
+    content: string,
+    nsfw: string
 };
 
 async function createNewPost(post : Post){
@@ -12,13 +13,22 @@ async function createNewPost(post : Post){
             return Promise.reject({"en":"At least one of the inputs is null"});
         }
 
+        let nsfw: boolean;
+        if (post.nsfw == "on"){ 
+            nsfw = true
+        }
+        else{
+            nsfw = false;
+        } 
+        console.log("Es nsfw? " + nsfw)
         let connection = await openConnection()
 
         if (connection instanceof Error || typeof connection === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [rows, fields] = await connection.execute("INSERT INTO posts(title, content) VALUES (?,?)",[post.title, post.content]);    
+            const [rows, fields] = await connection.execute("INSERT INTO posts(title, content, nsfw) VALUES (?,?,?)",[post.title, post.content, nsfw]);    
+            console.log(rows);
             connection.end();
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
