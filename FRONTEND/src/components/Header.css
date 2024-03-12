@@ -72,11 +72,11 @@
   }
   
   input:checked + .slider {
-    background-color: red;
+    background-color: #3DD1E7;
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 1px red;
+    box-shadow: 0 0 1px #3DD1E7;
   }
   
   input:checked + .slider:before {
@@ -93,3 +93,4 @@
   .slider.round:before {
     border-radius: 50%;
   }
+

@@ -21,7 +21,7 @@ function Header({username, setUsername, openModal, token, setToken, setLogged, s
         <img className="logo" src={logo} alt="" />
         {token && <>
           <p>{username || ""}</p>
-          <button onClick={handleClick}>Create</button>
+          <button className="" onClick={handleClick}>Create</button>
           <label class="switch">
             <input type="checkbox" onClick={()=>{setNsfw(!nsfw)}} />
             <span class="slider round"></span>

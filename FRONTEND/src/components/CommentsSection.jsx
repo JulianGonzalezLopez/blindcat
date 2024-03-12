@@ -66,7 +66,7 @@ function CommentsSection({token, setRelatedCommets, relatedComments, post_id}) {
     <div className="comments-section">
       <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id, setRelatedCommets, setPostContent) }}>
         <textarea name="content" id="content" cols="30" rows="10" placeholder="Escribe un comentario" value={postContent} onChange={e => setPostContent(e.target.value)}></textarea>
-        <input  className="send-btn" type="submit" value="Enviar" />
+        <button className="button-53 send-btn" type="submit" value="Enviar">Enviar</button>
         </form>
         <Comments relatedComments={relatedComments}></Comments>
     </div>

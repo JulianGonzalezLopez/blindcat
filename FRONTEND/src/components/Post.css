@@ -6,6 +6,8 @@
     padding: .5rem;
     margin: .2rem;
     border: 1px solid black;
+    width: 95%;
+    box-sizing: border-box;
 }
 
 .post > *{

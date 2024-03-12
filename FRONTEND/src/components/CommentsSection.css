@@ -24,7 +24,8 @@
 }
 
 .comment-form > .send-btn{
-    margin-top: .5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     width: 100px;
-    align-self: flex-end;
-}
+    align-self: flex-end !important;
+}   

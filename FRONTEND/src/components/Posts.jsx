@@ -31,7 +31,7 @@ function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCom
     }
     return null;
   })}
-  <button onClick={()=>{setPage(page+1)}}>Leer mas...</button>
+  <button className="button-53" onClick={()=>{setPage(page+1)}}>Leer mas...</button>
 </div>
     
     </>
