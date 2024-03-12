@@ -1,5 +1,6 @@
 CREATE DATABASE blindcat;
 USE blindcat;
+
 CREATE TABLE users(
     id INT NOT NULL AUTO_INCREMENT,
     username varchar(16) NOT NULL,
@@ -14,6 +15,7 @@ CREATE TABLE posts(
     title varchar(32) NOT NULL,
     content varchar(1000) NOT NULL,
     nsfw boolean DEFAULT FALSE, 
+    creation_date DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
 
@@ -31,6 +33,14 @@ CREATE TABLE posts_comments(
     PRIMARY KEY(comment_id,post_id),
     FOREIGN KEY(comment_id) REFERENCES comments(id),
     FOREIGN KEY(post_id) REFERENCES posts(id)
+);
+
+CREATE TABLE posts_tags(
+	ID INT auto_increment NOT NULL,
+    post_id INT NOT NULL,
+    tag varchar(16),
+    PRIMARY KEY(id),
+    FOREIGN KEY(post_id) references posts(id)
 );
 
 CREATE TABLE users_posts(
