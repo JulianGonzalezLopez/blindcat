@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-
 import signup from "./routes/signup.js";
 import login from "./routes/login.js";
 import post from "./routes/post.js";
@@ -23,6 +22,7 @@ app.get("/ok",(req,res)=>{
 //Rutas sin token
 app.use("/signup",signup);
 app.use("/login", login);
+
 app.use("/authorize/check", (req,res)=>{
     try{
         if(typeof req.headers["authorization"] !== "undefined"){
@@ -39,7 +39,6 @@ app.use("/authorize/check", (req,res)=>{
         res.send(false);
     };
 });
-
 app.use(authControler.checkAuthorization);
 
 app.use("/post",post);

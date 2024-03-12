@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { Router } from "express";
-import authControler from "../controllers/authControler.js";
 
 const router = Router();
 const SECRET = process.env.SECRET as string || "default_secret";
@@ -18,6 +17,5 @@ router.post("/", (req, res) => {
         res.status(400).send(err);
     };
 });
-
 
 export default router;

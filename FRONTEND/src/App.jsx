@@ -18,9 +18,10 @@ function App() {
   const [lastPosts,setLastPosts] = useState([]); //NECESITO UN BOTON FIXED QUE SE ENCARGUE DE ACTUALIZAR A PEDIDO DE LA PERSONA
   const [relatedComments, setRelatedCommets] = useState([]);
   const [nsfw,setNsfw] = useState(false);
+  const [page, setPage] = useState(0);
 
   async function fetchData(){
-    let posts = await fetch("http://localhost:3001/post/all",
+    let posts = await fetch(`http://localhost:3001/post/all?page=${page}`,
     {
       headers: new Headers({
         "Authorization": token
@@ -28,13 +29,15 @@ function App() {
     }
     );
     let postsJSON = await posts.json();
-    setLastPosts(postsJSON);
+    if(postsJSON.length > 0){
+      setLastPosts([...lastPosts, ...postsJSON]);
+    }
   }
 
   useEffect(() => {
 
     async function fetchPosts(token){
-      let posts = await fetch("http://localhost:3001/post/all",
+      let posts = await fetch(`http://localhost:3001/post/all?page=${page}`,
       {
         headers: new Headers({
           "Authorization": token
@@ -42,14 +45,16 @@ function App() {
       }
       );
       let postsJSON = await posts.json();
-      setLastPosts(postsJSON);
-  
+      if(postsJSON.length > 0){
+        setLastPosts([...lastPosts, ...postsJSON]);
+      }
     };
 
 
     const fetchData = async () => {
     
       let tk = localStorage.getItem("token");
+      console.log("Token utilizado: "+tk);
       if(tk != null){
         try {
           const response = await fetch('http://localhost:3001/authorize/check', {
@@ -79,7 +84,7 @@ function App() {
     return () => {
       // Realizar limpieza, si es necesario
     };
-  }, []); // El segundo argumento de useEffect ([]) indica que este efecto se ejecuta solo una vez, al montar el componente
+  }, [page]); // El segundo argumento de useEffect ([]) indica que este efecto se ejecuta solo una vez, al montar el componente
 
   return (
     <>
@@ -88,10 +93,10 @@ function App() {
       <main className='main'>
         {logged ? 
           <>
-            <Posts nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
+            <Posts page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
             {selectedPost && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
           </> : 
-          <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername}></FormsContainer>  
+          <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
         }
       </main>
     </>

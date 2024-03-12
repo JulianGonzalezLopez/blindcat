@@ -69,8 +69,18 @@ async function getPosts(){
 }
 
 async function getPostPaged(page: string){
-    const PAGE_SIZE = 10;
-    const OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
+    const PAGE_SIZE = 5;
+    let OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
+    if(Number.parseInt(page) == 0){
+        OFFSET = 0;
+    }
+    else if(Number.parseInt(page) == 1){
+        OFFSET = PAGE_SIZE;
+    }
+    else{
+        OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
+    }
+    
     try{
         let connection = await openConnection();
 
@@ -78,9 +88,11 @@ async function getPostPaged(page: string){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * from posts LIMIT ? OFFSET ? ORDER BY creation_date", [PAGE_SIZE, OFFSET]);
+            
+            const [results, fields] = await connection.execute("SELECT * from posts ORDER BY creation_date LIMIT ? OFFSET ?", [PAGE_SIZE.toString(), OFFSET.toString()]);
             connection.end();
-
+            console.log("RESULTADOS DEL PAGE SIZE Y OFFSET");
+            console.log(results);
             if(Array.isArray(results) && results.length !== 0){
                 return Promise.resolve(results);
             }

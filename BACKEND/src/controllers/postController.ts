@@ -13,7 +13,8 @@ const SECRET = process.env.SECRET as string || "default_secret"; // Usando una a
 
 //FALTA ERROR HANDLING
 async function getPosts(req: Request,res: Response){
-    let response = await Post.getPosts();
+    const page = req.query.page || "0";
+    let response = await Post.getPostPaged(page);
     if(response != undefined){
         let promise = response.map( async (post)=>{
             //@ts-ignore
@@ -51,6 +52,7 @@ async function getPosts(req: Request,res: Response){
 
 //FALTA ERROR HANDLING
 async function getPostsPaged(req: Request,res: Response){
+  console.log("diossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
   let page = req.params.page;
   let response = await Post.getPostPaged(page);
   if(response != undefined){
@@ -203,5 +205,6 @@ export default{
     createPost,
     getPosts,
     commentPost,
-    getComments
+    getComments,
+    getPostsPaged
 }

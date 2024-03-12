@@ -3,7 +3,7 @@ import "./Posts.css";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 
-function Posts({token, lastPosts, setSelectedPost, setRelatedCommets, nsfw}) {
+function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCommets, nsfw}) {
   const [focus, setFocus] = useState(false);
   console.log("ACACACACACACA");
   console.log(lastPosts);
@@ -31,6 +31,7 @@ function Posts({token, lastPosts, setSelectedPost, setRelatedCommets, nsfw}) {
     }
     return null;
   })}
+  <button onClick={()=>{setPage(page+1)}}>Leer mas...</button>
 </div>
     
     </>

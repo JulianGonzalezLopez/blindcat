@@ -1,11 +1,11 @@
 import "./FormLoginSignup.css";
 
 
-function Login({username, setUsername, logged, setLogged, setToken, setUserId, setLastPosts}) {
+function Login({username, setUsername, logged, setLogged, setToken, setUserId, setLastPosts, setPage}) {
 
 
   async function fetchData(token){
-    let posts = await fetch("http://localhost:3001/post/all",
+    let posts = await fetch("http://localhost:3001/post/all?page=0",
     {
       headers: new Headers({
         "Authorization": token

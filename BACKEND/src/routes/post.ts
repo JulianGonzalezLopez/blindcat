@@ -11,9 +11,9 @@ router.post("/comment", postController.commentPost);
 
 router.post("/",postController.createPost);
 
-router.get("/all", postController.getPosts);
+router.get("/all/:page", postController.getPostsPaged);
 
-router.get("/all/:page", postController.getPosts);
+router.get("/all", postController.getPosts);
 
 router.get("/:post_id/comments/", postController.getComments);
 
