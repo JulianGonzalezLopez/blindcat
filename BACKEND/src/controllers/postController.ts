@@ -49,6 +49,46 @@ async function getPosts(req: Request,res: Response){
 
 }
 
+//FALTA ERROR HANDLING
+async function getPostsPaged(req: Request,res: Response){
+  let page = req.params.page;
+  let response = await Post.getPostPaged(page);
+  if(response != undefined){
+      let promise = response.map( async (post)=>{
+          //@ts-ignore
+          let obj = await PostUser.getPostUser(post.id);
+          return {
+              ...post,
+              //@ts-ignore
+              user_id: obj.user_id
+          }
+      });
+      let resolved = await Promise.all(promise);
+  
+      let promiseUsername = resolved.map(async (post)=>{
+          let username = await User.getUserById(post.user_id);
+
+          let {user_id, ...resto} = post; 
+
+          return{
+              ...resto,
+              username
+          }
+      })
+  
+      let resolvedUsername = await Promise.all(promiseUsername);
+      console.log("Resolved with username");
+      console.log(resolvedUsername);
+      
+
+  
+      res.json(resolvedUsername);
+  }
+  res.end(false);
+
+}
+
+
 
 async function createPost(req: Request,res: Response){
         const {title, content, nsfw, user_id, creation_date} = req.body;
