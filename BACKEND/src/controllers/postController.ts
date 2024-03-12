@@ -51,7 +51,7 @@ async function getPosts(req: Request,res: Response){
 
 
 async function createPost(req: Request,res: Response){
-        const {title, content, nsfw, user_id} = req.body;
+        const {title, content, nsfw, user_id, creation_date} = req.body;
         // if(title != "" || content != ""){
         //     console.log("Fallo en asercion")
         //     res.end("???");
@@ -59,14 +59,15 @@ async function createPost(req: Request,res: Response){
         // }
 
         console.log("22222222222222222222222222222222222");
-        console.log(title, content, nsfw, user_id);
+        console.log(title, content, nsfw, user_id, creation_date);
+        console.log(typeof creation_date)
         if(typeof title != "string" || typeof content != "string"){
             res.end("???");
             return true;
         }
 
         try{
-            let response = await Post.createNewPost({title, content, nsfw});
+            let response = await Post.createNewPost({title, content, nsfw, creation_date});
             let post_id = response;
             console.log("VALORES DUDOSOS");
             console.log(post_id);

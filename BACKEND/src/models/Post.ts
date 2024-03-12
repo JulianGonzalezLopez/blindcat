@@ -4,7 +4,8 @@ interface Post{
     id?: number,
     title: string,
     content: string,
-    nsfw: string
+    nsfw: string,
+    creation_date: Date
 };
 
 async function createNewPost(post : Post){
@@ -27,7 +28,7 @@ async function createNewPost(post : Post){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [rows, fields] = await connection.execute("INSERT INTO posts(title, content, nsfw) VALUES (?,?,?)",[post.title, post.content, nsfw]);    
+            const [rows, fields] = await connection.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, nsfw, post.creation_date]);    
             console.log(rows);
             connection.end();
             //@ts-ignore

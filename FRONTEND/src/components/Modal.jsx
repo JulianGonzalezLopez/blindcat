@@ -8,11 +8,12 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-
+    let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const requestData = {
       title: formData.get('title'),
       content: formData.get('content'),
-      nsfw: formData.get("nsfw")
+      nsfw: formData.get("nsfw"),
+      creation_date: date
     };
 
     console.log(requestData);
