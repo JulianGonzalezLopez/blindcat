@@ -18,6 +18,7 @@ function Posts({token, lastPosts, setSelectedPost, setRelatedCommets, nsfw}) {
         <Post
           title={post.title}
           content={post.content}
+          creation_date={post.creation_date}
           key={post.id}
           post_id={post.id}
           likes={post.likes}

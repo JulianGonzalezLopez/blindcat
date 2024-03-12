@@ -2,7 +2,7 @@ import Comments from "./Comments";
 import "./Post.css";
 import { useState } from "react";
 
-function Post({title,content, likes, setSelectedPost, post_id, token, setRelatedCommets, creator_username}) {
+function Post({title,content, creation_date, setSelectedPost, post_id, token, setRelatedCommets, creator_username}) {
 
   async function fetchData(token, post_id) {
     try {
@@ -23,6 +23,14 @@ function Post({title,content, likes, setSelectedPost, post_id, token, setRelated
     }
   }
 
+  let date =new Date(creation_date);
+  date.setHours(date.getHours() - 3);
+  const formatedDate = date.toLocaleTimeString('es-AR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });  
+
 
   return (
         <div id={post_id} className="post" onClick={()=>{
@@ -31,7 +39,7 @@ function Post({title,content, likes, setSelectedPost, post_id, token, setRelated
         }}>
             <h3 className="title">{title}</h3>
             <p className="post-content">{content}</p>
-            <p className="creator">- {creator_username}</p>     
+            <p className="creator"> {formatedDate} - {creator_username}</p>     
     </div>
   )
 }
