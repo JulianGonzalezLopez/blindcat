@@ -23,22 +23,22 @@ app.get("/ok",(req,res)=>{
 app.use("/signup",signup);
 app.use("/login", login);
 
-app.use("/authorize/check", (req,res)=>{
-    try{
-        if(typeof req.headers["authorization"] !== "undefined"){
-            jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
-                if(typeof authData == "undefined"){
-                  throw "error";
-                }
-                res.send(true);
-              });
-        }
-        res.send(false);
-    }
-    catch(err){
-        res.send(false);
-    };
-});
+// app.use("/authorize/check", (req,res)=>{
+//     try{
+//         if(typeof req.headers["authorization"] !== "undefined"){
+//             jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
+//                 if(typeof authData == "undefined"){
+//                   throw "error";
+//                 }
+//                 res.send(true);
+//               });
+//         }
+//         res.send(false);
+//     }
+//     catch(err){
+//         res.send(false);
+//     };
+// });
 app.use(authControler.checkAuthorization);
 
 app.use("/post",post);

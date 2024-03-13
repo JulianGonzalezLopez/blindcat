@@ -89,7 +89,7 @@ function App() {
   return (
     <>
       <Header setNsfw={setNsfw} nsfw={nsfw} token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
-      {token && <Modal fetchData={fetchData} token={token} openModal={modal} closeModal={() => setModal(false)}></Modal>}
+      {token && <Modal fetchData={fetchData} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
       <main className='main'>
         {logged ? 
           <>

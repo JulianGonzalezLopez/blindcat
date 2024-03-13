@@ -1,4 +1,4 @@
-// Modal as a separate component
+import "./Modal.css";
 import { useEffect, useRef } from "react";
 
 function Modal({ openModal, closeModal, token, userId, fetchData}) {
@@ -61,17 +61,18 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
       onCancel={closeModal}
     >
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
+      <form onSubmit={handleSubmit} className="modal-form">
+        <label htmlFor="title">Titulo</label>
         <input type="text" id="title" name="title" required />
-        <label htmlFor="nsfw">NSFW <input type="checkbox" name="nsfw" id="nsfw" /></label>
-        <label htmlFor="content">Content</label>
+        <label htmlFor="nsfw">NSFW?</label>
+        <input type="checkbox" name="nsfw" id="nsfw" />
+        <label htmlFor="content">Contenido</label>
         <textarea name="content" id="content" cols="30" rows="10"></textarea>
-        <button className="login-button" type="submit" onClick={closeModal}>Send</button>
+        <button className="send" type="submit" onClick={closeModal}>Enviar</button>
       </form>
 
-      <button onClick={closeModal}>
-        Close
+      <button className="close" onClick={closeModal}>
+        Cerrar
       </button>
     </dialog>
   );
