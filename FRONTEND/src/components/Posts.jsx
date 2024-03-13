@@ -3,7 +3,7 @@ import "./Posts.css";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 
-function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCommets, nsfw}) {
+function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCommets, relatedCommets, post_id, nsfw}) {
   const [focus, setFocus] = useState(false);
   console.log("ACACACACACACA");
   console.log(lastPosts);
@@ -26,6 +26,7 @@ function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCom
           creator_username={post.username}
           token={token}
           setRelatedCommets={setRelatedCommets}
+          relatedCommets={relatedCommets}
         />
       );
     }
