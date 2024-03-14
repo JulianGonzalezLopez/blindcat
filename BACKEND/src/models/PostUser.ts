@@ -80,6 +80,30 @@ async function getPostUser(post_id: number) {
     }
 }
 
+async function getPostsUsers(posts_ids: Array<number>) {
+    let connection;
+
+    try {
+        connection = await openConnection();
+        if (connection instanceof Error || typeof connection === "undefined") {
+            throw new Error("Failed to connect");
+        } else {
+            //ESTÁ MAL, YA LO SE, PERO NO FUNCIONA EL COMANDO COMO DEBERIA SINO
+            const [results, fields] = await connection.execute(`SELECT * from users_posts where post_id IN (${posts_ids})`);
+            connection.end();
+            if (Array.isArray(results) && results.length !== 0) {
+                return results; // No es necesario usar Promise.resolve, ya que 'results[0]' ya es el valor que queremos devolver
+            } else {
+                return []; // No es necesario usar Promise.resolve, ya que estamos devolviendo un valor estático
+            }
+        }
+    } catch (e) {
+        connection && connection.end();
+        throw e; // Re-lanzamos el error para que la función que llama a 'getPostUser' pueda manejarlo
+    }
+}
+
+
 async function getUserPost(usersPost: UsersPost){
     try{
         let connection = await openConnection();
@@ -111,5 +135,6 @@ export default{
     getUserPost,
     getUsersPosts,
     getPostUser,
-    createNewUsersPosts
+    createNewUsersPosts,
+    getPostsUsers
 }

@@ -87,6 +87,35 @@ async function getUserById(id: number) {
     }
 }
 
+async function getUsernamesById(users_ids: Array<number>) {
+    
+    let connection;
+
+    try {
+        if (users_ids == null) {
+            throw new Error("You forgot to send an id, silly");
+        }
+
+        connection = await openConnection();
+
+        if (connection instanceof Error || typeof connection === "undefined") {
+            throw new Error("Failed to connect");
+        } else {
+            const [results, fields] = await connection.execute(`SELECT id, username FROM users WHERE  id IN (${users_ids})`);
+            if (Array.isArray(results) && results.length !== 0) {
+                //@ts-ignore
+                return results;
+            } else {
+                throw new Error("The user does not exist");
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        throw e; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+    }
+}
+
+
 async function matchData(user: User){
     try{
         if(user.username == ""){
@@ -123,7 +152,8 @@ const User = {
     getUser,
     getUsers,
     matchData,
-    getUserById
+    getUserById,
+    getUsernamesById
 }
 
 export default User;

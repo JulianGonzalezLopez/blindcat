@@ -18,71 +18,55 @@ async function getPosts(req: Request, res: Response) {
     //@ts-ignore
     let response = await Post.getPostPaged(page);
     if (response != undefined) {
-      let promise = response.map(async (post) => {
+      
+      let postsIDs = response.map((post)=>{
         //@ts-ignore
-        let obj = await PostUser.getPostUser(post.id);
-        return {
-          ...post,
-          //@ts-ignore
-          user_id: obj.user_id,
-        };
+        return post.id;
       });
-      let resolved = await Promise.all(promise);
-
-      let promiseUsername = resolved.map(async (post) => {
-        let username = await User.getUserById(post.user_id);
-
-        let { user_id, ...resto } = post;
-
-        return {
-          ...resto,
-          username,
-        };
-      });
-
-      let resolvedUsername = await Promise.all(promiseUsername);
-      res.json(resolvedUsername);
-    } else {
-      throw "Falló retorno de los posts";
-    }
-  } catch (error) {
-    res.status(400).send(error || DEFAULT_ERROR);
-  }
-}
-
-async function getPostsPaged(req: Request, res: Response) {
-  let page = req.params.page;
-  const DEFAULT_ERROR = "Fallo general al traer posteos";
-
-  try {
-    let response = await Post.getPostPaged(page);
-
-    if (response != undefined) {
-      let promise = response.map(async (post) => {
+      
+      let posts_users = await PostUser.getPostsUsers(postsIDs);
+      //@ts-ignore
+      let auxIDArray = [];
+      let postsUsersIDs = posts_users.map((pu)=>{
         //@ts-ignore
-        let obj = await PostUser.getPostUser(post.id);
-        return {
-          ...post,
+        if(auxIDArray.findIndex(item=>pu.user_id == item) == -1){
           //@ts-ignore
-          user_id: obj.user_id,
-        };
+          auxIDArray.push(pu.user_id);
+          //@ts-ignore
+          return pu.user_id;
+        }
       });
-      let resolved = await Promise.all(promise);
+      postsUsersIDs = postsUsersIDs.filter((elm)=>typeof elm != "undefined");
+      //
+      //Toda esa tramoya es para filtrar los IDs, ya que en caso de tener 10000 registros, implicaria capaz repetir muchas veces un ID
+      //Capaz lo saco a la mierda igual, qcy
+      //
 
-      let promiseUsername = resolved.map(async (post) => {
-        let username = await User.getUserById(post.user_id);
-
-        let { user_id, ...resto } = post;
-
+      let mappedResponse = response.map((post)=>{
+        //@ts-ignore
+        let position = posts_users.findIndex(item => item.post_id == post.id);
         return {
-          ...resto,
-          username,
-        };
+            ...post,
+            //@ts-ignore
+            user_id: posts_users[position].user_id
+          }
       });
 
-      let resolvedUsername = await Promise.all(promiseUsername);
-      res.json(resolvedUsername);
+      let usernamesById = await User.getUsernamesById(postsUsersIDs);
+      
+      let finalMappedResponse = mappedResponse.map((response)=>{
+        //@ts-ignore
+        let position = usernamesById.findIndex(item=>item.id == response.user_id);
+        return{
+          ...response,
+          //@ts-ignore
+          username: usernamesById[position].username,
+          user_id: null
+        }
+      });
+      return finalMappedResponse;
     }
+    
   } catch (error) {
     res.status(400).send(error || DEFAULT_ERROR);
   }
@@ -176,5 +160,4 @@ export default {
   getPosts,
   commentPost,
   getComments,
-  getPostsPaged,
 };
