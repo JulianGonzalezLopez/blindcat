@@ -28,7 +28,7 @@ async function checkAuthorization(req: Request, res: Response, next: Function) {
 
     next();
   } catch (error) {
-    res.end(error);
+    res.status(401).send(error);
   }
 }
 

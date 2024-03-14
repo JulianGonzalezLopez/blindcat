@@ -5,7 +5,7 @@ import signup from "./routes/signup.js";
 import login from "./routes/login.js";
 import post from "./routes/post.js";
 import authControler from "./controllers/authControler.js";
-
+import { Request, Response } from "express";
 const app = express();
 const port = process.env.PORT || 3001;
 const SECRET = process.env.SECRET as string || "default_secret";
@@ -20,29 +20,38 @@ app.get("/ok",(req,res)=>{
 })
 
 //Rutas sin token
+app.get("/authorize/check", (req: Request, res: Response)=>{
+    try{
+        if(typeof req.headers["authorization"] !== "undefined"){
+            jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
+                if(typeof authData == "undefined"){
+                  throw err;
+                }
+                res.send(true);
+              });
+        }
+        res.send(false);
+    }
+    catch(err){
+        res.status(401).send(err);
+    };
+});
 app.use("/signup",signup);
 app.use("/login", login);
 
-// app.use("/authorize/check", (req,res)=>{
-//     try{
-//         if(typeof req.headers["authorization"] !== "undefined"){
-//             jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
-//                 if(typeof authData == "undefined"){
-//                   throw "error";
-//                 }
-//                 res.send(true);
-//               });
-//         }
-//         res.send(false);
-//     }
-//     catch(err){
-//         res.send(false);
-//     };
-// });
 app.use(authControler.checkAuthorization);
 
 app.use("/post",post);
 //Rutas con token
+
+
+
+
+app.use(function(err : Error, req: Request, res: Response, next: Function) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
+
 
 app.listen(port,()=>{
     console.log("opa");

@@ -60,8 +60,6 @@ const handleSubmit = async (event, token, post_id, setRelatedCommets, setPostCon
 function CommentsSection({token, setRelatedCommets, relatedComments, post_id}) {
   const [postContent, setPostContent] = useState(''); 
 
-
-
   return (
     <div className="comments-section">
       <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id, setRelatedCommets, setPostContent) }}>
