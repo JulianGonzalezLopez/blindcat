@@ -23,7 +23,7 @@ async function getPosts(req: Request, res: Response) {
         //@ts-ignore
         return post.id;
       });
-      
+
       let posts_users = await PostUser.getPostsUsers(postsIDs);
       //@ts-ignore
       let auxIDArray = [];
@@ -64,7 +64,7 @@ async function getPosts(req: Request, res: Response) {
           user_id: null
         }
       });
-      return finalMappedResponse;
+      res.send(finalMappedResponse);
     }
     
   } catch (error) {
