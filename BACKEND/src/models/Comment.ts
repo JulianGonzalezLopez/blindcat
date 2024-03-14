@@ -7,12 +7,15 @@ interface Comment{
 };
 
 async function createNewComment(comment : Comment){
+    
+    let connection;
+
     try{
         if(comment.content == null || comment.user_id == null){
             return Promise.reject({"en":"At least one of the inputs is null"});
         }
 
-        let connection = await openConnection();
+        connection = await openConnection();
 
         if (connection instanceof Error || typeof connection === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
@@ -24,20 +27,23 @@ async function createNewComment(comment : Comment){
             console.log('ID del registro insertado:', rows.insertId);
             //@ts-ignore
             return Promise.resolve(rows.insertId)
-        }
-
-        
+        } 
     }
     catch(e){
-        console.log(e);
+        if(connection){
+            connection.end();
+        }
         return e;
     }
 }
 
 
 async function getComments(comment_id: number){
+    
+    let connection;
+    
     try{
-        let connection = await openConnection();
+        connection = await openConnection();
 
         if (connection instanceof Error || typeof connection === "undefined"){
             Promise.reject([]);
@@ -57,7 +63,9 @@ async function getComments(comment_id: number){
         }
     }
     catch(e){
-        console.log(e);
+        if(connection){
+            connection.end();
+        }
         Promise.reject([]);
     }
 }

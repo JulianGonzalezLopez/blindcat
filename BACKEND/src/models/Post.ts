@@ -9,6 +9,9 @@ interface Post{
 };
 
 async function createNewPost(post : Post){
+
+    let connection;
+
     try{
         if(post.title == null || post.content == null){
             return Promise.reject({"en":"At least one of the inputs is null"});
@@ -22,14 +25,13 @@ async function createNewPost(post : Post){
             nsfw = false;
         } 
         console.log("Es nsfw? " + nsfw)
-        let connection = await openConnection()
+        connection = await openConnection()
 
         if (connection instanceof Error || typeof connection === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
             const [rows, fields] = await connection.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, nsfw, post.creation_date]);    
-            console.log(rows);
             connection.end();
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
@@ -38,14 +40,20 @@ async function createNewPost(post : Post){
         }
     }
     catch(e){
+        if(connection){
+            connection.end();
+        }
         console.log(e);
         return e;
     }
 }
 
 async function getPosts(){
+    
+    let connection;
+
     try{
-        let connection = await openConnection();
+        connection = await openConnection();
 
         if (connection instanceof Error || typeof connection === "undefined"){
             Promise.reject([]);
@@ -63,13 +71,15 @@ async function getPosts(){
         }
     }
     catch(e){
-        console.log(e);
+        connection && connection.end();
         Promise.reject([]);
     }
 }
 
 async function getPostPaged(page: string){
+    let connection;
     const PAGE_SIZE = 5;
+
     let OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
     if(Number.parseInt(page) == 0){
         OFFSET = 0;
@@ -82,7 +92,7 @@ async function getPostPaged(page: string){
     }
     
     try{
-        let connection = await openConnection();
+        connection = await openConnection();
 
         if (connection instanceof Error || typeof connection === "undefined"){
             Promise.reject([]);
@@ -102,7 +112,7 @@ async function getPostPaged(page: string){
         }
     }
     catch(e){
-        console.log(e);
+        connection && connection.end();
         Promise.reject([]);
     }
 }

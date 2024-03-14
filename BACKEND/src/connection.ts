@@ -14,11 +14,8 @@ export default async function openConnection(){
         return connection;          
     }
     catch(e){
-        if (typeof e === "string") {
-            throw new Error(e);
-        } else if (e instanceof Error) {
-            throw e;
-        }
+        console.log(e);
+        return undefined;
     }
 }
 

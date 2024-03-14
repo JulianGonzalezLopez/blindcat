@@ -9,6 +9,9 @@ interface NewUser{
 
 //QUIERO PASAR TODO A TRY CATCH Y USAR THROWS, FALTA ACTUALIZAR
 async function createNewUser(user : NewUser){
+
+    let connection;
+
     try{
         if(user.password != user.rePassword){
             return Promise.reject({"en":"Passwords does not match"});
@@ -17,7 +20,7 @@ async function createNewUser(user : NewUser){
             return Promise.reject({"en":"At least one of the inputs is null"});
         }
 
-        let connection = await openConnection()
+        connection = await openConnection()
 
         if (connection instanceof Error || typeof connection === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
@@ -41,6 +44,9 @@ async function createNewUser(user : NewUser){
         }
     }
     catch(e){
+        if(connection){
+            connection.end();
+        }
         console.log(e);
     }
 }

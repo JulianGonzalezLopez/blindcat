@@ -34,12 +34,14 @@ async function createNewPostComment(postComment : PostComment){
 
 async function getPostsCommets(post_id: any){
 
+    let connection;
+
     try{
         if(typeof post_id == "undefined"){
             throw "error";
         }
 
-        let connection = await openConnection();
+        connection = await openConnection();
 
         if (connection instanceof Error || typeof connection === "undefined"){
             Promise.reject([]);
@@ -58,7 +60,7 @@ async function getPostsCommets(post_id: any){
         }
     }
     catch(e){
-        console.log(e);
+        connection && connection.end();
         Promise.reject([]);
     }
 }
