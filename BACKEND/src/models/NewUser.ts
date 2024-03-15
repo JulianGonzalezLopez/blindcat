@@ -1,4 +1,4 @@
-import openConnection from "../connection.js"
+import pool from "../pool.js"
 
 interface NewUser{
     username: string,
@@ -10,8 +10,6 @@ interface NewUser{
 //QUIERO PASAR TODO A TRY CATCH Y USAR THROWS, FALTA ACTUALIZAR
 async function createNewUser(user : NewUser){
 
-    let connection;
-
     try{
         if(user.password != user.rePassword){
             return Promise.reject({"en":"Passwords does not match"});
@@ -20,33 +18,29 @@ async function createNewUser(user : NewUser){
             return Promise.reject({"en":"At least one of the inputs is null"});
         }
 
-        connection = await openConnection()
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[user.username]);
-            
+            const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ?",[user.username]);
+            console.log("!1!!1!1!11111111");
+            console.log(results);
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
                 console.log("todo mal");
-                connection.end();
+                pool.end();
                 return Promise.reject({"en":"This username is already taken"})
             }
             else{
                 console.log("todo bien");
-                await connection.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);  
-                connection.end();  
+                await pool.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);  
+                pool.end();  
                 return Promise.resolve({"en":"The user has been created successfully"})
             }
         }
     }
     catch(e){
-        if(connection){
-            connection.end();
-        }
         console.log(e);
     }
 }

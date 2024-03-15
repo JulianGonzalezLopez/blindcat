@@ -5,15 +5,20 @@ import signup from "./routes/signup.js";
 import login from "./routes/login.js";
 import post from "./routes/post.js";
 import authControler from "./controllers/authControler.js";
+//@ts-ignore
+import pool from "./pool.js"; 
 import { Request, Response } from "express";
+import { createConnection } from "mysql2/promise";
+
 const app = express();
 const port = process.env.PORT || 3001;
 const SECRET = process.env.SECRET as string || "default_secret";
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-
+//@ts-ignore
 app.get("/ok",(req,res)=>{
     res.header('Content-Type', 'application/json');
     res.send("ok");

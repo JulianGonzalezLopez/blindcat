@@ -1,4 +1,4 @@
-import openConnection from "../connection.js";
+import pool from "../pool.js";
 
 interface Comment{
     content: string,
@@ -8,21 +8,17 @@ interface Comment{
 
 async function createNewComment(comment : Comment){
     
-    let connection;
-
     try{
         if(comment.content == null || comment.user_id == null){
             return Promise.reject({"en":"At least one of the inputs is null"});
         }
 
-        connection = await openConnection();
 
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [rows, fields] = await connection.execute("INSERT INTO comments(content, creator_id) VALUES (?,?)",[comment.content, comment.user_id]);    
-            connection.end();
+            const [rows, fields] = await pool.execute("INSERT INTO comments(content, creator_id) VALUES (?,?)",[comment.content, comment.user_id]);    
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
             //@ts-ignore
@@ -30,9 +26,6 @@ async function createNewComment(comment : Comment){
         } 
     }
     catch(e){
-        if(connection){
-            connection.end();
-        }
         return e;
     }
 }
@@ -40,17 +33,13 @@ async function createNewComment(comment : Comment){
 
 async function getComments(comment_id: number){
     
-    let connection;
-    
     try{
-        connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * from comments where id = ?",[comment_id]);
-            connection.end();
+            const [results, fields] = await pool.execute("SELECT * from comments where id = ?",[comment_id]);
+            pool.end();
             
             if(Array.isArray(results) && results.length !== 0){
                 console.log("Informacion del comentario con id: " + comment_id + ":")
@@ -63,9 +52,6 @@ async function getComments(comment_id: number){
         }
     }
     catch(e){
-        if(connection){
-            connection.end();
-        }
         Promise.reject([]);
     }
 }

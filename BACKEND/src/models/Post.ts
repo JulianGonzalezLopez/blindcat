@@ -1,4 +1,4 @@
-import openConnection from "../connection.js"
+import pool from "../pool.js"
 
 interface Post{
     id?: number,
@@ -9,8 +9,6 @@ interface Post{
 };
 
 async function createNewPost(post : Post){
-
-    let connection;
 
     try{
         if(post.title == null || post.content == null){
@@ -25,14 +23,13 @@ async function createNewPost(post : Post){
             nsfw = false;
         } 
         console.log("Es nsfw? " + nsfw)
-        connection = await openConnection()
 
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [rows, fields] = await connection.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, nsfw, post.creation_date]);    
-            connection.end();
+            const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, nsfw, post.creation_date]);    
+            pool.end();
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
             //@ts-ignore
@@ -40,9 +37,6 @@ async function createNewPost(post : Post){
         }
     }
     catch(e){
-        if(connection){
-            connection.end();
-        }
         console.log(e);
         return e;
     }
@@ -50,17 +44,12 @@ async function createNewPost(post : Post){
 
 async function getPosts(){
     
-    let connection;
-
     try{
-        connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * from posts");
-            connection.end();
+            const [results, fields] = await pool.execute("SELECT * from posts");
 
             if(Array.isArray(results) && results.length !== 0){
                 return Promise.resolve(results);
@@ -70,14 +59,12 @@ async function getPosts(){
             }
         }
     }
-    catch(e){
-        connection && connection.end();
+    catch(e){;
         Promise.reject([]);
     }
 }
 
 async function getPostPaged(page: string){
-    let connection;
     const PAGE_SIZE = 5;
 
     let OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
@@ -92,17 +79,12 @@ async function getPostPaged(page: string){
     }
     
     try{
-        connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject([]);
         }
         else{
             
-            const [results, fields] = await connection.execute("SELECT * from posts ORDER BY creation_date LIMIT ? OFFSET ?", [PAGE_SIZE.toString(), OFFSET.toString()]);
-            connection.end();
-            console.log("RESULTADOS DEL PAGE SIZE Y OFFSET");
-            console.log(results);
+            const [results, fields] = await pool.execute("SELECT * from posts ORDER BY creation_date LIMIT ? OFFSET ?", [PAGE_SIZE.toString(), OFFSET.toString()]);
             if(Array.isArray(results) && results.length !== 0){
                 return Promise.resolve(results);
             }
@@ -112,7 +94,6 @@ async function getPostPaged(page: string){
         }
     }
     catch(e){
-        connection && connection.end();
         Promise.reject([]);
     }
 }

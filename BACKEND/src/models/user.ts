@@ -1,4 +1,4 @@
-import openConnection from "../connection.js"
+import pool from "../pool.js";
 
 interface User{
     username: string,
@@ -7,15 +7,20 @@ interface User{
     karma?: number,
 };
 
-async function getUsers(){
-    try{
-        let connection = await openConnection();
+interface MatchDataResponse {
+    status: number;
+    user_id: number;
+}
 
-        if (connection instanceof Error || typeof connection === "undefined"){
+async function getUsers(){
+
+    try{
+
+        if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT username, cantidad_posts, karma FROM users");
+            const [results, fields] = await pool.execute("SELECT username, cantidad_posts, karma FROM users");
 
             if(Array.isArray(results) && results.length !== 0){
                 return Promise.resolve(results);
@@ -32,18 +37,17 @@ async function getUsers(){
 }
 
 async function getUser(username : string){
+
     try{
         if(username == ""){
             Promise.reject({"en":"You forgot to send an username, silly"});
         }
 
-        let connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ?",[username]);
+            const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ?",[username]);
             
             if(Array.isArray(results) && results.length !== 0){
                 Promise.resolve(results);
@@ -59,17 +63,16 @@ async function getUser(username : string){
 }
 
 async function getUserById(id: number) {
+
     try {
         if (id == null) {
             throw new Error("You forgot to send an id, silly");
         }
 
-        let connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined") {
+        if (pool instanceof Error || typeof pool === "undefined") {
             throw new Error("Failed to connect");
         } else {
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  id = ?", [id]);
+            const [results, fields] = await pool.execute("SELECT * FROM users WHERE  id = ?", [id]);
             console.log("------------------------------");
             //@ts-ignore
             console.log(results[0].username);
@@ -83,25 +86,22 @@ async function getUserById(id: number) {
         }
     } catch (e) {
         console.error(e);
-        throw e; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+        return []; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
     }
 }
 
 async function getUsernamesById(users_ids: Array<number>) {
-    
-    let connection;
 
     try {
         if (users_ids == null) {
             throw new Error("You forgot to send an id, silly");
         }
 
-        connection = await openConnection();
 
-        if (connection instanceof Error || typeof connection === "undefined") {
+        if (pool instanceof Error || typeof pool === "undefined") {
             throw new Error("Failed to connect");
         } else {
-            const [results, fields] = await connection.execute(`SELECT id, username FROM users WHERE  id IN (${users_ids})`);
+            const [results, fields] = await pool.execute(`SELECT id, username FROM users WHERE  id IN (${users_ids})`);
             if (Array.isArray(results) && results.length !== 0) {
                 //@ts-ignore
                 return results;
@@ -111,25 +111,23 @@ async function getUsernamesById(users_ids: Array<number>) {
         }
     } catch (e) {
         console.error(e);
-        throw e; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+        return []; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
     }
 }
 
 
 async function matchData(user: User){
+
     try{
         if(user.username == ""){
             throw {"en":"You forgot to send an username, silly"};
         }
 
-        let connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             throw {"en":"Failed to connect"};
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
-            connection.end();
+            const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
 
             if(Array.isArray(results) && results.length !== 0){
                 return {
@@ -144,7 +142,7 @@ async function matchData(user: User){
         }
     }
     catch(e){
-        throw e;
+        return e;
     }
 }
 

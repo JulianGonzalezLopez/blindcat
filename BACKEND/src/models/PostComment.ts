@@ -1,4 +1,4 @@
-import openConnection from "../connection.js";
+import pool from "../pool.js";
 
 interface PostComment{
     post_id: number,
@@ -7,19 +7,18 @@ interface PostComment{
 
 
 async function createNewPostComment(postComment : PostComment){
+
     try{
         if(postComment.post_id == null || postComment.comment_id == null){
             return Promise.reject({"en":"At least one of the inputs is null"});
         }
 
-        let connection = await openConnection()
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
-            const [rows, fields] = await connection.execute("INSERT INTO posts_comments(post_id, comment_id) VALUES (?,?)",[postComment.post_id, postComment.comment_id]);    
-            connection.end();
+            const [rows, fields] = await pool.execute("INSERT INTO posts_comments(post_id, comment_id) VALUES (?,?)",[postComment.post_id, postComment.comment_id]);    
+            pool.end();
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
             //@ts-ignore
@@ -34,21 +33,17 @@ async function createNewPostComment(postComment : PostComment){
 
 async function getPostsCommets(post_id: any){
 
-    let connection;
-
     try{
         if(typeof post_id == "undefined"){
             throw "error";
         }
 
-        connection = await openConnection();
-
-        if (connection instanceof Error || typeof connection === "undefined"){
+        if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject([]);
         }
         else{
-            const [results, fields] = await connection.execute("SELECT * from posts_comments where post_id = ?",[post_id]);
-            connection.end();
+            const [results, fields] = await pool.execute("SELECT * from posts_comments where post_id = ?",[post_id]);
+            pool.end();
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
@@ -60,7 +55,6 @@ async function getPostsCommets(post_id: any){
         }
     }
     catch(e){
-        connection && connection.end();
         Promise.reject([]);
     }
 }
