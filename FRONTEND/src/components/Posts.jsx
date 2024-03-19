@@ -3,7 +3,7 @@ import "./Posts.css";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 
-function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCommets, relatedCommets, post_id, nsfw}) {
+function Posts({token, page, setPage, setOrder, lastPosts, setSelectedPost, setRelatedCommets, relatedCommets, post_id, nsfw}) {
   const [focus, setFocus] = useState(false);
   console.log("ACACACACACACA");
   console.log(lastPosts);
@@ -11,8 +11,12 @@ function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCom
 
   return (
     <>
-<div className="posts">
-  {lastPosts.map(post => {
+  <div className="posts">
+  <div className="orden-btn-container">
+        <button className="orden-btn" onClick={()=>setOrder("new")}> Nuevo</button>
+        <button className="orden-btn" onClick={()=>setOrder("top")}> Top</button>
+  </div>
+  {lastPosts?.map(post => {
       return (
         <Post
           title={post.title}

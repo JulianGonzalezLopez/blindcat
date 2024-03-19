@@ -6,4 +6,31 @@
     align-items: center;
 }
 
+.orden-btn-container{
+    display: flex;
+    flex-direction: row;
+}
 
+.orden-btn{
+    border: none;
+    border-bottom: 1px solid black !important;
+    background-color: white;
+    padding: 10px 20px;
+    margin: .5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    font-family: inherit;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 500;
+    min-width: 100px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    transition: all .5s;
+  }
+  
+  .orden-btn:hover {
+    filter: brightness(95%); /* Cambia el brillo al pasar el ratón */
+    border-bottom: 1px solid #3DD1E7 !important;
+  }

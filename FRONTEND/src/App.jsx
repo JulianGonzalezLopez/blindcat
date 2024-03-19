@@ -19,8 +19,10 @@ function App() {
   const [relatedComments, setRelatedCommets] = useState([]);
   const [nsfw,setNsfw] = useState(false);
   const [page, setPage] = useState(0);
+  const [order, setOrder] = useState("new");
+  const [prevOrder, setPrevOrder] = useState("new");
 
-  async function fetchData(){
+  async function fetchPosts(){
     let posts = await fetch(`http://localhost:3001/post/all?page=${page}`,
     {
       headers: new Headers({
@@ -28,36 +30,28 @@ function App() {
       })
     }
     );
-    let postsJSON = await posts.json();
-    
+    let postsJSON = await posts.json();   
     if(postsJSON.length > 0){
       setLastPosts([...lastPosts, ...postsJSON]);
     }
   }
 
   useEffect(() => {
-
     async function fetchPosts(token){
       let posts = await fetch(`http://localhost:3001/post/all?page=${page}`,
       {
         headers: new Headers({
           "Authorization": token
         })
-      }
-      );
+      });
       let postsJSON = await posts.json();
-      console.log("AAAAAAAAAAAAAAAAAAA");
-      console.log(postsJSON);
       if(postsJSON.length > 0){
         setLastPosts([...lastPosts, ...postsJSON]);
       }
     };
-
-
+  
     const fetchData = async () => {
-    
       let tk = localStorage.getItem("token");
-      console.log("Token utilizado: "+tk);
       if(tk != null){
         try {
           const response = await fetch('http://localhost:3001/authorize/check', {
@@ -72,33 +66,39 @@ function App() {
           setToken(tk);
           setLogged(true);
           setUsername(localStorage.getItem("username"));
-          console.log(tk);
           fetchPosts(tk);
-          console.log("ANDA");
-          console.log("logged: " + logged);
         } catch (error) {
           console.error('Error al obtener los datos:', error);
         }
       }
     };
-
+  
     fetchData();
-
+  
     return () => {
       // Realizar limpieza, si es necesario
     };
-  }, [page]); // El segundo argumento de useEffect ([]) indica que este efecto se ejecuta solo una vez, al montar el componente
+  }, [page]); // Dependencias: page y order
+  
+  // Este useEffect se ejecutará solo cuando order cambie
+  useEffect(() => {
+    if(prevOrder !== order){
+      order == "new" ? setPrevOrder("top") : setPrevOrder("new");
+      setPage(0);
+      setLastPosts([]);
+    }
 
+  }, [order]);
 
   if (screen.width < 800){
     return (
       <>
         <Header setNsfw={setNsfw} nsfw={nsfw} token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
-        {token && <Modal fetchData={fetchData} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
+        {token && <Modal fetchData={fetchPosts} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
         <main className='main-mobile'>
           {logged ? 
             <>
-              <Posts page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
+              <Posts order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
             </> : 
             <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
           }
@@ -110,11 +110,11 @@ function App() {
     return (
       <>
         <Header setNsfw={setNsfw} nsfw={nsfw} token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
-        {token && <Modal fetchData={fetchData} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
+        {token && <Modal fetchData={fetchPosts} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
         <main className='main'>
           {logged ? 
             <>
-              <Posts page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
+              <Posts order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
               {selectedPost && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
             </> : 
             <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
