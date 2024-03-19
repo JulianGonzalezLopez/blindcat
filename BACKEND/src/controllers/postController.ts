@@ -18,6 +18,8 @@ async function getPosts(req: Request, res: Response) {
   try {
     //@ts-ignore
     let response = await Post.getPostPaged(page, order);
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log(response);
     if (response != undefined) {
       
       let postsIDs = response.map((post)=>{
@@ -65,6 +67,8 @@ async function getPosts(req: Request, res: Response) {
           user_id: null
         }
       });
+      console.log("FINAL AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      console.log(finalMappedResponse);
       res.send(finalMappedResponse);
     }
     

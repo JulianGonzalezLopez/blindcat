@@ -7,7 +7,7 @@ interface UsersPost{
 };
 
 async function createNewUsersPosts(usersPost : UsersPost){
-
+    console.log("ENTRA?????????????");
     try{
         if(usersPost.user_id == null || usersPost.post_id == null){
             return Promise.reject({"en":"At least one of the inputs is null"});
@@ -18,11 +18,13 @@ async function createNewUsersPosts(usersPost : UsersPost){
             return Promise.reject({"en":"Failed to connect"});
         }
         else{
+            console.log("SIGUEEEEEEEEEEE");
             await pool.execute("INSERT INTO users_posts(user_id, post_id) VALUES (?,?)",[usersPost.user_id, usersPost.post_id]);    
             return Promise.resolve({"en":"The usersPost has been created successfully"})
         }
     }
     catch(e){
+        console.log("ACÁ SE ROMPIÓ");
         console.log(e);
         return e;
     }

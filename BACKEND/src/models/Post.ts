@@ -83,14 +83,16 @@ async function getPostPaged(page: string, order: string = "new" ){
             console.log("Cantidad total de posts:" + totalPosts);
             console.log(OFFSET);
             console.log(OFFSET > totalPosts);
-            if (OFFSET > totalPosts) {
-                console.log("!!!!");
-                console.log(OFFSET);
-                return Promise.resolve([]);
-            }
+            // if (OFFSET > totalPosts) {
+            //     console.log("!!!!");
+            //     console.log(OFFSET);
+            //     return Promise.resolve([]);
+            // }
             
             let query = order == "new" ? "SELECT * from posts ORDER BY creation_date DESC LIMIT ? OFFSET ?" : "SELECT * from posts ORDER BY opened DESC LIMIT ? OFFSET ? "
-            
+            console.log("QUERYYYYYYYYYYYYYY");
+            console.log(query);
+
             const [results, fields] = await pool.execute(query, [PAGE_SIZE.toString(), OFFSET.toString()]);
             if(Array.isArray(results) && results.length !== 0){
                 return Promise.resolve(results);
