@@ -66,22 +66,28 @@ async function getPosts(){
 async function getPostPaged(page: string){
     const PAGE_SIZE = 5;
 
-    let OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
-    if(Number.parseInt(page) == 0){
-        OFFSET = 0;
-    }
-    else if(Number.parseInt(page) == 1){
-        OFFSET = PAGE_SIZE;
-    }
-    else{
-        OFFSET = (Number.parseInt(page) - 1) * PAGE_SIZE;
-    }
-    
+    let OFFSET;
+
+    Number.parseInt(page) == 0 ? OFFSET = 0 : OFFSET = (Number.parseInt(page)) * PAGE_SIZE;
+
     try{
         if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject([]);
         }
         else{
+
+            const totalPostsQuery = "SELECT COUNT(*) AS totalPosts FROM posts";
+            const [totalPostsRows,asd] = await pool.execute(totalPostsQuery);
+            //@ts-ignore
+            const totalPosts = totalPostsRows[0].totalPosts;
+            console.log("Cantidad total de posts:" + totalPosts);
+            console.log(OFFSET);
+            console.log(OFFSET > totalPosts);
+            if (OFFSET > totalPosts) {
+                console.log("!!!!");
+                console.log(OFFSET);
+                return Promise.resolve([]);
+            }
             
             const [results, fields] = await pool.execute("SELECT * from posts ORDER BY creation_date LIMIT ? OFFSET ?", [PAGE_SIZE.toString(), OFFSET.toString()]);
             if(Array.isArray(results) && results.length !== 0){

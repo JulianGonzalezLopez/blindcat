@@ -29,6 +29,7 @@ function App() {
     }
     );
     let postsJSON = await posts.json();
+    
     if(postsJSON.length > 0){
       setLastPosts([...lastPosts, ...postsJSON]);
     }
@@ -45,6 +46,8 @@ function App() {
       }
       );
       let postsJSON = await posts.json();
+      console.log("AAAAAAAAAAAAAAAAAAA");
+      console.log(postsJSON);
       if(postsJSON.length > 0){
         setLastPosts([...lastPosts, ...postsJSON]);
       }
