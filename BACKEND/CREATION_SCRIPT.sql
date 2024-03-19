@@ -21,7 +21,7 @@ CREATE TABLE posts(
 );
 
 CREATE TABLE comments(
-    id int not null AUTOINCREMENT,
+    id int not null AUTO_INCREMENT,
     content varchar(300) NOT NULL,
     creator_id INT NOT NULL,
     PRIMARY KEY(id),
