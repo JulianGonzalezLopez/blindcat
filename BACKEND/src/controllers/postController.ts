@@ -73,17 +73,18 @@ async function getPosts(req: Request, res: Response) {
 }
 
 async function createPost(req: Request, res: Response) {
+  console.log("Entramos a la funcion");
   const { title, content, nsfw, user_id, creation_date } = req.body;
+  console.log(req.body);
   const DEFAULT_ERROR = "Fallo general al crear un posteo";
 
   try {
-    if (title != "" || content != "") {
+    console.log("Seguimos");
+    if (!title || !content) {
       throw "El titulo o el contenido estaba vacio"
     }
 
-    if (typeof title != "string" || typeof content != "string") {
-      throw "El titulo o el contenido no eran del tipo apropiado"
-    }
+    console.log("Seguimos2");
 
     let response = await Post.createNewPost({
       title,
@@ -97,6 +98,7 @@ async function createPost(req: Request, res: Response) {
     res.send("ok"); // => Esto lo tengo que cambiar
 
   } catch (err) {
+    console.error(err)
     res.status(400).send(err || DEFAULT_ERROR);
   }
 }

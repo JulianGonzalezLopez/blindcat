@@ -37,7 +37,6 @@ async function getUsersPosts(){
         }
         else{
             const [results, fields] = await pool.execute("SELECT * from users_posts");
-            pool.end();
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
@@ -62,7 +61,6 @@ async function getPostUser(post_id: number) {
             throw new Error("Failed to connect");
         } else {
             const [results, fields] = await pool.execute("SELECT * from users_posts where post_id = ?", [post_id]);
-            pool.end();
             console.log("QUE CARAJO ESTÁ PASANDO");
             console.log(results);
             if (Array.isArray(results) && results.length !== 0) {
@@ -109,7 +107,6 @@ async function getUserPost(usersPost: UsersPost){
         }
         else{
             const [results, fields] = await pool.execute("SELECT * from users_posts WHERE user_id = ? AND post_id = ? ",[usersPost.user_id, usersPost.post_id]);
-            pool.end();
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);

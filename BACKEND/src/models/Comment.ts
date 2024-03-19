@@ -39,7 +39,6 @@ async function getComments(comment_id: number){
         }
         else{
             const [results, fields] = await pool.execute("SELECT * from comments where id = ?",[comment_id]);
-            pool.end();
             
             if(Array.isArray(results) && results.length !== 0){
                 console.log("Informacion del comentario con id: " + comment_id + ":")

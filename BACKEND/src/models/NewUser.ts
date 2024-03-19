@@ -29,13 +29,11 @@ async function createNewUser(user : NewUser){
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
                 console.log("todo mal");
-                pool.end();
                 return Promise.reject({"en":"This username is already taken"})
             }
             else{
                 console.log("todo bien");
                 await pool.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);  
-                pool.end();  
                 return Promise.resolve({"en":"The user has been created successfully"})
             }
         }

@@ -18,7 +18,6 @@ async function createNewPostComment(postComment : PostComment){
         }
         else{
             const [rows, fields] = await pool.execute("INSERT INTO posts_comments(post_id, comment_id) VALUES (?,?)",[postComment.post_id, postComment.comment_id]);    
-            pool.end();
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
             //@ts-ignore
@@ -43,7 +42,6 @@ async function getPostsCommets(post_id: any){
         }
         else{
             const [results, fields] = await pool.execute("SELECT * from posts_comments where post_id = ?",[post_id]);
-            pool.end();
 
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);

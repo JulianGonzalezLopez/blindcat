@@ -29,7 +29,6 @@ async function createNewPost(post : Post){
         }
         else{
             const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, nsfw, post.creation_date]);    
-            pool.end();
             //@ts-ignore
             console.log('ID del registro insertado:', rows.insertId);
             //@ts-ignore
