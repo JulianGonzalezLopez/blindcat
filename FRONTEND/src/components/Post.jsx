@@ -3,7 +3,7 @@ import "./Post.css";
 
 import { useState } from "react";
 
-function Post({title,content, creation_date, setSelectedPost, post_id, token, setRelatedCommets, creator_username, relatedComments}) {
+function Post({title,content, creation_date, setSelectedPost, post_id, token, nsfw, setRelatedCommets, creator_username, relatedComments}) {
   const [showComments, setShowComments] = useState(false);
 
   let aux;
@@ -55,10 +55,10 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, se
     minute: '2-digit',
     second: '2-digit'
   });  
-
+  
 
   return (
-        <div id={post_id} className="post" onClick={ async (e)=>{
+        <div id={post_id} className={nsfw ? "post blurred" : "post"} onClick={ async (e)=>{
           setSelectedPost(post_id);
           fetchComments(token,post_id, setRelatedCommets);
           setShowComments(!showComments)

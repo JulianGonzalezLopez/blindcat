@@ -13,7 +13,6 @@ function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCom
     <>
 <div className="posts">
   {lastPosts.map(post => {
-    if (nsfw === true || post.nsfw === 0) {
       return (
         <Post
           title={post.title}
@@ -22,6 +21,7 @@ function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCom
           key={post.id}
           post_id={post.id}
           likes={post.likes}
+          nsfw={nsfw ? false : post.nsfw}
           setSelectedPost={setSelectedPost}
           creator_username={post.username}
           token={token}
@@ -29,8 +29,6 @@ function Posts({token, page, setPage , lastPosts, setSelectedPost, setRelatedCom
           relatedCommets={relatedCommets}
         />
       );
-    }
-    return null;
   })}
   <button className="button-53" onClick={()=>{setPage(page+1)}}>Leer mas...</button>
 </div>

@@ -13,3 +13,7 @@
 .post > *{
     overflow-wrap: anywhere;
 }
+
+.blurred{
+    filter: blur(4px); /* ajusta el valor de px según lo necesites */
+}
