@@ -7,11 +7,6 @@ interface User{
     karma?: number,
 };
 
-interface MatchDataResponse {
-    status: number;
-    user_id: number;
-}
-
 async function getUsers(){
 
     try{
