@@ -12,11 +12,12 @@ const SECRET = (process.env.SECRET as string) || "default_secret"; // Usando una
 //FALTA ERROR HANDLING
 async function getPosts(req: Request, res: Response) {
   const page = req.query.page || "0";
+  const order = req.query.order || "new";
   const DEFAULT_ERROR = "Fallo general al traer posteos";
-
+  console.log("EL ORDEN ES:" + order);
   try {
     //@ts-ignore
-    let response = await Post.getPostPaged(page);
+    let response = await Post.getPostPaged(page, order);
     if (response != undefined) {
       
       let postsIDs = response.map((post)=>{

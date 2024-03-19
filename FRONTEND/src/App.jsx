@@ -23,7 +23,7 @@ function App() {
   const [prevOrder, setPrevOrder] = useState("new");
 
   async function fetchPosts(){
-    let posts = await fetch(`http://localhost:3001/post/all?page=${page}`,
+    let posts = await fetch(`http://localhost:3001/post/all?page=${page}&order=${order}`,
     {
       headers: new Headers({
         "Authorization": token
@@ -38,7 +38,7 @@ function App() {
 
   useEffect(() => {
     async function fetchPosts(token){
-      let posts = await fetch(`http://localhost:3001/post/all?page=${page}`,
+      let posts = await fetch(`http://localhost:3001/post/all?page=${page}&order=${order}`,
       {
         headers: new Headers({
           "Authorization": token

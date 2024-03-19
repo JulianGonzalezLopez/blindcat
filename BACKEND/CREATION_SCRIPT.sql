@@ -16,6 +16,7 @@ CREATE TABLE posts(
     content varchar(1000) NOT NULL,
     nsfw boolean DEFAULT FALSE, 
     creation_date DATETIME NOT NULL,
+    opened int not null DEFAULT 0,
     PRIMARY KEY(id)
 );
 

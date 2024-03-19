@@ -63,7 +63,7 @@ async function getPosts(){
     }
 }
 
-async function getPostPaged(page: string){
+async function getPostPaged(page: string, order: string = "new" ){
     const PAGE_SIZE = 5;
 
     let OFFSET;
@@ -89,7 +89,9 @@ async function getPostPaged(page: string){
                 return Promise.resolve([]);
             }
             
-            const [results, fields] = await pool.execute("SELECT * from posts ORDER BY creation_date LIMIT ? OFFSET ?", [PAGE_SIZE.toString(), OFFSET.toString()]);
+            let query = order == "new" ? "SELECT * from posts ORDER BY creation_date DESC LIMIT ? OFFSET ?" : "SELECT * from posts ORDER BY opened DESC LIMIT ? OFFSET ? "
+            
+            const [results, fields] = await pool.execute(query, [PAGE_SIZE.toString(), OFFSET.toString()]);
             if(Array.isArray(results) && results.length !== 0){
                 return Promise.resolve(results);
             }
