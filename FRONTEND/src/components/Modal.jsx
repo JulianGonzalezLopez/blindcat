@@ -16,10 +16,6 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
       creation_date: date
     };
 
-    console.log(requestData);
-    console.log(userId);
-    console.log(token);
-
     try {
       const response = await fetch('http://localhost:3001/post', {
         method: 'POST',
@@ -29,9 +25,7 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
         },
         body: JSON.stringify(requestData)
       });
-      console.log("!!!!!!!!!!");
       await fetchData();
-      console.log("!!!!!!!!!!");
       if (response.ok) { 
         console.log("creado");
         

@@ -125,11 +125,75 @@ async function getUserPost(usersPost: UsersPost){
     }
 }
 
+async function createOpenedPost(usersPost : UsersPost){
+    console.log("ENTRA?????????????");
+    try{
+        if(usersPost.user_id == null || usersPost.post_id == null){
+            return Promise.reject({"en":"At least one of the inputs is null"});
+        }
+
+
+        if (pool instanceof Error || typeof pool === "undefined"){
+            return Promise.reject({"en":"Failed to connect"});
+        }
+        else{
+            let [results,rows] = await pool.execute("SELECT * FROM opened_posts WHERE post_id = ? AND user_id = ?",[usersPost.post_id, usersPost.user_id])
+            if(results != undefined && Array.isArray(results) && results.length !== 0){
+                console.log("Ya existe esta relación");
+                return null;
+            }
+
+            console.log("SIGUEEEEEEEEEEE");
+            await pool.execute("INSERT INTO opened_posts(user_id, post_id) VALUES (?,?)",[usersPost.user_id, usersPost.post_id]);    
+
+            await pool.execute("UPDATE posts AS p SET p.opened = (SELECT COUNT(op.post_id) FROM opened_posts AS op WHERE op.post_id = p.id) WHERE p.id = ?", [usersPost.post_id]);
+
+
+            return Promise.resolve({"en":"The opened_posts relationship has been created successfully"})
+        }
+    }
+    catch(e){
+        console.log("ACÁ SE ROMPIÓ");
+        console.log(e);
+        return e;
+    }
+}
+
+
+async function getOpenedPostsCount(post_id: number){
+    
+    try{
+
+        if (pool instanceof Error || typeof pool === "undefined"){
+            Promise.reject([]);
+        }
+        else{
+            const [results, fields] = await pool.execute("SELECT COUNT(*) AS opened_by FROM opened_posts WHERE post_id = ?",[post_id]);
+
+            if(results != undefined){
+                console.log(results);
+                //@ts-ignore
+                console.log("La cantidad de aperturas que tuvo la publicación: " + post_id + ": " + results[0].opened_by);
+                return Promise.resolve(results);
+            }
+            else{
+                return Promise.resolve(null);
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+        Promise.reject([]);
+    }
+}
+
 
 export default{
     getUserPost,
     getUsersPosts,
     getPostUser,
     createNewUsersPosts,
-    getPostsUsers
+    getPostsUsers,
+    createOpenedPost,
+    getOpenedPostsCount
 }

@@ -5,16 +5,13 @@ import { useEffect, useState } from "react";
 
 function Posts({token, page, setPage, setOrder, lastPosts, setSelectedPost, setRelatedCommets, relatedCommets, post_id, nsfw}) {
   const [focus, setFocus] = useState(false);
-  console.log("ACACACACACACA");
-  console.log(lastPosts);
-  
 
   return (
     <>
   <div className="posts">
   <div className="orden-btn-container">
-        <button className="orden-btn" onClick={()=>setOrder("new")}> Nuevo</button>
-        <button className="orden-btn" onClick={()=>setOrder("top")}> Top</button>
+        <button className="orden-btn" onClick={()=>{setOrder("new");}}> Nuevo</button>
+        <button className="orden-btn"onClick={()=>{setOrder("top");}}> Top</button>
   </div>
   {lastPosts?.map(post => {
       return (

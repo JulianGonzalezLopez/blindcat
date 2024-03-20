@@ -9,8 +9,6 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
   let aux;
 
   async function fetchComments(token, post_id, setRelatedCommets) {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    console.log(relatedComments);
     try {
       let url = `http://localhost:3001/post/${post_id}/comments`;
       let relatedCommentsJS = await fetch(url, {
@@ -19,15 +17,35 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
         })
       });
       let relatedCommentsJSON = await relatedCommentsJS.json();
-      console.log(relatedCommentsJSON);
       setRelatedCommets(relatedCommentsJSON);
-      console.log(relatedComments)
-  
     } catch (error) {
       console.error("Error al obtener los comentarios relacionados:", error);
       throw error;
     }
   }
+
+
+  async function createRelationship(token, post_id) {
+    const requestData = {
+      post_id: post_id
+    };
+    try {
+      const response = await fetch('http://localhost:3001/post/opened', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':token
+        },
+        body: JSON.stringify(requestData)
+      });
+      let responseJSON = await response.json();
+  
+    } catch (error) {
+      console.error("Error al crear relacion:", error);
+      throw error;
+    }
+  }  
+
 
   async function fetchData(token, post_id) {
     try {
@@ -38,7 +56,6 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
         })
       });
       let relatedCommentsJSON = await relatedComments.json();
-      console.log(relatedCommentsJSON);
       setRelatedCommets(relatedCommentsJSON);
       return relatedCommentsJSON;
 
@@ -59,6 +76,7 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
 
   return (
         <div id={post_id} className={nsfw ? "post blurred" : "post"} onClick={ async (e)=>{
+          createRelationship(token, post_id);
           setSelectedPost(post_id);
           fetchComments(token,post_id, setRelatedCommets);
           setShowComments(!showComments)
@@ -66,7 +84,6 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
             <h3 className="title">{title}</h3>
             <p className="post-content">{content}</p>
             <p className="creator"> {formatedDate} - {creator_username}</p> 
-            {console.log(aux)}
             {showComments && screen.width < 800 && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={aux} token={token} post_id={post_id} ></CommentsSection>}
     </div>
   )

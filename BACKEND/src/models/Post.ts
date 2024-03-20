@@ -79,10 +79,7 @@ async function getPostPaged(page: string, order: string = "new" ){
             const totalPostsQuery = "SELECT COUNT(*) AS totalPosts FROM posts";
             const [totalPostsRows,asd] = await pool.execute(totalPostsQuery);
             //@ts-ignore
-            const totalPosts = totalPostsRows[0].totalPosts;
-            console.log("Cantidad total de posts:" + totalPosts);
-            console.log(OFFSET);
-            console.log(OFFSET > totalPosts);
+            //const totalPosts = totalPostsRows[0].totalPosts;
             // if (OFFSET > totalPosts) {
             //     console.log("!!!!");
             //     console.log(OFFSET);
@@ -90,8 +87,6 @@ async function getPostPaged(page: string, order: string = "new" ){
             // }
             
             let query = order == "new" ? "SELECT * from posts ORDER BY creation_date DESC LIMIT ? OFFSET ?" : "SELECT * from posts ORDER BY opened DESC LIMIT ? OFFSET ? "
-            console.log("QUERYYYYYYYYYYYYYY");
-            console.log(query);
 
             const [results, fields] = await pool.execute(query, [PAGE_SIZE.toString(), OFFSET.toString()]);
             if(Array.isArray(results) && results.length !== 0){

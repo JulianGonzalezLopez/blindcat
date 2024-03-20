@@ -51,3 +51,11 @@ CREATE TABLE users_posts(
     FOREIGN KEY(user_id) REFERENCES users(id),
     FOREIGN KEY(post_id) REFERENCES posts(id)
 );
+
+CREATE TABLE opened_posts(
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    PRIMARY KEY(post_id,user_id),
+    FOREIGN KEY(post_id) REFERENCES posts(id),
+    FOREIGN KEY(user_id) REFERENCES users(id)
+);

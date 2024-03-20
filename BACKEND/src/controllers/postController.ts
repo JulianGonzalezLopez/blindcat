@@ -18,8 +18,6 @@ async function getPosts(req: Request, res: Response) {
   try {
     //@ts-ignore
     let response = await Post.getPostPaged(page, order);
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    console.log(response);
     if (response != undefined) {
       
       let postsIDs = response.map((post)=>{
@@ -67,8 +65,6 @@ async function getPosts(req: Request, res: Response) {
           user_id: null
         }
       });
-      console.log("FINAL AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-      console.log(finalMappedResponse);
       res.send(finalMappedResponse);
     }
     
@@ -162,9 +158,31 @@ async function commentPost(req: Request, res: Response) {
   }
 }
 
+async function createOpenedPost(req: Request, res: Response) {
+  console.log("Entramos a la funcion");
+  const { user_id, post_id} = req.body;
+  
+  const DEFAULT_ERROR = "Fallo general al crear un posteo";
+
+  try {
+    console.log("Seguimos");
+    if (!user_id || !post_id) {
+      throw "El titulo o el contenido estaba vacio"
+    }
+    PostUser.createOpenedPost({post_id, user_id});
+    res.send("ok"); // => Esto lo tengo que cambiar
+
+  } catch (err) {
+    console.error(err)
+    res.status(400).send(err || DEFAULT_ERROR);
+  }
+}
+
+
 export default {
   createPost,
   getPosts,
   commentPost,
   getComments,
+  createOpenedPost
 };
