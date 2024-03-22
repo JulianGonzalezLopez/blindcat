@@ -20,9 +20,9 @@ import { useEffect, useState, useRef } from "react";
     const [nsfw,setNsfw] = useState(false);
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState("new");
-    const prevOrder = useRef(null);
 
-    async function fetchPosts(newOrder){
+
+    async function fetchPosts(token){
       let posts = await fetch(`http://localhost:3001/post/all?page=${page}&order=${order}`,
       {
         headers: new Headers({
@@ -32,23 +32,19 @@ import { useEffect, useState, useRef } from "react";
       );
       let postsJSON = await posts.json();   
       if(postsJSON.length > 0){
-        console.log("LAST POSTS");
-        console.log(lastPosts);
-        if(newOrder == true){
-          setLastPosts([]);
-          setLastPosts(postsJSON);
-          
-        }
-        else{
-          console.log("SE CONSERVA EL ORDEN");
-          setLastPosts([...lastPosts, ...postsJSON]);
-        }
-        console.log(lastPosts);
-        
+        setLastPosts([...lastPosts, ...postsJSON]);
       }
     }
   
+    useEffect(()=>{
+      
+    },[order])
+
     useEffect(() => {
+
+      console.log("Pagina: "+ page);
+      console.log("Orden: " + order);
+
       async function fetchData() {
         let tk = localStorage.getItem("token");
         if (tk != null) {
@@ -76,21 +72,9 @@ import { useEffect, useState, useRef } from "react";
       return () => {
         // Realizar limpieza, si es necesario
       };
-    }, [page, order, token]);
+    }, [page, order]);
   
-    useEffect(() => {
-      console.log("Prev: " + prevOrder.current);
-      console.log("Current: " + order);
-  
-      // Si el modo de orden cambia, limpiamos la lista de posts
-      if (order !== prevOrder.current) {
-        prevOrder.current = order;
-        console.log("Prev: " + prevOrder.current);
-        setPage(0);
-        console.log("GOKUUUUUUUUUUUUUU");
-        fetchPosts(true); // Llamamos a fetchPosts para cargar los nuevos posts
-      }
-    }, [order]);
+
 
   if (screen.width < 800){
     return (
@@ -100,7 +84,7 @@ import { useEffect, useState, useRef } from "react";
         <main className='main-mobile'>
           {logged ? 
             <>
-              <Posts order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
+              <Posts setLastPosts={setLastPosts} order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
             </> : 
             <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
           }
@@ -116,7 +100,7 @@ import { useEffect, useState, useRef } from "react";
         <main className='main'>
           {logged ? 
             <>
-              <Posts order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
+              <Posts setLastPosts={setLastPosts} order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
               {selectedPost && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
             </> : 
             <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
