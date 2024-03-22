@@ -84,7 +84,7 @@ import { useEffect, useState, useRef } from "react";
         <main className='main-mobile'>
           {logged ? 
             <>
-              <Posts setLastPosts={setLastPosts} order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
+              <Posts order={order} setLastPosts={setLastPosts} order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
             </> : 
             <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
           }
@@ -100,7 +100,7 @@ import { useEffect, useState, useRef } from "react";
         <main className='main'>
           {logged ? 
             <>
-              <Posts setLastPosts={setLastPosts} order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
+              <Posts order={order} setLastPosts={setLastPosts} order={order} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
               {selectedPost && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
             </> : 
             <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  

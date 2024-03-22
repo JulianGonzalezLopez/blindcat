@@ -3,15 +3,15 @@ import "./Posts.css";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 
-function Posts({token, page, setPage, setOrder, lastPosts, setSelectedPost, setRelatedCommets, setLastPosts, relatedCommets, post_id, nsfw}) {
+function Posts({token, page, setPage, setOrder, lastPosts, setSelectedPost, order, setRelatedCommets, setLastPosts, relatedCommets, post_id, nsfw}) {
   const [focus, setFocus] = useState(false);
 
   return (
     <>
   <div className="posts">
   <div className="orden-btn-container">
-        <button className="orden-btn" onClick={()=>{setOrder("new"); setPage(0); setLastPosts([]);}}> Nuevo</button>
-        <button className="orden-btn"onClick={()=>{setOrder("top"); setPage(0); setLastPosts([]);}}> Top</button>
+        <button className="orden-btn" onClick={()=>{if(order != "new"){setPage(0); setLastPosts([]);} setOrder("new");  }}> Nuevo</button>
+        <button className="orden-btn"onClick={()=>{if(order != "top"){setPage(0); setLastPosts([]);} setOrder("top");  }}> Top</button>
   </div>
   {lastPosts?.map(post => {
       return (
