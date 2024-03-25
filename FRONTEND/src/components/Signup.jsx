@@ -25,12 +25,17 @@ function Signup({username, setUsername, logged, setLogged}) {
 
       if (response.ok) {
         event.target.reset();
+        let positiveVerificacion = document.getElementById("positive-verification");
+        positiveVerificacion.classList.add("show-verification");
       } else {
         console.error('Error al registrarse:', response.statusText);
-        // Aquí puedes manejar el error de registro de alguna manera
+        let negativeVerification = document.getElementById("negative-verification");
+        negativeVerification.classList.add("show-verification");
       }
     } catch (error) {
       console.error('Error al conectarse al servidor:', error);
+      let negativeVerification = document.getElementById("negative-verification");
+      negativeVerification.classList.add("show-verification");
       // Aquí puedes manejar errores de conexión de red
     }
   };
@@ -48,6 +53,14 @@ function Signup({username, setUsername, logged, setLogged}) {
         <input type="password" id="rePassword" name="rePassword" required />
         <button type="submit" className="login-button" >Sign Up</button>
       </form>
+          <span id="positive-verification" className="verification" onAnimationEnd={()=>{
+            let positiveVerificacion = document.getElementById("positive-verification");
+            positiveVerificacion.classList.remove("show-verification");
+          }} >✅</span>
+          <span id="negative-verification" className="verification" onAnimationEnd={()=>{
+            let negativeVerification = document.getElementById("negative-verification");
+            negativeVerification.classList.remove("show-verification");
+          }}>❌</span>
     </div>
   )
 }

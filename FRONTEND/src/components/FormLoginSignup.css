@@ -52,3 +52,48 @@
   .login-button:hover {
     background-color: #45a049;
   }
+
+  .verification {
+    position: absolute;
+    display: none;
+    top: 50%; /* Coloca el elemento en el centro verticalmente */
+    left: 50%; /* Coloca el elemento en el centro horizontalmente */
+    transform: translate(-50%, -50%); /* Centra exactamente el elemento */
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: none;
+  }
+
+  .show-verification{
+    display: flex;
+    animation: shakeAndFade 2s forwards;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes shakeAndFade {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+      opacity: 1;
+    }
+    25% {
+      transform: translate(-50%, -50%) rotate(-15deg);
+      opacity: 1;
+    }
+    75% {
+      transform: translate(-50%, -50%) rotate(15deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(0deg);
+      opacity: 0;
+    }
+  }
