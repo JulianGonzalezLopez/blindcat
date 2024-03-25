@@ -37,7 +37,7 @@ CREATE TABLE posts_comments(
 );
 
 CREATE TABLE posts_tags(
-	ID INT auto_increment NOT NULL,
+	ID INT AUTO_INCREMENT NOT NULL,
     post_id INT NOT NULL,
     tag varchar(16),
     PRIMARY KEY(id),

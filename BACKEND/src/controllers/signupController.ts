@@ -3,7 +3,7 @@ import NewUser from "../models/NewUser.js";
 
 
 async function createUser(req: Request,res: Response){
-        const {username, password, rePassword} = req.body;
+        const {username, password, rePassword, creation_date} = req.body;
 
         try{
 
@@ -19,7 +19,7 @@ async function createUser(req: Request,res: Response){
                 throw "Uno de los campos no es del tipo adecuado";
             }
             
-            let response = await NewUser.createNewUser({username,password,rePassword})
+            let response = await NewUser.createNewUser({username,password,rePassword,creation_date})
             .then(data=>{
                 res.json(data); //The user has been created successfully
             })

@@ -7,11 +7,12 @@ function Signup({username, setUsername, logged, setLogged}) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-
+    let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const requestData = {
       username: formData.get('username'),
       password: formData.get('password'),
-      rePassword: formData.get('rePassword')
+      rePassword: formData.get('rePassword'),
+      creation_date: date
     };
 
     try {

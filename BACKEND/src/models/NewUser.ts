@@ -3,7 +3,8 @@ import pool from "../pool.js"
 interface NewUser{
     username: string,
     password: string,
-    rePassword: string
+    rePassword: string,
+    creation_date: Date
 };
 
 
@@ -33,7 +34,8 @@ async function createNewUser(user : NewUser){
             }
             else{
                 console.log("todo bien");
-                await pool.execute("INSERT INTO users(username, password) VALUES (?,?)",[user.username, user.password]);  
+
+                await pool.execute("INSERT INTO users(username, password, creation_date) VALUES (?,?,?)",[user.username, user.password, user.creation_date]);  
                 return Promise.resolve({"en":"The user has been created successfully"})
             }
         }

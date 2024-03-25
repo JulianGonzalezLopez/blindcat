@@ -9,6 +9,20 @@ import jwt from "jsonwebtoken";
 
 const SECRET = (process.env.SECRET as string) || "default_secret"; // Usando una aserción de tipo
 
+function ageRequired(age: Date){
+
+  let creationDate = new Date(age);
+  let actualDate = new Date(Date.now());
+  //@ts-ignore
+  console.log(creationDate);
+  console.log(actualDate);
+  let differenceMS = actualDate - creationDate;
+  let differenceMin = Math.round(differenceMS / (1000 * 60));
+
+  console.log("La diferencia en minutos es: ", differenceMin);
+};
+
+
 //FALTA ERROR HANDLING
 async function getPosts(req: Request, res: Response) {
   const page = req.query.page || "0";
@@ -86,6 +100,11 @@ async function createPost(req: Request, res: Response) {
     }
 
     console.log("Seguimos2");
+
+    let userData = await User.getUserDataById(user_id);
+    console.log("USERDATA: ");
+    console.log(userData);
+    ageRequired(userData.creation_date);
 
     let response = await Post.createNewPost({
       title,

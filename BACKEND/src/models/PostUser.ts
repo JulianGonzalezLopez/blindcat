@@ -84,7 +84,12 @@ async function getPostsUsers(posts_ids: Array<number>) {
     try {
         if (pool instanceof Error || typeof pool === "undefined") {
             throw new Error("Failed to connect");
+        
+
         } else {
+            if (!posts_ids){
+                throw new Error("NO IDS");
+            }
             //ESTÁ MAL, YA LO SE, PERO NO FUNCIONA EL COMANDO COMO DEBERIA SINO
             const [results, fields] = await pool.execute(`SELECT * from users_posts where post_id IN (${posts_ids})`);
 

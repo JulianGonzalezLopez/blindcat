@@ -85,6 +85,35 @@ async function getUserById(id: number) {
     }
 }
 
+async function getUserDataById(id: number) {
+
+    try {
+        if (id == null) {
+            throw new Error("You forgot to send an id, silly");
+        }
+
+        if (pool instanceof Error || typeof pool === "undefined") {
+            throw new Error("Failed to connect");
+        } else {
+            const [results, fields] = await pool.execute("SELECT * FROM users WHERE  id = ?", [id]);
+            console.log("------------------------------");
+            //@ts-ignore
+            console.log(results[0].username);
+            console.log("------------------------------");
+            if (Array.isArray(results) && results.length !== 0) {
+                //@ts-ignore
+                return results[0];
+            } else {
+                throw new Error("The user does not exist");
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        return []; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+    }
+}
+
+
 async function getUsernamesById(users_ids: Array<number>) {
 
     try {
@@ -146,7 +175,8 @@ const User = {
     getUsers,
     matchData,
     getUserById,
-    getUsernamesById
+    getUsernamesById,
+    getUserDataById
 }
 
 export default User;
