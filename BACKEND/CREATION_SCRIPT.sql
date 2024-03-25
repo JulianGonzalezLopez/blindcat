@@ -6,7 +6,7 @@ CREATE TABLE users(
     username varchar(16) NOT NULL,
     password varchar(16) NOT NULL,
     cantidad_posts INT NOT NULL DEFAULT 0,
-    karma INT NOT NULL DEFAULT 0,
+    creation_date DATETIME NOT NULL,
     PRIMARY KEY(id)
 );
 
