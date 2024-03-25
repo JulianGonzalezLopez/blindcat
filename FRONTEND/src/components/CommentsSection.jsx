@@ -62,6 +62,7 @@ function CommentsSection({token, setRelatedCommets, relatedComments, post_id}) {
 
   return (
     <div className="comments-section">
+      {screen.width > 800 && <p>{localStorage.getItem("current_post")}</p>}
       <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id, setRelatedCommets, setPostContent) }}>
         <textarea name="content" id="content" cols="30" rows="10" placeholder="Escribe un comentario" value={postContent} onChange={e => setPostContent(e.target.value)}></textarea>
         <button className="button-53 send-btn" type="submit" value="Enviar">Enviar</button>

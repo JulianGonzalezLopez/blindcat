@@ -76,6 +76,7 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
 
   return (
         <div id={post_id} className={nsfw ? "post blurred" : "post"} onClick={ async (e)=>{
+          localStorage.setItem("current_post",title);
           createRelationship(token, post_id);
           setSelectedPost(post_id);
           fetchComments(token,post_id, setRelatedCommets);
