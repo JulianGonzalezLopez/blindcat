@@ -29,6 +29,7 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
       await fetchData();
       if (response.ok) { 
         console.log("creado"); 
+        closeModal();
       } else {
         console.log(response);
         console.error('Error al CREAR POST:');
@@ -67,7 +68,7 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
         <input type="checkbox" name="nsfw" id="nsfw" />
         <label htmlFor="content">Contenido</label>
         <textarea name="content" id="content" cols="30" rows="10" required></textarea>
-        <button className="send" type="submit" onClick={closeModal}>Enviar</button>
+        <button className="send" type="submit">Enviar</button>
         <button className="close" onClick={closeModal}>Cerrar</button>
       </form>
 

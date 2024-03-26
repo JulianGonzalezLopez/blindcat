@@ -178,7 +178,7 @@ async function commentPost(req: Request, res: Response) {
     res.send("ok"); // => Esto lo tengo que cambiar
   } catch (err) {
     console.log("Error creating a Post in");
-    res.json(err);
+    res.status(400).send({"error":err});
   }
 }
 

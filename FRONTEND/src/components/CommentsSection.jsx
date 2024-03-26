@@ -21,7 +21,7 @@ async function fetchData(token, post_id, setRelatedCommets) {
   }
 }
 
-const handleSubmit = async (event, token, post_id, setRelatedCommets, setPostContent) => {
+const handleSubmit = async (event, token, post_id, setRelatedCommets, setPostContent, openErrorModal, setCurrentError) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -44,8 +44,13 @@ const handleSubmit = async (event, token, post_id, setRelatedCommets, setPostCon
         console.log("creado");
         fetchData(token, post_id, setRelatedCommets);
         setPostContent("");
+
       } else {
         console.error('Error al CREAR POST:');
+        let responseJSON = await response.json();
+        console.log(responseJSON);
+        setCurrentError(responseJSON.error);
+        openErrorModal();
         // Aquí puedes manejar el error de registro de alguna manera
       }
     } catch (error) {
@@ -57,13 +62,13 @@ const handleSubmit = async (event, token, post_id, setRelatedCommets, setPostCon
 
 
 
-function CommentsSection({token, setRelatedCommets, relatedComments, post_id}) {
+function CommentsSection({token, setRelatedCommets, relatedComments, post_id, openErrorModal, setCurrentError}) {
   const [postContent, setPostContent] = useState(''); 
 
   return (
     <div className="comments-section">
       {screen.width > 800 && <p>{localStorage.getItem("current_post")}</p>}
-      <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id, setRelatedCommets, setPostContent) }}>
+      <form className="comment-form" onSubmit={(event) => { handleSubmit(event, token, post_id, setRelatedCommets, setPostContent, openErrorModal, setCurrentError) }}>
         <textarea name="content" id="content" cols="30" rows="10" placeholder="Escribe un comentario" value={postContent} onChange={e => setPostContent(e.target.value)}></textarea>
         <button className="button-53 send-btn" type="submit" value="Enviar">Enviar</button>
         </form>
