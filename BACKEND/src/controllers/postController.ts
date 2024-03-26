@@ -18,7 +18,11 @@ function ageRequired(age: Date){
   console.log(actualDate);
   let differenceMS = actualDate - creationDate;
   let differenceMin = Math.round(differenceMS / (1000 * 60));
-
+  console.log("Diferencia < 4 ");
+  console.log(differenceMin < 4)
+  if(differenceMin < 4){
+    throw ` Necesitas esperar 5 minutos desde la creacion de tu cuenta para interactuar. Llevas ${differenceMin}`; 
+  }
   console.log("La diferencia en minutos es: ", differenceMin);
 };
 
@@ -100,10 +104,8 @@ async function createPost(req: Request, res: Response) {
     }
 
     console.log("Seguimos2");
-
     let userData = await User.getUserDataById(user_id);
-    console.log("USERDATA: ");
-    console.log(userData);
+    //@ts-ignore
     ageRequired(userData.creation_date);
 
     let response = await Post.createNewPost({
@@ -119,7 +121,7 @@ async function createPost(req: Request, res: Response) {
 
   } catch (err) {
     console.error(err)
-    res.status(400).send(err || DEFAULT_ERROR);
+    res.status(400).send({"error":err} || {"error":DEFAULT_ERROR});
   }
 }
 
@@ -162,6 +164,9 @@ async function getComments(req: Request, res: Response) {
 async function commentPost(req: Request, res: Response) {
   const { content, post_id, user_id } = req.body;
   try {
+    let userData = await User.getUserDataById(user_id);
+    //@ts-ignore
+    ageRequired(userData.creation_date);
     //@ts-ignore
     let response = await Comment.createNewComment({
       content,

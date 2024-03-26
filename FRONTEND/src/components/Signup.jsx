@@ -1,5 +1,7 @@
 import "./FormLoginSignup.css";
+
 import { useState } from "react";
+
 
 function Signup({username, setUsername, logged, setLogged}) {
 
@@ -7,12 +9,20 @@ function Signup({username, setUsername, logged, setLogged}) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    let dateUTC = new Date();
+
+    // Restar 6 horas para ajustarlo a UTC-3
+    dateUTC.setHours(dateUTC.getHours() - 3);
+    
+    // Convertir la fecha y hora UTC a una cadena con el formato deseado
+    let dateAdjusted = dateUTC.toISOString().slice(0, 19).replace('T', ' ');
+    
     let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const requestData = {
       username: formData.get('username'),
       password: formData.get('password'),
       rePassword: formData.get('rePassword'),
-      creation_date: date
+      creation_date: dateAdjusted
     };
 
     try {

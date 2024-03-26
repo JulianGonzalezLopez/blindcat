@@ -1,14 +1,14 @@
 import "./Modal.css";
 import { useEffect, useRef } from "react";
 
-function Modal({ openModal, closeModal, token, userId, fetchData}) {
+function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentError, openErrorModal}) {
   const ref = useRef();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
     const requestData = {
       title: formData.get('title'),
       content: formData.get('content'),
@@ -25,20 +25,24 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
         },
         body: JSON.stringify(requestData)
       });
+      
       await fetchData();
       if (response.ok) { 
-        console.log("creado");
-        
+        console.log("creado"); 
       } else {
+        console.log(response);
         console.error('Error al CREAR POST:');
+        let responseJSON = await response.json();
+        console.log(responseJSON);
+        setCurrentError(responseJSON.error);
+        openErrorModal();
         // Aquí puedes manejar el error de registro de alguna manera
       }
     } catch (error) {
       console.error('Error al conectarse al servidor:');
+      console.log(error);
       // Aquí puedes manejar errores de conexión de red
     }
-    console.log("NO LLEGA ACÁ");
-    
   };
 
   useEffect(() => {
@@ -50,7 +54,8 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
   }, [openModal]);
 
   return (
-    <dialog
+    <>
+    <dialog className="modal"
       ref={ref}
       onCancel={closeModal}
     >
@@ -61,14 +66,14 @@ function Modal({ openModal, closeModal, token, userId, fetchData}) {
         <label htmlFor="nsfw">NSFW?</label>
         <input type="checkbox" name="nsfw" id="nsfw" />
         <label htmlFor="content">Contenido</label>
-        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+        <textarea name="content" id="content" cols="30" rows="10" required></textarea>
         <button className="send" type="submit" onClick={closeModal}>Enviar</button>
+        <button className="close" onClick={closeModal}>Cerrar</button>
       </form>
 
-      <button className="close" onClick={closeModal}>
-        Cerrar
-      </button>
     </dialog>
+
+    </>
   );
 }
 

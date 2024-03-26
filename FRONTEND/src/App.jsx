@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Posts from "./components/Posts";
 import Login from './components/Login';
 import Modal from "./components/Modal";
+import ErrorModal from './components/ErrorModal';
 import Signup from './components/Signup';
 import FormsContainer from './components/FormsContainer';
 import Comments from './components/Comments';
@@ -20,8 +21,9 @@ import { useEffect, useState, useRef } from "react";
     const [nsfw,setNsfw] = useState(false);
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState("new");
-
-
+    const [currentError, setCurrentError] = useState("");
+    const [errorModal, setErrorModal] = useState(false);
+    
     async function fetchPosts(token){
       let posts = await fetch(`http://localhost:3001/post/all?page=${page}&order=${order}`,
       {
@@ -79,6 +81,7 @@ import { useEffect, useState, useRef } from "react";
   if (screen.width < 800){
     return (
       <>
+        <ErrorModal error={currentError}></ErrorModal>
         <Header setNsfw={setNsfw} nsfw={nsfw} token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
         {token && <Modal fetchData={fetchPosts} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
         <main className='main-mobile'>
@@ -86,7 +89,7 @@ import { useEffect, useState, useRef } from "react";
             <>
               <Posts order={order} setLastPosts={setLastPosts}  setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} post_id={selectedPost} ></Posts>
             </> : 
-            <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
+            <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage} setCurrrentError={setCurrrentError} ></FormsContainer>  
           }
         </main>
       </>
@@ -95,15 +98,16 @@ import { useEffect, useState, useRef } from "react";
   else{
     return (
       <>
+        <ErrorModal error={currentError}  openModal={errorModal} closeModal={() => {console.log("CERRANDO"); setErrorModal(false)}}></ErrorModal>
         <Header setNsfw={setNsfw} nsfw={nsfw} token={token} setToken={setToken} setLogged={setLogged}  openModal={() => setModal(true)}  username={username} setUsername={setUsername}></Header>
-        {token && <Modal fetchData={fetchPosts} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
+        {token && <Modal openErrorModal={() => setErrorModal(true)} setCurrentError={setCurrentError} fetchData={fetchPosts} token={token} openModal={modal} closeModal={() => {console.log("CERRANDO"); setModal(false)}}></Modal>}
         <main className='main'>
           {logged ? 
             <>
               <Posts order={order} setLastPosts={setLastPosts} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
               {selectedPost && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
             </> : 
-            <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage}></FormsContainer>  
+            <FormsContainer token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage} openModal={() => setErrorModal(true)}></FormsContainer>  
           }
         </main>
       </>
