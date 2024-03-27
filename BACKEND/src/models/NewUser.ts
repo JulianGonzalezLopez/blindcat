@@ -30,7 +30,7 @@ async function createNewUser(user : NewUser){
             if(Array.isArray(results) && results.length !== 0){
                 console.log(results);
                 console.log("todo mal");
-                return Promise.reject({"en":"This username is already taken"})
+                return Promise.reject("Este usuario ya está en uso")
             }
             else{
                 console.log("todo bien");

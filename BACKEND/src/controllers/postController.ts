@@ -21,7 +21,7 @@ function ageRequired(age: Date){
   console.log("Diferencia < 4 ");
   console.log(differenceMin < 4)
   if(differenceMin < 4){
-    throw ` Necesitas esperar 5 minutos desde la creacion de tu cuenta para interactuar. Llevas ${differenceMin}`; 
+    throw ` Necesitas esperar 5 minutos desde la creacion de tu cuenta para interactuar. Llevas ${differenceMin} minutos`; 
   }
   console.log("La diferencia en minutos es: ", differenceMin);
 };

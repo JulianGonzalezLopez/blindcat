@@ -144,11 +144,11 @@ async function matchData(user: User){
 
     try{
         if(user.username == ""){
-            throw {"en":"You forgot to send an username, silly"};
+            throw "No se envió un username";
         }
 
         if (pool instanceof Error || typeof pool === "undefined"){
-            throw {"en":"Failed to connect"};
+            throw "Fallo al conectarse con la DB";
         }
         else{
             const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
@@ -161,12 +161,13 @@ async function matchData(user: User){
                 };
             }
             else{
-                throw {"en":"That combination does not exist"};
+                throw "No existe esa combinación (usuario + contraseña)";
             }
         }
     }
     catch(e){
-        return e;
+        //antes era return e
+        throw e;
     }
 }
 

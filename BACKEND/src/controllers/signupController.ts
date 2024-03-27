@@ -28,7 +28,7 @@ async function createUser(req: Request,res: Response){
             })
         }   
         catch(err){
-            res.status(400).send(err);
+            res.status(400).send({"error":err});
         }     
 }
 

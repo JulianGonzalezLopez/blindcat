@@ -6,16 +6,21 @@ function ErrorModal({ error, openModal, closeModal}) {
 
   useEffect(() => {
     if (openModal) {
-      ref.current?.show();
+        ref.current?.show();
+        document.getElementById("error-modal").classList.add("disappear");
+        setTimeout(function() {
+            document.getElementById("error-modal").classList.remove("disappear");
+            ref.current?.close();
+            closeModal();
+          }, 1000);
     } else {
       ref.current?.close();
     }
   }, [openModal]);
 
   return (
-    <dialog ref={ref} onCancel={closeModal} className="error-modal">
+    <dialog ref={ref} onCancel={closeModal} className="error-modal" id="error-modal">
     <p>{error}</p>
-    <button onClick={closeModal}>Cerrar</button>
     </dialog>
   );
 }

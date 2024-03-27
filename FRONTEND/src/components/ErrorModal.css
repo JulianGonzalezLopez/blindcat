@@ -5,4 +5,18 @@
     margin-right: .5rem;
     margin-bottom: .5rem;
     z-index: 111;
+    border: 1px solid black;
+}
+
+.disappear{
+    animation: disappear 4s forwards; /* Nombre de la animación y duración */
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1; /* Opacidad inicial */
+    }
+    to {
+        opacity: 0; /* Opacidad final */
+    }
 }

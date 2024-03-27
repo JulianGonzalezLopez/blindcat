@@ -3,9 +3,9 @@ import "./FormLoginSignup.css";
 import { useState } from "react";
 
 
-function Signup({username, setUsername, logged, setLogged}) {
+function Signup({username, setUsername, logged, setLogged, setCurrentError, openErrorModal}) {
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, setCurrentError, openErrorModal) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -35,13 +35,21 @@ function Signup({username, setUsername, logged, setLogged}) {
       });
 
       if (response.ok) {
+
         event.target.reset();
         let positiveVerificacion = document.getElementById("positive-verification");
-        positiveVerificacion.classList.add("show-verification");
+        positiveVerificacion.classList.add("show-verification"); 
+
       } else {
+
         console.error('Error al registrarse:', response.statusText);
         let negativeVerification = document.getElementById("negative-verification");
         negativeVerification.classList.add("show-verification");
+        let responseJSON = await response.json();
+        console.log(responseJSON);
+        setCurrentError(responseJSON.error);
+        openErrorModal();
+
       }
     } catch (error) {
       console.error('Error al conectarse al servidor:', error);
@@ -55,7 +63,7 @@ function Signup({username, setUsername, logged, setLogged}) {
   return (
     <div className="form-container">
       <h2>Sign Up</h2>
-      <form action="http://localhost:3001/signup" method="post" onSubmit={handleSubmit}>
+      <form action="http://localhost:3001/signup" method="post" onSubmit={()=>{handleSubmit(event, setCurrentError, openErrorModal)}}>
         <label htmlFor="username">Username</label>
         <input type="text" id="username" name="username" required />
         <label htmlFor="password">Password</label>

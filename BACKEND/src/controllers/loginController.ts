@@ -5,16 +5,17 @@ import authControler from "./authControler.js";
 //COMENZÓ A FALLAR EL LOGIN, DEBO USAR MANEJO DE ERRORES EN LOS MODELOS, SINO EXPLOTA TODO
 
 async function login(req: Request,res: Response){
-        const {username, password} = req.body;
-        if(username == "" || password == ""){
-            res.status(400).send("Uno o mas de los campos está vacio");
-        }
-    
-        if(typeof username != "string" || typeof password != "string"){
-            res.status(400).send("Uno o mas de los campos no es de tipo string");
-        }
 
+        const {username, password} = req.body;
+    
         try{
+            if(username == "" || password == ""){
+               throw "Uno o mas de los campos está vacio";
+            }
+        
+            if(typeof username != "string" || typeof password != "string"){
+                throw "Uno o mas de los campos no es de tipo string";
+            }    
             let response = await User.matchData({username, password});
             //@ts-ignore
             if(response.status == true){
@@ -24,9 +25,8 @@ async function login(req: Request,res: Response){
                 res.json({token:token});
             }
         }
-        catch (err){
-            console.log("Error logging in");
-            res.json(err);
+        catch(err){
+            res.status(400).send({"error":err});
         }
 }
 
