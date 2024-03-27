@@ -1,8 +1,22 @@
 import "./Modal.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentError, openErrorModal}) {
   const ref = useRef();
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    nsfw: false,
+  });
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    setFormData({
+      ...formData,
+      [name]: newValue,
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -15,6 +29,12 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
       nsfw: formData.get("nsfw"),
       creation_date: date
     };
+
+    setFormData({
+      title: '',
+      content: '',
+      nsfw: false,
+    });
 
     try {
       const response = await fetch('http://localhost:3001/post', {
@@ -63,11 +83,11 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
 
       <form onSubmit={handleSubmit} className="modal-form">
         <label htmlFor="title">Titulo</label>
-        <input type="text" id="title" name="title" required />
+        <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required />
         <label htmlFor="nsfw">NSFW?</label>
-        <input type="checkbox" name="nsfw" id="nsfw" />
+        <input type="checkbox" name="nsfw" id="nsfw" checked={formData.nsfw} onChange={handleChange}/>
         <label htmlFor="content">Contenido</label>
-        <textarea name="content" id="content" cols="30" rows="10" required></textarea>
+        <textarea name="content" id="content" cols="30" rows="10" value={formData.content} onChange={handleChange} required></textarea>
         <button className="send" type="submit">Enviar</button>
         <button className="close" onClick={closeModal}>Cerrar</button>
       </form>
