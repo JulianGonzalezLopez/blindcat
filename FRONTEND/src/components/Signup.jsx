@@ -41,10 +41,6 @@ function Signup({username, setUsername, logged, setLogged, setCurrentError, open
         positiveVerificacion.classList.add("show-verification"); 
 
       } else {
-
-        console.error('Error al registrarse:', response.statusText);
-        let negativeVerification = document.getElementById("negative-verification");
-        negativeVerification.classList.add("show-verification");
         let responseJSON = await response.json();
         console.log(responseJSON);
         setCurrentError(responseJSON.error);
