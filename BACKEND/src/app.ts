@@ -57,7 +57,4 @@ app.use(function(err : Error, req: Request, res: Response, next: Function) {
     res.status(500).send('Something broke!');
   });
 
-
-app.listen(port,()=>{
-    console.log("opa");
-})
+export default app;
