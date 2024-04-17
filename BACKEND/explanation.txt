@@ -1,0 +1,5 @@
+He notado que la deuda tecnica acumulada era
+excesiva, por lo tanto, he decidido pasar todo el
+diseño al patron service-repository para permitir
+una ampliación a futuro y una mejor mantenibilidad
+ademas de un codigo mas limpio y por lo tanto, mejor
