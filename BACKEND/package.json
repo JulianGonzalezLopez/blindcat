@@ -5,8 +5,7 @@
   "type": "module",
   "main": "app.ts",
   "scripts": {
-    "test": "jest",
-    "expandedTest": "jest --coverage",
+    "test": "jest --forceExit",
     "dev": "nodemon ./dist/server.js"
   },
   "author": "",
@@ -24,6 +23,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/supertest": "^6.0.2",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^29.7.0",

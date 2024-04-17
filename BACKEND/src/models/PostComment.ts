@@ -1,4 +1,4 @@
-import pool from "../pool.js";
+import pool from "../pool";
 
 interface PostComment{
     post_id: number,

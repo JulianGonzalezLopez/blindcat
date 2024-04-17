@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
-import User from "../models/user.js";
-import authControler from "./authControler.js";
+import User from "../models/user";
+import authControler from "./authControler";
 
 //COMENZÓ A FALLAR EL LOGIN, DEBO USAR MANEJO DE ERRORES EN LOS MODELOS, SINO EXPLOTA TODO
 

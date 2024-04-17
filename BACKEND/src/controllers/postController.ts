@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import PostUser from "../models/PostUser.js";
-import Post from "../models/Post.js";
-import Comment from "../models/Comment.js";
-import User from "../models/user.js";
-import PostComment from "../models/PostComment.js";
+import PostUser from "../models/PostUser";
+import Post from "../models/Post";
+import Comment from "../models/Comment";
+import User from "../models/user";
+import PostComment from "../models/PostComment";
 import authControler from "./authControler.js";
 import jwt from "jsonwebtoken";
 
@@ -16,6 +16,7 @@ function ageRequired(age: Date){
   //@ts-ignore
   console.log(creationDate);
   console.log(actualDate);
+  //@ts-ignore
   let differenceMS = actualDate - creationDate;
   let differenceMin = Math.round(differenceMS / (1000 * 60));
   console.log("Diferencia < 4 ");
@@ -147,9 +148,12 @@ async function getComments(req: Request, res: Response) {
 
     //@ts-ignore
     const promisesUsername = commentsData.map(async (comment) => {
+      //@ts-ignore
       let username = await User.getUserById(comment.creator_id);
       return {
+        //@ts-ignore
         id: comment.id,
+        //@ts-ignore
         content: comment.content,
         username: username,
       };

@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import signup from "./routes/signup.js";
-import login from "./routes/login.js";
-import post from "./routes/post.js";
-import authControler from "./controllers/authControler.js";
+import signup from "./routes/signup";
+import login from "./routes/login";
+import post from "./routes/post";
+import authControler from "./controllers/authControler";
 //@ts-ignore
 import pool from "./pool.js"; 
 import { Request, Response } from "express";
@@ -21,7 +21,7 @@ app.use(cors());
 //@ts-ignore
 app.get("/ok",(req,res)=>{
     res.header('Content-Type', 'application/json');
-    res.send("ok");
+    res.status(200).end();
 })
 
 //Rutas sin token

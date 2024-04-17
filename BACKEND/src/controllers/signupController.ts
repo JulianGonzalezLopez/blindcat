@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import NewUser from "../models/NewUser.js";
+import NewUser from "../models/NewUser";
 
 
 async function createUser(req: Request,res: Response){
