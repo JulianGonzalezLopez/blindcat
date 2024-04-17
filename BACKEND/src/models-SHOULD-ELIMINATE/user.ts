@@ -8,7 +8,6 @@ interface User{
 };
 
 async function getUsers(){
-
     try{
 
         if (pool instanceof Error || typeof pool === "undefined"){
@@ -32,12 +31,7 @@ async function getUsers(){
 }
 
 async function getUser(username : string){
-
     try{
-        if(username == ""){
-            Promise.reject({"en":"You forgot to send an username, silly"});
-        }
-
         if (pool instanceof Error || typeof pool === "undefined"){
             Promise.reject({"en":"Failed to connect"});
         }
