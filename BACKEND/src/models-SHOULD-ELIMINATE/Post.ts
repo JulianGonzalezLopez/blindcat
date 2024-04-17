@@ -1,4 +1,4 @@
-import pool from "../pool"
+import pool from "../pool.js"
 
 interface Post{
     id?: number,
