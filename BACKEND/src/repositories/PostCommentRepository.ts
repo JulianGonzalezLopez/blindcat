@@ -29,9 +29,9 @@ export default class PostCommentRepository{
     async getPostsCommets(post_id: any){
 
         try{
-            if(typeof post_id == "undefined"){
-                throw "error";
-            }
+            // if(typeof post_id == "undefined"){
+            //     throw "error";
+            // } VALIDACION CONTROLLER
     
             if (pool instanceof Error || typeof pool === "undefined"){
                 Promise.reject([]);

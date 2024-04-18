@@ -5,9 +5,9 @@ export class CommentRepository{
     async createNewComment(comment : Comment){
         
         try{
-            if(comment.content == null || comment.creator_id == null){
-                return Promise.reject({"en":"At least one of the inputs is null"});
-            }
+            // if(comment.content == null || comment.creator_id == null){
+            //     return Promise.reject({"en":"At least one of the inputs is null"});
+            // } VALIDACION DE CONTROLLER
     
     
             if (pool instanceof Error || typeof pool === "undefined"){
@@ -39,7 +39,7 @@ export class CommentRepository{
                 if(Array.isArray(results) && results.length !== 0){
                     console.log("Informacion del comentario con id: " + comment_id + ":")
                     console.log(results);
-                    return Promise.resolve(results[0]);
+                    return results;
                 }
                 else{
                     return Promise.resolve([]);

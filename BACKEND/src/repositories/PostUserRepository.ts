@@ -5,9 +5,9 @@ export default class PostUserRepository{
     async createNewUsersPosts(usersPost : UserPost){
         console.log("ENTRA?????????????");
         try{
-            if(usersPost.user_id == null || usersPost.post_id == null){
-                return Promise.reject({"en":"At least one of the inputs is null"});
-            }
+            // if(usersPost.user_id == null || usersPost.post_id == null){
+            //     return Promise.reject({"en":"At least one of the inputs is null"});
+            // } VALIDACION DE TIPOS - CONTROLLER
     
     
             if (pool instanceof Error || typeof pool === "undefined"){

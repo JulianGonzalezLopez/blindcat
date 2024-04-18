@@ -68,7 +68,7 @@ async function getUserById(id: number) {
             console.log("------------------------------");
             if (Array.isArray(results) && results.length !== 0) {
                 //@ts-ignore
-                return results[0].username;
+                return results[0];
             } else {
                 throw new Error("The user does not exist");
             }

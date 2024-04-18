@@ -4,19 +4,18 @@ export default class PostRepository{
 
     async createPost(post: Post){
         try{
-            if(post.title == null || post.content == null){
-                return Promise.reject({"en":"At least one of the inputs is null"});
-            }
+            // if(post.title == null || post.content == null){
+            //     return Promise.reject({"en":"At least one of the inputs is null"});
+            // } VALIDACIONES CONTROLLER
     
-            let nsfw: boolean;
-            //@ts-ignore HAY QUE VER QUE ONDA ESTO
-            if (post.nsfw == "on"){ 
-                nsfw = true
-            }
-            else{
-                nsfw = false;
-            } 
-            console.log("Es nsfw? " + nsfw)
+            // let nsfw: boolean;
+            // //@ts-ignore HAY QUE VER QUE ONDA ESTO
+            // if (post.nsfw == "on"){ 
+            //     nsfw = true
+            // }
+            // else{
+            //     nsfw = false;
+            // }  VALIDACIONES CONTROLLER
     
             if (pool instanceof Error || typeof pool === "undefined"){
                 return Promise.reject({"en":"Failed to connect"});
@@ -31,7 +30,7 @@ export default class PostRepository{
         }
         catch(e){
             console.log(e);
-            return e;
+            throw e;
         }
     }
 
@@ -56,7 +55,7 @@ export default class PostRepository{
         }
     }
 
-    async getPostsPaged(page: string, order: string = "new"){
+    async getPostsPaged(page: string, order: string){
         const PAGE_SIZE = 5;
 
         let OFFSET;
@@ -70,14 +69,7 @@ export default class PostRepository{
             else{
     
                 const totalPostsQuery = "SELECT COUNT(*) AS totalPosts FROM posts";
-                const [totalPostsRows,asd] = await pool.execute(totalPostsQuery);
-                //@ts-ignore
-                //const totalPosts = totalPostsRows[0].totalPosts;
-                // if (OFFSET > totalPosts) {
-                //     console.log("!!!!");
-                //     console.log(OFFSET);
-                //     return Promise.resolve([]);
-                // }
+                const [totalPostsRows,asd] = await pool.execute(totalPostsQuery);               
                 
                 let query = order == "new" ? "SELECT * from posts ORDER BY creation_date DESC LIMIT ? OFFSET ?" : "SELECT * from posts ORDER BY opened DESC LIMIT ? OFFSET ? "
     
@@ -91,7 +83,7 @@ export default class PostRepository{
             }
         }
         catch(e){
-            Promise.reject([]);
+            throw e;
         }
     }
 }
