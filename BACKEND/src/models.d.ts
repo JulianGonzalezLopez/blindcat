@@ -2,6 +2,7 @@ interface User{
     id?: number,
     username: string,
     password?: string,
+    rePassword?: string,
     cantidad_posts?: number,
     karma?: number,
     creation_date: Date
@@ -41,4 +42,9 @@ interface UserPost{
 interface Opened_posts{
     post_id: number,
     user_id: number
+}
+
+interface CustomError{
+    status: number,
+    message: string
 }
