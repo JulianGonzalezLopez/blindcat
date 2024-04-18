@@ -23,7 +23,7 @@ export default class UserRepository{
             }
         }
         catch(e){
-            console.log(e);
+            throw e;
         }
     }
 
@@ -62,13 +62,7 @@ export default class UserRepository{
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ?",[username]);
-                
-                if(Array.isArray(results) && results.length !== 0){
-                    Promise.resolve(results);
-                }
-                else{
-                    Promise.reject("The user does not exist");
-                }
+                return results
             }
         }
         catch(e){
