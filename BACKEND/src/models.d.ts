@@ -5,7 +5,7 @@ interface User{
     rePassword?: string,
     cantidad_posts?: number,
     karma?: number,
-    creation_date: Date
+    creation_date?: Date
 }
 
 interface Post{

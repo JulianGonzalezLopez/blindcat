@@ -1,4 +1,5 @@
 import UserService from "../services/UserService.js"
+import authControler from "../controllers-SHOULD-ELIMINATE/authControler.js";
 import { Request,Response } from "express";
 
 export default class UserController{
@@ -61,6 +62,7 @@ export default class UserController{
              }
         }
         catch(err){
+            //@ts-ignore
             res.status(e.status || 500).json(e || "Error");
         }
     }
