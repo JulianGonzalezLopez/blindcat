@@ -4,7 +4,7 @@ import { Request,Response } from "express";
 dotenv.config();
 
 
-export default class AuthorizationController{
+export default class AuthHelper{
     async checkAuthorization(req: Request, res: Response, next: Function) {
         console.log("Checking TOKEN ownership");
         try {

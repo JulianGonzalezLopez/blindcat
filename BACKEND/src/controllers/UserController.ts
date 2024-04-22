@@ -1,12 +1,14 @@
 import UserService from "../services/UserService.js"
-import authControler from "../controllers-SHOULD-ELIMINATE/authControler.js";
+import AuthHelper from "../helpers/AuthHelper.js";
 import { Request,Response } from "express";
 
 export default class UserController{
     #userService: UserService;
+    #authHelper: AuthHelper;
 
-    constructor(userService: UserService){
+    constructor(userService: UserService, authHelper: AuthHelper){
         this.#userService = userService;
+        this.#authHelper = authHelper;
     }
 
     async createUser(req: Request, res: Response){
@@ -53,7 +55,7 @@ export default class UserController{
 
              let response = await this.#userService.matchData({username, password});
              if(response.status == true){
-                let token = authControler.authorize(response.user_id);
+                let token = this.#authHelper.authorize(response.user_id);
                 console.log("Logged in");
                 res.json({token:token}); 
              }
