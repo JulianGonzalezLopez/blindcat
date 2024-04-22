@@ -13,6 +13,119 @@ export default class PostController{
       this.#userService = userService;
     }
 
+    async  createPost(req: Request, res: Response) {
+      console.log("Entramos a la funcion");
+      const { title, content, nsfw, user_id, creation_date } = req.body;
+      console.log(req.body);
+      const DEFAULT_ERROR = "Fallo general al crear un posteo";
+    
+      try {
+        console.log("Seguimos");
+        if (!title || !content) {
+          throw "El titulo o el contenido estaba vacio"
+        }
+        console.log("Seguimos2");
+        let userData = await User.getUserDataById(user_id);
+        //@ts-ignore
+        ageRequired(userData.creation_date);
+    
+        let response = await Post.createNewPost({
+          title,
+          content,
+          nsfw,
+          creation_date,
+        });
+        let post_id = response;
+    
+        await PostUser.createNewUsersPosts({ user_id, post_id });
+        res.send("ok"); // => Esto lo tengo que cambiar
+    
+      } catch (err) {
+        console.error(err)
+        res.status(400).send({"error":err} || {"error":DEFAULT_ERROR});
+      }
+    }
+
+    async commentPost(req: Request, res: Response) {
+      const { content, post_id, user_id } = req.body;
+      try {
+        let userData = await User.getUserDataById(user_id);
+        //@ts-ignore
+        ageRequired(userData.creation_date);
+        //@ts-ignore
+        let response = await Comment.createNewComment({
+          content,
+          post_id,
+          user_id,
+        });
+        let comment_id = response;
+        await PostComment.createNewPostComment({ post_id, comment_id });
+        res.send("ok"); // => Esto lo tengo que cambiar
+      } catch (err) {
+        console.log("Error creating a Post in");
+        res.status(400).send({"error":err});
+      }
+    }
+
+    async createOpenedPost(req: Request, res: Response) {
+      console.log("Entramos a la funcion");
+      const { user_id, post_id} = req.body;
+      
+      const DEFAULT_ERROR = "Fallo general al crear un posteo";
+    
+      try {
+        console.log("Seguimos");
+        if (!user_id || !post_id) {
+          throw "El titulo o el contenido estaba vacio"
+        }
+        PostUser.createOpenedPost({post_id, user_id});
+        res.send("ok"); // => Esto lo tengo que cambiar
+    
+      } catch (err) {
+        console.error(err)
+        res.status(400).send(err || DEFAULT_ERROR);
+      }
+    }
+
+    async getComments(req: Request, res: Response) {
+      let response = await PostComment.getPostsCommets(req.params.post_id);
+    
+      //@ts-ignore;
+      let commentsData = [];
+      if (typeof response != "undefined") {
+        const promises = response.map(async (comment) => {
+          //@ts-ignore
+          let aux = await Comment.getComments(comment.comment_id);
+          return aux;
+        });
+    
+        //Esperas que procese usando `await`
+        let commentsData;
+        try {
+          commentsData = await Promise.all(promises);
+        } catch (e) {
+          console.error("There was an error:", e);
+        }
+    
+        //@ts-ignore
+        const promisesUsername = commentsData.map(async (comment) => {
+          //@ts-ignore
+          let username = await User.getUserById(comment.creator_id);
+          return {
+            //@ts-ignore
+            id: comment.id,
+            //@ts-ignore
+            content: comment.content,
+            username: username,
+          };
+        });
+    
+        Promise.all(promisesUsername).then((final) => {
+          res.json(final);
+        });
+      }
+    }
+
     async  getPosts(req: Request, res: Response) {
         const page = req.query.page || "0";
         const order = req.query.order || "new";
