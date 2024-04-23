@@ -1,19 +1,18 @@
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import signup from "./routes/signup";
-import login from "./routes/login";
-import post from "./routes/post";
-import authControler from "./controllers/authControler";
+import signup from "./routes/signup.js";
+import login from "./routes/login.js";
+import post from "./routes/post.js";
+import AuthHelper from "./helpers/AuthHelper.js";
 //@ts-ignore
-import pool from "./pool.js"; 
 import { Request, Response } from "express";
 import { createConnection } from "mysql2/promise";
 
 const app = express();
 const port = process.env.PORT || 3001;
 const SECRET = process.env.SECRET as string || "default_secret";
-
+const AuthH = new AuthHelper();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,13 +40,16 @@ app.get("/authorize/check", (req: Request, res: Response)=>{
         res.status(401).send(err);
     };
 });
+
 app.use("/signup",signup);
 app.use("/login", login);
 
-app.use(authControler.checkAuthorization);
+app.use(AuthH.checkAuthorization);
 
 app.use("/post",post);
-//Rutas con token
+
+
+
 
 
 

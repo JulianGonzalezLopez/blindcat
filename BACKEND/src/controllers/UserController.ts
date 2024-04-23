@@ -9,6 +9,8 @@ export default class UserController{
     constructor(userService: UserService, authHelper: AuthHelper){
         this.#userService = userService;
         this.#authHelper = authHelper;
+        console.log(this.#authHelper);
+        console.log(this.#userService);
     }
 
     async createUser(req: Request, res: Response){
@@ -64,8 +66,7 @@ export default class UserController{
              }
         }
         catch(err){
-            //@ts-ignore
-            res.status(e.status || 500).json(e || "Error");
+            throw err;
         }
     }
 
