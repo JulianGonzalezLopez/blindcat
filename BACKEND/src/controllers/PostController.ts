@@ -1,7 +1,9 @@
 import PostService from "../services/PostService.js";
 import PostUserService from "../services/PostUserService.js";
 import UserService from "../services/UserService.js";
+import ageRequired from "../helpers/AgeRequiredHelper.js";
 import { Request, Response } from "express";
+
 export default class PostController{
     #postService: PostService;
     #postUserService: PostUserService;
@@ -25,11 +27,11 @@ export default class PostController{
           throw "El titulo o el contenido estaba vacio"
         }
         console.log("Seguimos2");
-        let userData = await User.getUserDataById(user_id);
+        let userData = await this.#userService.getUserDataById(user_id);
         //@ts-ignore
         ageRequired(userData.creation_date);
     
-        let response = await Post.createNewPost({
+        let response = await this.#postService.createPost({
           title,
           content,
           nsfw,
@@ -37,7 +39,7 @@ export default class PostController{
         });
         let post_id = response;
     
-        await PostUser.createNewUsersPosts({ user_id, post_id });
+        await this.#postUserService.createNewUserPosts({ user_id, post_id });
         res.send("ok"); // => Esto lo tengo que cambiar
     
       } catch (err) {
@@ -46,26 +48,7 @@ export default class PostController{
       }
     }
 
-    async commentPost(req: Request, res: Response) {
-      const { content, post_id, user_id } = req.body;
-      try {
-        let userData = await User.getUserDataById(user_id);
-        //@ts-ignore
-        ageRequired(userData.creation_date);
-        //@ts-ignore
-        let response = await Comment.createNewComment({
-          content,
-          post_id,
-          user_id,
-        });
-        let comment_id = response;
-        await PostComment.createNewPostComment({ post_id, comment_id });
-        res.send("ok"); // => Esto lo tengo que cambiar
-      } catch (err) {
-        console.log("Error creating a Post in");
-        res.status(400).send({"error":err});
-      }
-    }
+
 
     async createOpenedPost(req: Request, res: Response) {
       console.log("Entramos a la funcion");
@@ -78,7 +61,7 @@ export default class PostController{
         if (!user_id || !post_id) {
           throw "El titulo o el contenido estaba vacio"
         }
-        PostUser.createOpenedPost({post_id, user_id});
+        this.#postUserService.createOpenedPost({post_id, user_id});
         res.send("ok"); // => Esto lo tengo que cambiar
     
       } catch (err) {
@@ -87,46 +70,9 @@ export default class PostController{
       }
     }
 
-    async getComments(req: Request, res: Response) {
-      let response = await PostComment.getPostsCommets(req.params.post_id);
-    
-      //@ts-ignore;
-      let commentsData = [];
-      if (typeof response != "undefined") {
-        const promises = response.map(async (comment) => {
-          //@ts-ignore
-          let aux = await Comment.getComments(comment.comment_id);
-          return aux;
-        });
-    
-        //Esperas que procese usando `await`
-        let commentsData;
-        try {
-          commentsData = await Promise.all(promises);
-        } catch (e) {
-          console.error("There was an error:", e);
-        }
-    
-        //@ts-ignore
-        const promisesUsername = commentsData.map(async (comment) => {
-          //@ts-ignore
-          let username = await User.getUserById(comment.creator_id);
-          return {
-            //@ts-ignore
-            id: comment.id,
-            //@ts-ignore
-            content: comment.content,
-            username: username,
-          };
-        });
-    
-        Promise.all(promisesUsername).then((final) => {
-          res.json(final);
-        });
-      }
-    }
 
-    async  getPosts(req: Request, res: Response) {
+
+    async getPosts(req: Request, res: Response) {
         const page = req.query.page || "0";
         const order = req.query.order || "new";
         const DEFAULT_ERROR = "Fallo general al traer posteos";

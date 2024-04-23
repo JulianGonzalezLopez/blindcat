@@ -42,6 +42,8 @@ export default class AuthHelper{
               throw err;
           };
         }
+
+        
 };
 
 

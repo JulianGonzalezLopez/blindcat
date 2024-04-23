@@ -1,21 +1,33 @@
 import { Router, Request, Response } from "express";
-import postController from "../controllers/postController";
+import CommentController from "../controllers/CommentController.js";
+import PostController from "../controllers/PostController.js";
+import { CommentRepository } from "../repositories/CommentRepository.js";
+import PostCommentRepository from "../repositories/PostCommentRepository.js";
+import PostRepository from "../repositories/PostRepository.js";
+import PostUserRepository from "../repositories/PostUserRepository.js";
+import UserRepository from "../repositories/UserRepository.js";
+import CommentService from "../services/CommentService.js";
+import PostCommentService from "../services/PostCommentService.js";
+import PostService from "../services/PostService.js";
+import PostUserService from "../services/PostUserService.js";
+import UserService from "../services/UserService.js";
 
 const router = Router();
-
+const PostC = new PostController(new PostService(new PostRepository()), new PostUserService(new PostUserRepository), new UserService(new UserRepository()));
+const CommentC = new CommentController(new CommentService(new CommentRepository()), new PostCommentService(new PostCommentRepository()), new UserService(new UserRepository()));
 
 router.get("/",(req,res)=>{
     res.send("PAGINA LOGIN");
 });
 
-router.post("/comment", postController.commentPost); //FALTA TEST
+router.post("/comment", CommentC.commentPost); //FALTA TEST
 
-router.post("/",postController.createPost); //FALTA TEST
+router.post("/",PostC.createPost); //FALTA TEST
 
-router.get("/all", postController.getPosts);
+router.get("/all", PostC.getPosts);
 
-router.get("/:post_id/comments/", postController.getComments);
+router.get("/:post_id/comments/", CommentC.getComments);
 
-router.post("/opened", postController.createOpenedPost); //FALTA TEST
+router.post("/opened", PostC.createOpenedPost); //FALTA TEST
 
 export default router;
