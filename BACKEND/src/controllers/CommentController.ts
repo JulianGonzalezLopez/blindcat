@@ -16,8 +16,7 @@ export default class CommentController{
 
     async getComments(req: Request, res: Response) {
         let response = await this.#postCommentService.getPostComments(req.params.post_id);
-      
-        //@ts-ignore;
+
         let commentsData = [];
         if (typeof response != "undefined") {
                   //@ts-ignore;
@@ -27,8 +26,6 @@ export default class CommentController{
             return aux;
           });
       
-          //Esperas que procese usando `await`
-          let commentsData;
           try {
             commentsData = await Promise.all(promises);
           } catch (e) {
