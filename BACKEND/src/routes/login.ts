@@ -5,8 +5,11 @@ import UserRepository from "../repositories/UserRepository.js";
 import UserService from "../services/UserService.js";
 
 const router = Router();
-const UserC = new UserController(new UserService(new UserRepository()), new AuthHelper());
+const userRepository = new UserRepository();
+const userService = new UserService(userRepository);
+const authHelper = new AuthHelper();
 
-router.post("/",UserC.loginUser);
+const UserC = new UserController(userService, authHelper);
+router.post("/",UserC.loginUser.bind(UserC));
 
 export default router;

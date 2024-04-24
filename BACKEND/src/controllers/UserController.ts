@@ -3,14 +3,13 @@ import AuthHelper from "../helpers/AuthHelper.js";
 import { Request,Response } from "express";
 
 export default class UserController{
-    #userService: UserService;
-    #authHelper: AuthHelper;
+    userService: UserService;
+    authHelper: AuthHelper;
 
     constructor(userService: UserService, authHelper: AuthHelper){
-        this.#userService = userService;
-        this.#authHelper = authHelper;
-        console.log(this.#authHelper);
-        console.log(this.#userService);
+        this.userService = userService;
+        this.authHelper = authHelper;
+        console.log(this.userService);
     }
 
     async createUser(req: Request, res: Response){
@@ -29,7 +28,7 @@ export default class UserController{
                 throw "Uno de los campos no es del tipo adecuado";
             }
 
-            let response = await this.#userService.createNewUser({username, password, rePassword, creation_date})
+            let response = await this.userService.createNewUser({username, password, rePassword, creation_date})
             .then(data=>{
                 res.json(data); //The user has been created successfully
             })
@@ -54,10 +53,11 @@ export default class UserController{
              if(typeof username != "string" || typeof password != "string"){
                 throw {status: 500, message: 'Uno de los campos es de tipo string'};
              }   
-
-             let response = await this.#userService.matchData({username, password});
+             console.log("llegó acá");
+             let response = await this.userService.matchData({username, password});
+             console.log("explot+po");
              if(response.status == true){
-                let token = this.#authHelper.authorize(response.user_id);
+                let token = this.authHelper.authorize(response.user_id);
                 console.log("Logged in");
                 res.json({token:token}); 
              }

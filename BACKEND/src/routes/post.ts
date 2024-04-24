@@ -20,14 +20,14 @@ router.get("/",(req,res)=>{
     res.send("PAGINA LOGIN");
 });
 
-router.post("/comment", CommentC.commentPost); //FALTA TEST
+router.post("/comment", CommentC.commentPost.bind(CommentC)); //FALTA TEST
 
-router.post("/",PostC.createPost); //FALTA TEST
+router.post("/",PostC.createPost.bind(PostC)); //FALTA TEST
 
-router.get("/all", PostC.getPosts);
+router.get("/all", PostC.getPosts.bind(PostC));
 
-router.get("/:post_id/comments/", CommentC.getComments);
+router.get("/:post_id/comments/", CommentC.getComments.bind(CommentC));
 
-router.post("/opened", PostC.createOpenedPost); //FALTA TEST
+router.post("/opened", PostC.createOpenedPost.bind(PostC)); //FALTA TEST
 
 export default router;

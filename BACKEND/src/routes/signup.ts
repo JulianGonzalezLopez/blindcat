@@ -11,6 +11,6 @@ router.get("/",(req,res)=>{
     res.send("PAGINA SIGNUP");
 });
 
-router.post("/", UserC.createUser) //FALTA TEST
+router.post("/", UserC.createUser.bind(UserC)) //FALTA TEST
 
 export default router;

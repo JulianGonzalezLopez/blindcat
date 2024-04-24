@@ -20,6 +20,7 @@ export default class CommentController{
         //@ts-ignore;
         let commentsData = [];
         if (typeof response != "undefined") {
+                  //@ts-ignore;
           const promises = response.map(async (comment) => {
             //@ts-ignore
             let aux = await Comment.getComments(comment.comment_id);
