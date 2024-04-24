@@ -17,10 +17,10 @@ export default class CommentService{
         }
     }
 
-    async getComments(){
+    async getComments(comment_id: number){
         try{
-            //@ts-ignore
-            let comments = await this.#commentRepository.getComments()[0];
+            let comments = await this.#commentRepository.getComments(comment_id);
+            console.log(comments);
             return comments;
         }
         catch(e){

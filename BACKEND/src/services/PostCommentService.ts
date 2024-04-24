@@ -21,6 +21,7 @@ export default class PostCommentService{
     async getPostComments(post_id: any){
         try{
             let postComments = this.#postCommentRepository.getPostsCommets(post_id);
+            return postComments;
         }
         catch(e){
             throw e;

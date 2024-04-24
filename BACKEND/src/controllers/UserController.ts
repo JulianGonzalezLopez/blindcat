@@ -53,9 +53,7 @@ export default class UserController{
              if(typeof username != "string" || typeof password != "string"){
                 throw {status: 500, message: 'Uno de los campos es de tipo string'};
              }   
-             console.log("llegó acá");
              let response = await this.userService.matchData({username, password});
-             console.log("explot+po");
              if(response.status == true){
                 let token = this.authHelper.authorize(response.user_id);
                 console.log("Logged in");
