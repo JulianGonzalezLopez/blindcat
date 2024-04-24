@@ -16,36 +16,47 @@ export default class CommentController{
 
     async getComments(req: Request, res: Response) {
         let response = await this.#postCommentService.getPostComments(req.params.post_id);
+        console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+        console.log(response);
+        
+        let commentsData;
 
-        let commentsData = [];
         if (typeof response != "undefined") {
                   //@ts-ignore;
           const promises = response.map(async (comment) => {
             //@ts-ignore
-            let aux = await Comment.getComments(comment.comment_id);
+            let aux = await this.#commentService.getComments(comment.comment_id);
             return aux;
           });
       
           try {
             commentsData = await Promise.all(promises);
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(commentsData);
           } catch (e) {
             console.error("There was an error:", e);
           }
       
           //@ts-ignore
           const promisesUsername = commentsData.map(async (comment) => {
+            console.log("esto nos interesa");
+            console.log(comment);
+            console.log(comment.creator_id);
             //@ts-ignore
-            let username = await this.#userService.getUserById(comment.creator_id);
+            let user = await this.#userService.getUserById(comment[0].creator_id);
             return {
               //@ts-ignore
-              id: comment.id,
+              id: comment[0].id,
               //@ts-ignore
-              content: comment.content,
-              username: username,
+              content: comment[0].content,
+              //@ts-ignore
+              username: user[0].username,
             };
           });
       
           Promise.all(promisesUsername).then((final) => {
+            console.log("FINALLLLLLLLLLL");
+            console.log(promisesUsername);
             res.json(final);
           });
         }

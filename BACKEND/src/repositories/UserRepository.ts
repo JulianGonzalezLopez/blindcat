@@ -86,7 +86,7 @@ export default class UserRepository{
                 console.log("------------------------------");
                 if (Array.isArray(results) && results.length !== 0) {
                     //@ts-ignore
-                    return results[0].username;
+                    return results;
                 } else {
                     throw new Error("The user does not exist");
                 }

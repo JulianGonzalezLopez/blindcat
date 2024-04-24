@@ -38,7 +38,8 @@ export default class PostCommentRepository{
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * from posts_comments where post_id = ?",[post_id]);
-    
+                console.log("!!!!");
+                console.log(results);
                 if(Array.isArray(results) && results.length !== 0){
                     console.log(results);
                     return Promise.resolve(results);
