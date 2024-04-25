@@ -1,6 +1,9 @@
 import { Response } from "express";
 
 export default function handleError(res: Response, e: Object | unknown) {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log(e);
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   if (typeof e === "object" && e !== null) {
     if ("statusCode" in e && typeof e.statusCode === "number") {
       if ("errorMessage" in e && typeof e.errorMessage === "string") {
