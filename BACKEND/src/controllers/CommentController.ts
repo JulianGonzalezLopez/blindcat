@@ -23,7 +23,7 @@ export default class CommentController {
   async getComments(req: Request, res: Response) {
     try {
       if (typeof req.params.post_id == "undefined") {
-        throw "error";
+        throw {statusCode: 400, errorMessage:"El id del post a comentar es indefinido"};
       }
 
       let response = await this.#postCommentService.getPostComments(
@@ -54,20 +54,18 @@ export default class CommentController {
           if (typeof comment[0] == undefined) {
             throw "err";
           }
-          if (comment[0].hasOwnProperty("creator_id") == false) {
-            throw "err";
+          if("creator_id" in comment[0]){
+            let user = await this.#userService.getUserById(comment[0].creator_id);
+            return {
+              //@ts-ignore
+              id: comment[0].id,
+              //@ts-ignore
+              content: comment[0].content,
+              //@ts-ignore
+              username: user[0].username,
+            };
           }
-          let user = await this.#userService.getUserById(comment[0].creator_id);
-          return {
-            //@ts-ignore
-            id: comment[0].id,
-            //@ts-ignore
-            content: comment[0].content,
-            //@ts-ignore
-            username: user[0].username,
-          };
         });
-
         Promise.all(promisesUsername).then((final) => {
           console.log("FINALLLLLLLLLLL");
           console.log(promisesUsername);
@@ -83,13 +81,13 @@ export default class CommentController {
     const { content, post_id, user_id } = req.body;
     try {
       if (content == null || post_id == null || user_id == null) {
-        throw { en: "At least one of the inputs is null" };
+        throw {statusCode: 400, errorMessage:"Alguno de los campos está vacio"};
       }
       if (typeof user_id != "number") {
-        throw "err";
+        throw {statusCode: 400, errorMessage:"user_id no es numerico"};
       }
       if (typeof content != "string") {
-        throw "err";
+        throw {statusCode: 400, errorMessage:"content no es de tipo string"};
       }
       console.log("MINIMO");
       let userData = await this.#userService.getUserDataById(user_id);
@@ -117,8 +115,7 @@ export default class CommentController {
       });
       res.send("ok"); // => Esto lo tengo que cambiar
     } catch (err) {
-      console.log("Error creating a Post in");
-      res.status(400).send({ error: err });
+      handleError(res, err);
     }
   }
 }

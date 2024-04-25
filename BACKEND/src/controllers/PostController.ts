@@ -3,6 +3,7 @@ import PostUserService from "../services/PostUserService.js";
 import UserService from "../services/UserService.js";
 import ageRequired from "../helpers/AgeRequiredHelper.js";
 import { Request, Response } from "express";
+import handleError from "../helpers/ErrorSenderHelper.js";
 
 export default class PostController{
     #postService: PostService;
@@ -21,14 +22,11 @@ export default class PostController{
       let {nsfw} = req.body;
       console.log(req.body);
       nsfw == "on" ? nsfw = true : nsfw = false; 
-      console.log("que es nsfw?");
-      console.log(nsfw);
-      const DEFAULT_ERROR = "Fallo general al crear un posteo";
     
       try {
         console.log("Seguimos");
         if (!title || !content) {
-          throw "El titulo o el contenido estaba vacio"
+          throw {statusCode: 400, errorMessage:"El titulo o el contenido está vacio"};
         }
         
         let userData = await this.#userService.getUserDataById(user_id);
@@ -47,8 +45,7 @@ export default class PostController{
         res.send("ok"); // => Esto lo tengo que cambiar
     
       } catch (err) {
-        console.error(err)
-        res.status(400).send({"error":err} || {"error":DEFAULT_ERROR});
+        handleError(res,err);
       }
     }
 
@@ -57,20 +54,17 @@ export default class PostController{
     async createOpenedPost(req: Request, res: Response) {
       console.log("Entramos a la funcion");
       const { user_id, post_id} = req.body;
-      
-      const DEFAULT_ERROR = "Fallo general al crear un posteo";
-    
+          
       try {
         console.log("Seguimos");
         if (!user_id || !post_id) {
-          throw "El titulo o el contenido estaba vacio"
+          throw {statusCode: 400, errorMessage:"El user_id o el post_id no se encuentra presente"};
         }
         this.#postUserService.createOpenedPost({post_id, user_id});
         res.send("ok"); // => Esto lo tengo que cambiar
     
       } catch (err) {
-        console.error(err)
-        res.status(400).send(err || DEFAULT_ERROR);
+        handleError(res,err);
       }
     }
 
@@ -79,7 +73,6 @@ export default class PostController{
     async getPosts(req: Request, res: Response) {
         const page = req.query.page || "0";
         const order = req.query.order || "new";
-        const DEFAULT_ERROR = "Fallo general al traer posteos";
         
         try {
           //@ts-ignore
@@ -104,6 +97,7 @@ export default class PostController{
               }
             });
             postsUsersIDs = postsUsersIDs.filter((elm)=>typeof elm != "undefined");
+            
             //
             //Toda esa tramoya es para filtrar los IDs, ya que en caso de tener 10000 registros, implicaria capaz repetir muchas veces un ID
             //Capaz lo saco a la mierda igual, qcy
@@ -134,8 +128,8 @@ export default class PostController{
             res.send(finalMappedResponse);
           }
           
-        } catch (error) {
-          res.status(400).send(error || DEFAULT_ERROR);
+        } catch (err) {
+          handleError(res,err);
         }
       }
 

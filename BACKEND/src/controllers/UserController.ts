@@ -1,6 +1,7 @@
 import UserService from "../services/UserService.js"
 import AuthHelper from "../helpers/AuthHelper.js";
 import { Request,Response } from "express";
+import handleError from "../helpers/ErrorSenderHelper.js";
 
 export default class UserController{
     userService: UserService;
@@ -9,7 +10,6 @@ export default class UserController{
     constructor(userService: UserService, authHelper: AuthHelper){
         this.userService = userService;
         this.authHelper = authHelper;
-        console.log(this.userService);
     }
 
     async createUser(req: Request, res: Response){
@@ -18,15 +18,15 @@ export default class UserController{
         try{
 
             if(username == null || password == null || rePassword == null){
-                throw {status: 500, message: 'Uno de los campos está vacio'};
+                throw {statusCode: 500, errorMessage: 'Uno de los campos está vacio'};
             }
         
             if(password != rePassword){
-                throw "No coinciden las contraseñas";
+                throw {statusCode: 500, errorMessage:"No coinciden las contraseñas"};
             }
 
             if(typeof username != "string" || typeof password != "string"){
-                throw "Uno de los campos no es del tipo adecuado";
+                throw {statusCode: 500, errorMessage:"Uno de los campos no es del tipo adecuado"};
             }
 
 
@@ -39,8 +39,7 @@ export default class UserController{
             })
         }
         catch(e){
-            //@ts-ignore
-            res.status(e.status || 500).json(e || "Error");
+            handleError(res,e);
         }
     }
 
@@ -49,11 +48,11 @@ export default class UserController{
 
         try{
             if(username == "" || password == ""){
-                throw {status: 500, message: 'Uno de los campos está vacio'};
+                throw {statusCode: 500, errorMessage: 'Uno de los campos está vacio'};
              }
          
              if(typeof username != "string" || typeof password != "string"){
-                throw {status: 500, message: 'Uno de los campos es de tipo string'};
+                throw {statusCode: 500, errorMessage: 'Uno de los campos es de tipo string'};
              }   
              let response = await this.userService.matchData({username, password});
              if(response.status == true){
@@ -62,11 +61,11 @@ export default class UserController{
                 res.json({token:token}); 
              }
              else{
-                throw {status: 500, message: 'No existe ningun usuario con dicha combinacion'};
+                throw {statusCode: 500, errorMessage: 'No existe ningun usuario con dicha combinacion'};
              }
         }
         catch(err){
-            throw err;
+            handleError(res,err);
         }
     }
 
