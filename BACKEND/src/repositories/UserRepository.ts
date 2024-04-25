@@ -9,10 +9,6 @@ export default class UserRepository{
     async createNewUser(user : User){
 
         try{
-
-            // if(user.username == null || user.password == null){ //CONTROLLER
-            //     return Promise.reject({"en":"At least one of the inputs is null"});
-            // }
     
             if (pool instanceof Error || typeof pool === "undefined"){
                 return Promise.reject({"en":"Failed to connect"});

@@ -4,24 +4,13 @@ export default class PostRepository{
 
     async createPost(post: Post){
         try{
-            // if(post.title == null || post.content == null){
-            //     return Promise.reject({"en":"At least one of the inputs is null"});
-            // } VALIDACIONES CONTROLLER
-    
-            // let nsfw: boolean;
-            // //@ts-ignore HAY QUE VER QUE ONDA ESTO
-            // if (post.nsfw == "on"){ 
-            //     nsfw = true
-            // }
-            // else{
-            //     nsfw = false;
-            // }  VALIDACIONES CONTROLLER
+
     
             if (pool instanceof Error || typeof pool === "undefined"){
                 return Promise.reject({"en":"Failed to connect"});
             }
             else{
-                const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, nsfw, post.creation_date]);    
+                const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, post.nsfw, post.creation_date]);    
                 //@ts-ignore
                 console.log('ID del registro insertado:', rows.insertId);
                 //@ts-ignore

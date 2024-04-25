@@ -2,6 +2,7 @@ import CommentService from "../services/CommentService.js";
 import PostCommentService from "../services/PostCommentService.js";
 import UserService from "../services/UserService.js";
 import {Request, Response} from "express";
+import ageRequired from "../helpers/AgeRequiredHelper.js";
 
 export default class CommentController{
     #commentService: CommentService;
@@ -15,10 +16,12 @@ export default class CommentController{
     }
 
     async getComments(req: Request, res: Response) {
+        if(typeof req.params.post_id == "undefined"){
+          throw "error";
+        }
+
         let response = await this.#postCommentService.getPostComments(req.params.post_id);
-        console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-        console.log(response);
-        
+
         let commentsData;
 
         if (typeof response != "undefined") {
@@ -66,12 +69,32 @@ export default class CommentController{
       async commentPost(req: Request, res: Response) {
         const { content, post_id, user_id } = req.body;
         try {
+          if(content == null || post_id == null || user_id == null){
+            throw {"en":"At least one of the inputs is null"};
+          }
+          if(typeof user_id != "number"){
+            throw "err";
+          }
+          if(typeof content != "string"){
+            throw "err";
+          }
+          console.log("MINIMO");
           let userData = await this.#userService.getUserDataById(user_id);
+          console.log("MINIMO X2");
+          console.log(userData);
           //@ts-ignore
           ageRequired(userData.creation_date);
           //@ts-ignore
-          let response = await this.#commentService.createNewComment({ content, user_id });
+          console.log("LLEGÓ ACÁ");
+          console.log(user_id);
+          let creator_id = user_id;
+          let response = await this.#commentService.createNewComment({ content, creator_id });
+          console.log("AHORA ESTO Y LISTO");
+          console.log(response);
           let comment_id = response;
+
+          console.log(post_id)
+          console.log(comment_id);
           await this.#postCommentService.createNewPostComment({ post_id, comment_id });
           res.send("ok"); // => Esto lo tengo que cambiar
         } catch (err) {

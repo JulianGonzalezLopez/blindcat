@@ -17,8 +17,12 @@ export default class PostController{
 
     async  createPost(req: Request, res: Response) {
       console.log("Entramos a la funcion");
-      const { title, content, nsfw, user_id, creation_date } = req.body;
+      const { title, content, user_id, creation_date } = req.body;
+      let {nsfw} = req.body;
       console.log(req.body);
+      nsfw == "on" ? nsfw = true : nsfw = false; 
+      console.log("que es nsfw?");
+      console.log(nsfw);
       const DEFAULT_ERROR = "Fallo general al crear un posteo";
     
       try {
@@ -26,7 +30,7 @@ export default class PostController{
         if (!title || !content) {
           throw "El titulo o el contenido estaba vacio"
         }
-        console.log("Seguimos2");
+        
         let userData = await this.#userService.getUserDataById(user_id);
         //@ts-ignore
         ageRequired(userData.creation_date);

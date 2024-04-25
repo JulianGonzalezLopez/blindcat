@@ -14,9 +14,10 @@ export default class UserController{
 
     async createUser(req: Request, res: Response){
         const {username, password, rePassword, creation_date} = req.body;        
-
+        
         try{
-            if(username == "" || password == "" || rePassword == ""){
+
+            if(username == null || password == null || rePassword == null){
                 throw {status: 500, message: 'Uno de los campos está vacio'};
             }
         
@@ -27,6 +28,7 @@ export default class UserController{
             if(typeof username != "string" || typeof password != "string"){
                 throw "Uno de los campos no es del tipo adecuado";
             }
+
 
             let response = await this.userService.createNewUser({username, password, rePassword, creation_date})
             .then(data=>{
