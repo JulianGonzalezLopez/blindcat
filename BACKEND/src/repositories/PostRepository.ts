@@ -7,7 +7,7 @@ export default class PostRepository{
 
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                return Promise.reject({"en":"Failed to connect"});
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, post.nsfw, post.creation_date]);    
@@ -18,7 +18,6 @@ export default class PostRepository{
             }
         }
         catch(e){
-            console.log(e);
             throw e;
         }
     }
@@ -26,7 +25,7 @@ export default class PostRepository{
     async getPosts(){
         try{
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * from posts");
@@ -53,7 +52,7 @@ export default class PostRepository{
     
         try{
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
     

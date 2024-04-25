@@ -43,8 +43,3 @@ interface Opened_posts{
     post_id: number,
     user_id: number
 }
-
-interface CustomError{
-    status: number,
-    message: string
-}

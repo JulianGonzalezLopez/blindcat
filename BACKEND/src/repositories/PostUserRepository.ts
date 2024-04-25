@@ -11,7 +11,7 @@ export default class PostUserRepository{
     
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                return Promise.reject({"en":"Failed to connect"});
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 console.log("SIGUEEEEEEEEEEE");
@@ -20,9 +20,7 @@ export default class PostUserRepository{
             }
         }
         catch(e){
-            console.log("ACÁ SE ROMPIÓ");
-            console.log(e);
-            return e;
+            throw e;
         }
     }
     
@@ -31,7 +29,7 @@ export default class PostUserRepository{
         try{
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * from users_posts");
@@ -46,8 +44,7 @@ export default class PostUserRepository{
             }
         }
         catch(e){
-            console.log(e);
-            Promise.reject([]);
+            throw e;
         }
     }
     
@@ -56,7 +53,7 @@ export default class PostUserRepository{
         try {
     
             if (pool instanceof Error || typeof pool === "undefined") {
-                throw new Error("Failed to connect");
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
                 const [results, fields] = await pool.execute("SELECT * from users_posts where post_id = ?", [post_id]);
                 console.log("QUE CARAJO ESTÁ PASANDO");
@@ -70,21 +67,19 @@ export default class PostUserRepository{
                 }
             }
         } catch (e) {
-            console.error(e);
-            throw e; // Re-lanzamos el error para que la función que llama a 'getPostUser' pueda manejarlo
+            throw e; 
         }
     }
     
     async getPostsUsers(posts_ids: Array<number>) {
-    
         try {
             if (pool instanceof Error || typeof pool === "undefined") {
-                throw new Error("Failed to connect");
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             
     
             } else {
                 if (!posts_ids){
-                    throw new Error("NO IDS");
+                    throw {statusCode: 400, errorMessage:"No llegó un id valido de post"};
                 }
                 //ESTÁ MAL, YA LO SE, PERO NO FUNCIONA EL COMANDO COMO DEBERIA SINO
                 const [results, fields] = await pool.execute(`SELECT * from users_posts where post_id IN (${posts_ids})`);
@@ -96,7 +91,7 @@ export default class PostUserRepository{
                 }
             }
         } catch (e) {
-            throw e; // Re-lanzamos el error para que la función que llama a 'getPostUser' pueda manejarlo
+            throw e;
         }
     }
     
@@ -129,13 +124,13 @@ export default class PostUserRepository{
     async createOpenedPost(usersPost : UserPost){
         console.log("ENTRA?????????????");
         try{
-            if(usersPost.user_id == null || usersPost.post_id == null){
-                return Promise.reject({"en":"At least one of the inputs is null"});
-            }
+            // if(usersPost.user_id == null || usersPost.post_id == null){
+            //     return Promise.reject({"en":"At least one of the inputs is null"});
+            // } //VALIDACION NIVEL CONTROLLER
     
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                return Promise.reject({"en":"Failed to connect"});
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 let [results,rows] = await pool.execute("SELECT * FROM opened_posts WHERE post_id = ? AND user_id = ?",[usersPost.post_id, usersPost.user_id])
@@ -154,9 +149,7 @@ export default class PostUserRepository{
             }
         }
         catch(e){
-            console.log("ACÁ SE ROMPIÓ");
-            console.log(e);
-            return e;
+            throw e;
         }
     }
     
@@ -166,7 +159,7 @@ export default class PostUserRepository{
         try{
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT COUNT(*) AS opened_by FROM opened_posts WHERE post_id = ?",[post_id]);
@@ -183,8 +176,7 @@ export default class PostUserRepository{
             }
         }
         catch(e){
-            console.log(e);
-            Promise.reject([]);
+            throw e;
         }
     }
     

@@ -11,7 +11,7 @@ export default class UserRepository{
         try{
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                return Promise.reject({"en":"Failed to connect"});
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                     await pool.execute("INSERT INTO users(username, password, creation_date) VALUES (?,?,?)",[user.username, user.password, user.creation_date]);  
@@ -29,7 +29,7 @@ export default class UserRepository{
         try{
 
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT username, cantidad_posts, karma FROM users");
@@ -49,12 +49,12 @@ export default class UserRepository{
 
     async getUser(username: string){
         try{
-            if(username == ""){
-                Promise.reject({"en":"You forgot to send an username, silly"});
-            }
+            // if(username == ""){
+            //     Promise.reject({"en":"You forgot to send an username, silly"});
+            // } //VALIDACION NIVEL CONTROLLER
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject({"en":"Failed to connect"});
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ?",[username]);
@@ -68,12 +68,12 @@ export default class UserRepository{
 
     async getUserById(id: number){
         try {
-            if (id == null) {
-                throw new Error("You forgot to send an id, silly");
-            }
+            // if (id == null) {
+            //     throw new Error("You forgot to send an id, silly");
+            // } //VALIDACION NIVEL CONTROLLER
     
             if (pool instanceof Error || typeof pool === "undefined") {
-                throw new Error("Failed to connect");
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
                 const [results, fields] = await pool.execute("SELECT * FROM users WHERE  id = ?", [id]);
                 console.log("------------------------------");
@@ -84,23 +84,22 @@ export default class UserRepository{
                     //@ts-ignore
                     return results;
                 } else {
-                    throw new Error("The user does not exist");
+                    throw {statusCode: 400, errorMessage:"No existe tal usuario"};
                 }
             }
         } catch (e) {
-            console.error(e);
-            return []; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+            throw e;
         }
     }
 
     async getUserDataById(id: number){
         try {
-            if (id == null) {
-                throw new Error("You forgot to send an id, silly");
-            }
+            // if (id == null) {
+            //     throw new Error("You forgot to send an id, silly");
+            // } //validacion nivel controlador
     
             if (pool instanceof Error || typeof pool === "undefined") {
-                throw new Error("Failed to connect");
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
                 const [results, fields] = await pool.execute("SELECT * FROM users WHERE  id = ?", [id]);
                 console.log("------------------------------");
@@ -115,20 +114,17 @@ export default class UserRepository{
                 }
             }
         } catch (e) {
-            console.error(e);
-            return []; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+            throw e;
         }
     }
 
     async getUsernamesById(users_ids: Array<number>){
         try {
-            if (users_ids == null) {
-                throw new Error("You forgot to send an id, silly");
-            }
-    
-    
+            // if (users_ids == null) {
+            //     throw new Error("You forgot to send an id, silly");
+            // } //validacion nivel controlador  
             if (pool instanceof Error || typeof pool === "undefined") {
-                throw new Error("Failed to connect");
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
                 const [results, fields] = await pool.execute(`SELECT id, username FROM users WHERE  id IN (${users_ids})`);
                 if (Array.isArray(results) && results.length !== 0) {
@@ -139,8 +135,7 @@ export default class UserRepository{
                 }
             }
         } catch (e) {
-            console.error(e);
-            return []; // Re-lanzamos el error para que la función que llama a getUserById pueda manejarlo
+            throw e;
         }
     }
 
@@ -151,7 +146,7 @@ export default class UserRepository{
             }
     
             if (pool instanceof Error || typeof pool === "undefined"){
-                throw "Fallo al conectarse con la DB";
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ? AND password = ?",[user.username, user.password]);
@@ -164,12 +159,12 @@ export default class UserRepository{
                     };
                 }
                 else{
-                    throw "No existe esa combinación (usuario + contraseña)";
+                    //TENGO QUE DIVIDIRLO EN MUCHOS ERRORES!!!!!!!!!!!
+                    throw {statusCode: 400, errorMessage:"No existe esa combinacion de usuario y contraseña"};
                 }
             }
         }
         catch(e){
-            //antes era return e
             throw e;
         } 
     }

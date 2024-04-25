@@ -29,12 +29,8 @@ export default class PostCommentRepository{
     async getPostsCommets(post_id: any){
 
         try{
-            // if(typeof post_id == "undefined"){
-            //     throw "error";
-            // } VALIDACION CONTROLLER
-    
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * from posts_comments where post_id = ?",[post_id]);
@@ -50,7 +46,7 @@ export default class PostCommentRepository{
             }
         }
         catch(e){
-            Promise.reject([]);
+            throw e;
         }
     }
 

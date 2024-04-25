@@ -2,16 +2,10 @@ import pool from "../pool.js";
 
 export class CommentRepository{
 
-    async createNewComment(comment : Comment){
-        
+    async createNewComment(comment : Comment){  
         try{
-            // if(comment.content == null || comment.creator_id == null){
-            //     return Promise.reject({"en":"At least one of the inputs is null"});
-            // } VALIDACION DE CONTROLLER
-    
-    
             if (pool instanceof Error || typeof pool === "undefined"){
-                return Promise.reject({"en":"Failed to connect"});
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [rows, fields] = await pool.execute("INSERT INTO comments(content, creator_id) VALUES (?,?)",[comment.content, comment.creator_id]);    
@@ -22,7 +16,7 @@ export class CommentRepository{
             } 
         }
         catch(e){
-            return e;
+            throw e;
         }
     }
     
@@ -31,7 +25,7 @@ export class CommentRepository{
         
         try{
             if (pool instanceof Error || typeof pool === "undefined"){
-                Promise.reject([]);
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * from comments where id = ?",[comment_id]);
@@ -47,7 +41,7 @@ export class CommentRepository{
             }
         }
         catch(e){
-            Promise.reject([]);
+            throw e;
         }
     }
 
