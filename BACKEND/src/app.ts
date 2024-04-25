@@ -43,16 +43,8 @@ app.get("/authorize/check", (req: Request, res: Response)=>{
 
 app.use("/signup",signup);
 app.use("/login", login);
-
 app.use(AuthH.checkAuthorization);
-
 app.use("/post",post);
-
-
-
-
-
-
 
 app.use(function(err : Error, req: Request, res: Response, next: Function) {
     console.error(err.stack);
