@@ -99,10 +99,7 @@ export default class CommentController {
       console.log("LLEGÓ ACÁ");
       console.log(user_id);
       let creator_id = user_id;
-      let response = await this.#commentService.createNewComment({
-        content,
-        creator_id,
-      });
+      let response = await this.#commentService.createNewComment({content,creator_id,});
       console.log("AHORA ESTO Y LISTO");
       console.log(response);
       let comment_id = response;
