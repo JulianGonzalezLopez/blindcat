@@ -42,10 +42,16 @@ export default class CommentController{
       
           //@ts-ignore
           const promisesUsername = commentsData.map(async (comment) => {
-            console.log("esto nos interesa");
-            console.log(comment);
-            console.log(comment.creator_id);
-            //@ts-ignore
+            //Yas se que tengo que definir todos los errores puntualmente, pero que pereza
+            if(comment == undefined){
+              throw "err";
+            }
+            if(typeof comment[0] == undefined){
+              throw "err";
+            }
+            if(comment[0].hasOwnProperty("creator_id") == false){
+              throw "err";
+            }
             let user = await this.#userService.getUserById(comment[0].creator_id);
             return {
               //@ts-ignore
