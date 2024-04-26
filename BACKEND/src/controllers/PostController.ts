@@ -24,15 +24,81 @@ export default class PostController{
       nsfw == "on" ? nsfw = true : nsfw = false; 
     
       try {
-        console.log("Seguimos");
-        if (!title || !content) {
-          throw {statusCode: 400, errorMessage:"El titulo o el contenido está vacio"};
+
+        if(!creation_date && !user_id && title == "" && content == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, user_id, title ni content"};
+        }
+
+        if(!creation_date && !user_id && title == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, user_id ni title"};
+        }
+
+        if(!creation_date && !user_id && content == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, user_id ni content"};
+        }
+
+        if(!creation_date && title == "" && content == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, title ni content"};
+        }
+
+        if(!user_id && title == "" && content == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos user_id, title ni content"};
+        }
+
+        if(!creation_date && !user_id){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date ni user_id"};
+        }
+
+        if(!creation_date && content == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date ni content"};
+        }
+
+        if(!creation_date && title == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date ni title"};
+        }
+
+        if(!user_id && content == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos user_id ni content"};
+        }
+
+        if(!user_id && title == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos user_id ni title"};
+        }
+
+        if(!creation_date){
+          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo creation_date"};
+        }
+
+        if(!user_id){
+          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo user_id"};
+        }
+
+        if(title == ""){
+          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo title"};
+        }
+
+        if(content == ""){
+          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo content"};
         }
         
+        if(typeof content != "string"){
+          throw {statusCode: 400, errorMessage:"El campo content tiene que ser de tipo texto"};
+        }
+        
+        if(typeof title != "string"){
+          throw {statusCode: 400, errorMessage:"El campo title tiene que ser de tipo texto"};
+        }
+        
+
         let userData = await this.#userService.getUserDataById(user_id);
-        //@ts-ignore
-        ageRequired(userData.creation_date);
-    
+        
+        if("creation_date" in userData){
+          ageRequired(userData.creation_date);
+        }
+        else{
+          throw {statusCode:404, errorMessage:"Datos del usuario invalidos, falta fecha"}
+        }
+
         let response = await this.#postService.createPost({
           title,
           content,
@@ -52,14 +118,30 @@ export default class PostController{
 
 
     async createOpenedPost(req: Request, res: Response) {
-      console.log("Entramos a la funcion");
       const { user_id, post_id} = req.body;
-          
+
       try {
-        console.log("Seguimos");
-        if (!user_id || !post_id) {
-          throw {statusCode: 400, errorMessage:"El user_id o el post_id no se encuentra presente"};
+
+        if(user_id == "" && post_id == ""){
+          throw {statusCode:400, errorMessage:"No pueden estar vacios los campo user_id ni post_id"}
         }
+
+        if(user_id == ""){
+          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo user_id"};
+        }
+  
+        if(post_id == ""){
+          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo post_id"};
+        }
+  
+        if(typeof user_id != "string" || typeof user_id != "number"){
+          throw {statusCode: 400, errorMessage:"El campo user_id tiene que ser de tipo texto"};
+        }
+  
+        if(typeof post_id != "string" || typeof post_id != "number"){
+          throw {statusCode: 400, errorMessage:"El campo post_id tiene que ser de tipo texto"};
+        }
+
         this.#postUserService.createOpenedPost({post_id, user_id});
         res.send("ok"); // => Esto lo tengo que cambiar
     
