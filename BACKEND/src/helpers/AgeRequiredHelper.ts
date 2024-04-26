@@ -11,7 +11,7 @@ export default function ageRequired(age: Date){
     console.log("Diferencia < 4 ");
     console.log(differenceMin < 4)
     if(differenceMin < 4){
-      throw ` Necesitas esperar 5 minutos desde la creacion de tu cuenta para interactuar. Llevas ${differenceMin} minutos`; 
+      throw {statusCode:403, errorMessage:"Necesitas esperar 5 minutos para interactuar con el sitio"};
     }
     console.log("La diferencia en minutos es: ", differenceMin);
   };
