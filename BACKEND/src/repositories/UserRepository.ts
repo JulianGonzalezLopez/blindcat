@@ -58,11 +58,16 @@ export default class UserRepository{
             }
             else{
                 const [results, fields] = await pool.execute("SELECT * FROM users WHERE  username = ?",[username]);
-                return results
+                if (Array.isArray(results) && results.length !== 0) {
+                    //@ts-ignore
+                    return results;
+                } else {
+                    throw {statusCode: 400, errorMessage:"No existe tal usuario"};
+                }
             }
         }
         catch(e){
-            console.log(e);
+            throw e;
         }
     }
 

@@ -14,19 +14,20 @@ export default class UserController{
 
     async createUser(req: Request, res: Response){
         const {username, password, rePassword, creation_date} = req.body;        
-        
+        console.log(req.body);
+        console.log("ACÁ ARRIBA");
         try{
 
-            if(username == null || password == null || rePassword == null){
-                throw {statusCode: 500, errorMessage: 'Uno de los campos está vacio'};
+            if(username == null || password == null || rePassword == null || creation_date == null){
+                throw {statusCode: 400, errorMessage: 'Uno de los campos está vacio'};
             }
         
             if(password != rePassword){
-                throw {statusCode: 500, errorMessage:"No coinciden las contraseñas"};
+                throw {statusCode: 400, errorMessage:"No coinciden las contraseñas"};
             }
 
             if(typeof username != "string" || typeof password != "string"){
-                throw {statusCode: 500, errorMessage:"Uno de los campos no es del tipo adecuado"};
+                throw {statusCode: 400, errorMessage:"Uno de los campos no es del tipo adecuado"};
             }
 
 

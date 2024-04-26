@@ -37,24 +37,25 @@ export default class AuthHelper{
     //   }
 
     async checkAuthorization(req: Request, res: Response, next: Function) {
-      console.log("Checking TOKEN ownership");
       try {
         const authData = await new Promise((resolve, reject) => {
-            if (typeof req.headers["authorization"] !== "undefined") {
-              
+            if (typeof req.headers["authorization"] !== "undefined") {           
               if(req.headers["authorization"] == "") throw {statusCode: 401, errorMessage:"Header de autorizacion presente pero vacio"};
-
               if(typeof process.env.SECRET != "undefined"){
                 jwt.verify(req.headers["authorization"], process.env.SECRET , (err, authData) => {
                   if(typeof authData != undefined){
+                    //@ts-ignore
                     if("user_id" in authData){
                       req.body.user_id = authData.user_id;
                     }
-                    if (err) throw({statusCode:500,errorMessage:"Hubo un error al intentar otorgar el token"});
+                    if (err) throw {statusCode:500,errorMessage:"Hubo un error al intentar otorgar el token"};
                     else resolve(authData);  
                   }
                   
               });
+              }
+              else{
+                throw {statusCode: 500, errorMessage:"Credenciales del sistema no han sido cargadas"};
               }
 
             } else {

@@ -74,19 +74,37 @@ export default class UserService{
         }
     }
 
-    async createNewUser(user: User){
-        try{
-            let results = await this.getUser(user.username);
-            if(Array.isArray(results) && results.length !== 0){
-                throw "El usuario ya existe";
+    // async createNewUser(user: User){
+    //     try{
+    //         let results = await this.getUser(user.username);
+    //             await this.#userRepository.createNewUser(user);
+    //             return {"en":"The user has been created successfully"}
+
+    //     }
+    //     catch(e){
+    //         throw e;
+    //     }
+    // }
+
+    async createNewUser(user: User) {
+        try {
+            await this.getUser(user.username);
+            throw {statusCode: 400, errorMessage: "El usuario ya existe"}
+        } catch (e) {
+            try {
+                if(typeof e == "object" && e != null && "errorMessage" in e){
+                    if (e.errorMessage === "No existe tal usuario") {
+                        // Tratar el caso en que el usuario no se encuentra
+                        // En este ejemplo, se crea un nuevo usuario
+                        await this.#userRepository.createNewUser(user);
+                        return {"en": "The user has been created successfully"};
+                    } else {
+                        throw {statusCode:500, errorMessage:"Nisiquiera yo se que pasó"}
+                    }
+                }
+            } catch (innerError) {
+                throw innerError;
             }
-            else{
-                await this.#userRepository.createNewUser(user);
-                return {"en":"The user has been created successfully"}
-            }
-        }
-        catch(e){
-            throw e;
         }
     }
 
