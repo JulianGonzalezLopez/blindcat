@@ -80,6 +80,35 @@ export default class CommentController {
   async commentPost(req: Request, res: Response) {
     const { content, post_id, user_id } = req.body;
     try {
+
+      if(content == "" && !post_id && !user_id){
+        throw {statusCode:400, errorMessage:"No pueden estar vacios los campo content, post_id ni user_id"};
+      }
+
+      if(content == "" && !post_id){
+        throw {statusCode:400, errorMessage:"No pueden estar vacios los campo content ni post_id"};
+      }
+
+      if(content == "" && !user_id){
+        throw {statusCode:400, errorMessage:"No pueden estar vacios los campos content ni user_id"};
+      }
+
+      if(!user_id && !post_id){
+        throw {statusCode:400, errorMessage:"No pueden estar vacios los campos user_id ni post_id"};
+      }
+
+      if(content == ""){
+        throw {statusCode: 400, errorMessage:"No puede estar vacio el campo content"};
+      }
+
+      if(!post_id){
+        throw {statusCode: 400, errorMessage: "No puede estar vacio el campo post_id"};
+      }
+
+      if(!user_id){
+        throw {statusCode:400, errorMessage:"No puede estar vacio el campo user_id"};
+      }
+
       if (content == null || post_id == null || user_id == null) {
         throw {statusCode: 400, errorMessage:"Alguno de los campos está vacio"};
       }
