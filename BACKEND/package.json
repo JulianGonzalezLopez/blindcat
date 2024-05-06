@@ -5,7 +5,7 @@
   "type": "module",
   "main": "app.ts",
   "scripts": {
-    "test": "jest --forceExit",
+    "test": "jest",
     "dev": "nodemon ./dist/server.js"
   },
   "author": "",
@@ -21,6 +21,7 @@
     "mysql2": "^3.9.1"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.24.1",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/supertest": "^6.0.2",
