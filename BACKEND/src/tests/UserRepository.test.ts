@@ -22,7 +22,6 @@ describe('UserService', () => {
         // Llamamos al método getUsers de UserService
         await userService.getUsers();
 
-        // Verificamos si getUsers fue llamado
         expect(mockGetUsers).toHaveBeenCalled();
     });
 

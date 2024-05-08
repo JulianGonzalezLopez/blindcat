@@ -33,7 +33,6 @@ export default class UserRepository{
             }
             else{
                 const [results, fields] = await pool.execute("SELECT username, cantidad_posts, karma FROM users");
-    
                 if(Array.isArray(results) && results.length !== 0){
                     return Promise.resolve(results);
                 }

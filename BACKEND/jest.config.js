@@ -8,6 +8,6 @@ export default {
   preset:"ts-jest",
   testEnvironment:"node",
   testMatch: [
-    '**/*.test.ts' // Solo ejecutar archivos .test.ts
-  ],
+    '**/*.test.ts' // Solo ejecutar archivos .test.js
+  ]
 }
