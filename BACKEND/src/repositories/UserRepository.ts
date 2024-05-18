@@ -7,14 +7,17 @@ export default class UserRepository{
       }
 
     async createNewUser(user : User){
-
+        console.log("USER A CREAR");
+        console.log(user);
         try{
     
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
-                    await pool.execute("INSERT INTO users(username, password, creation_date) VALUES (?,?,?)",[user.username, user.password, user.creation_date]);  
+                    await pool.execute("INSERT INTO users(username, password, cantidad_posts) VALUES (?,?,?)",[user.username, user.password, 0]);  
+                    console.log("ACACACACCACACACASDASDASDASDAS");
+                    console.log(await pool.execute("SELECT * FROM users"));
                     return Promise.resolve({"en":"The user has been created successfully"})
             }
         }
