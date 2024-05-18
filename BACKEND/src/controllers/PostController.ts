@@ -25,36 +25,8 @@ export default class PostController{
     
       try {
 
-        if(!creation_date && !user_id && title == "" && content == ""){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, user_id, title ni content"};
-        }
-
-        if(!creation_date && !user_id && title == ""){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, user_id ni title"};
-        }
-
-        if(!creation_date && !user_id && content == ""){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, user_id ni content"};
-        }
-
-        if(!creation_date && title == "" && content == ""){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date, title ni content"};
-        }
-
         if(!user_id && title == "" && content == ""){
           throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos user_id, title ni content"};
-        }
-
-        if(!creation_date && !user_id){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date ni user_id"};
-        }
-
-        if(!creation_date && content == ""){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date ni content"};
-        }
-
-        if(!creation_date && title == ""){
-          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos creation_date ni title"};
         }
 
         if(!user_id && content == ""){
@@ -65,8 +37,8 @@ export default class PostController{
           throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos user_id ni title"};
         }
 
-        if(!creation_date){
-          throw {statusCode: 400, errorMessage:"No puede estar vacio el campo creation_date"};
+        if(content == "" && title == ""){
+          throw {statusCode: 400, errorMessage: "No pueden estar vacios los campos content ni title"};
         }
 
         if(!user_id){
@@ -92,12 +64,12 @@ export default class PostController{
 
         let userData = await this.#userService.getUserDataById(user_id);
         
-        if("creation_date" in userData){
-          ageRequired(userData.creation_date);
-        }
-        else{
-          throw {statusCode:404, errorMessage:"Datos del usuario invalidos, falta fecha"}
-        }
+        // if("creation_date" in userData){
+        //   ageRequired(userData.creation_date);
+        // }
+        // else{
+        //   throw {statusCode:404, errorMessage:"Datos del usuario invalidos, falta fecha"}
+        // }
 
         let response = await this.#postService.createPost({
           title,

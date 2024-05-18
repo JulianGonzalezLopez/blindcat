@@ -10,7 +10,7 @@ export default class PostRepository{
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
-                const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw, creation_date) VALUES (?,?,?,?)",[post.title, post.content, post.nsfw, post.creation_date]);    
+                const [rows, fields] = await pool.execute("INSERT INTO posts(title, content, nsfw) VALUES (?,?,?)",[post.title, post.content, post.nsfw]);    
                 //@ts-ignore
                 console.log('ID del registro insertado:', rows.insertId);
                 //@ts-ignore

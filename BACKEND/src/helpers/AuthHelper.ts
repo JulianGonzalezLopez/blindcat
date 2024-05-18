@@ -39,33 +39,44 @@ export default class AuthHelper{
     async checkAuthorization(req: Request, res: Response, next: Function) {
       try {
         const authData = await new Promise((resolve, reject) => {
-            if (typeof req.headers["authorization"] !== "undefined") {           
-              if(req.headers["authorization"] == "") throw {statusCode: 401, errorMessage:"Header de autorizacion presente pero vacio"};
-              if(typeof process.env.SECRET != "undefined"){
-                jwt.verify(req.headers["authorization"], process.env.SECRET , (err, authData) => {
-                  if(typeof authData != undefined){
-                    //@ts-ignore
-                    if("user_id" in authData){
-                      req.body.user_id = authData.user_id;
-                    }
-                    if (err) throw {statusCode:500,errorMessage:"Hubo un error al intentar otorgar el token"};
-                    else resolve(authData);  
-                  }
-                  
-              });
-              }
-              else{
-                throw {statusCode: 500, errorMessage:"Credenciales del sistema no han sido cargadas"};
-              }
+          console.log(req.headers["authorization"]);
+          if (typeof req.headers["authorization"] === "undefined" || req.headers["authorization"] === "undefined") {
+            throw { statusCode: 401, errorMessage: "El token de ingreso no está presente" };
+          }
+    
+          if (req.headers["authorization"] === "") {
+            throw { statusCode: 401, errorMessage: "Header de autorización presente pero vacío" };
+          }
 
-            } else {
-              throw {statusCode: 401, errorMessage:"El token de ingreso no está presente"};
+          console.log("QUE ONDA EL HEADER???");
+          console.log(req.headers["authorization"]);
+    
+          if (typeof process.env.SECRET === "undefined") {
+            throw { statusCode: 500, errorMessage: "Credenciales del sistema no han sido cargadas" };
+          }
+    
+          jwt.verify(req.headers["authorization"], process.env.SECRET, (err, decoded) => {
+            console.log("QUE SE ROMPIÓ AHORA");
+            console.log(decoded);
+    
+            if (err) {
+              console.log("ESTE ERROR IMPORTA");
+              console.log(err);
+              throw { statusCode: 500, errorMessage: "Hubo un error al intentar checkear el token" };
             }
+    
+            if (decoded && typeof decoded !== "undefined" && "user_id" in decoded) {
+              req.body.user_id = decoded.user_id;
+              resolve(decoded);
+            } else {
+              throw { statusCode: 500, errorMessage: "El servidor no pudo resolver el token" };
+            }
+          });
         });
     
         next();
       } catch (err) {
-        handleError(res,err);
+        handleError(res, err);
       }
     }
       
