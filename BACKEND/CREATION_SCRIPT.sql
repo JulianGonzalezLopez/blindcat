@@ -6,7 +6,7 @@ CREATE TABLE users(
     username varchar(16) NOT NULL,
     password varchar(16) NOT NULL,
     cantidad_posts INT NOT NULL DEFAULT 0,
-    creation_date DATETIME NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id)
 );
 
@@ -15,7 +15,7 @@ CREATE TABLE posts(
     title varchar(32) NOT NULL,
     content varchar(1000) NOT NULL,
     nsfw boolean DEFAULT FALSE, 
-    creation_date DATETIME NOT NULL,
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     opened int not null DEFAULT 0,
     PRIMARY KEY(id)
 );
