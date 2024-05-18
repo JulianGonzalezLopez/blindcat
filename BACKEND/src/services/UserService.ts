@@ -27,7 +27,7 @@ export default class UserService{
                 console.log(user);
                 return user;
             }
-            throw {"en":"There is not such an user"};
+            throw {statusCode: 404, errorMessage:"No existe tal usuario"};
         }
         catch(e){
             throw e;
@@ -91,15 +91,19 @@ export default class UserService{
             await this.getUser(user.username);
             throw {statusCode: 400, errorMessage: "El usuario ya existe"}
         } catch (e) {
+
             try {
                 if(typeof e == "object" && e != null && "errorMessage" in e){
                     if (e.errorMessage === "No existe tal usuario") {
                         // Tratar el caso en que el usuario no se encuentra
                         // En este ejemplo, se crea un nuevo usuario
                         await this.#userRepository.createNewUser(user);
-                        return {"en": "The user has been created successfully"};
-                    } else {
-                        throw {statusCode:500, errorMessage:"Nisiquiera yo se que pasó"}
+                        return {statusCode:201, message:"El usuario fue creado correctamente"};
+                    } else if(e.errorMessage === "El usuario ya existe") {
+                        throw e;
+                    }
+                    else{
+                        throw {statusCode:500, errorMessage:"Nisiquiera yo se que pasó"};
                     }
                 }
             } catch (innerError) {

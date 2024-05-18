@@ -1,4 +1,4 @@
-import pool from "../pool.js";
+import pool from "../pool";
 
 export default class UserRepository{
 
@@ -51,10 +51,7 @@ export default class UserRepository{
 
     async getUser(username: string){
         try{
-            // if(username == ""){
-            //     Promise.reject({"en":"You forgot to send an username, silly"});
-            // } //VALIDACION NIVEL CONTROLLER
-    
+
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -64,7 +61,7 @@ export default class UserRepository{
                     //@ts-ignore
                     return results;
                 } else {
-                    throw {statusCode: 400, errorMessage:"No existe tal usuario"};
+                    throw {statusCode: 404, errorMessage:"No existe tal usuario"};
                 }
             }
         }
@@ -91,7 +88,7 @@ export default class UserRepository{
                     //@ts-ignore
                     return results;
                 } else {
-                    throw {statusCode: 400, errorMessage:"No existe tal usuario"};
+                    throw {statusCode: 404, errorMessage:"No existe tal usuario"};
                 }
             }
         } catch (e) {
@@ -138,7 +135,7 @@ export default class UserRepository{
                     //@ts-ignore
                     return results;
                 } else {
-                    throw new Error("The user does not exist");
+                    throw {statusCode: 404, errorMessage:"No existen tales usuarios"};
                 }
             }
         } catch (e) {
@@ -167,7 +164,7 @@ export default class UserRepository{
                 }
                 else{
                     //TENGO QUE DIVIDIRLO EN MUCHOS ERRORES!!!!!!!!!!!
-                    throw {statusCode: 400, errorMessage:"No existe esa combinacion de usuario y contraseña"};
+                    throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
                 }
             }
         }
