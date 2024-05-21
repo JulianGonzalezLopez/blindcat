@@ -23,8 +23,6 @@ export default class UserService{
         try{
             let user = await this.#userRepository.getUser(username);
             if(Array.isArray(user) && user.length !== 0){
-                console.log("SERVICE USER");
-                console.log(user);
                 return user;
             }
             throw {statusCode: 404, errorMessage:"No existe tal usuario"};
