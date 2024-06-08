@@ -26,7 +26,7 @@ describe('UserService - getUser', ()=>{
 
         // Creamos una instancia de UserService con el UserRepository mockeado
         const userService = new UserService(new UserRepository());
-        console.log("!!!!?");
+   
         // Llamamos al método getUsers de UserService
         try{
             let res = await userService.getUser("user01");
@@ -73,7 +73,6 @@ describe('UserService - getUser', ()=>{
 
         // Creamos una instancia de UserService con el UserRepository mockeado
         const userService = new UserService(new UserRepository());
-        console.log("!!!!?");
         // Llamamos al método getUsers de UserService
         let res = await userService.getUser("user1");
         expect(mockGetUser).toHaveBeenCalled();
@@ -166,7 +165,6 @@ describe('UserService - getUserById', ()=>{
 
         // Creamos una instancia de UserService con el UserRepository mockeado
         const userService = new UserService(new UserRepository());
-        console.log("!!!!?");
         // Llamamos al método getUsers de UserService
         try{
             let res = await userService.getUserById(999);
@@ -181,8 +179,6 @@ describe('UserService - getUserById', ()=>{
         const mockValue = [{id: 1, username: 'user1', cantidad_posts: 10, karma: 20 }];
         const mockGetUserById = jest.fn().mockImplementation((id)=>{
             for(const user of mockValue){
-                console.log("!!!!!!!!!!!!!!!!!");
-                console.log(user);
                 //@ts-ignore
                 if(user.id === id){
                     return user
@@ -229,8 +225,6 @@ describe("UserService - createNewUser",()=>{
         // Llamamos al método getUsers de UserService
         try{
             let res = await userService.createNewUser({username:"user1", password:"passwordUser1"});
-            console.log("DIOSSSSSSSSSS");
-            console.log(res);
         }
         catch(err){
             expect(mockGetUser).toHaveBeenCalled();

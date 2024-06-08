@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.24.1",
+    "@jest-mock/express": "^2.0.2",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/supertest": "^6.0.2",
