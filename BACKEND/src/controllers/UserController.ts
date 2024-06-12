@@ -1,7 +1,7 @@
-import UserService from "../services/UserService"
-import AuthHelper from "../helpers/AuthHelper";
+import UserService from "../services/UserService.js"
+import AuthHelper from "../helpers/AuthHelper.js";
 import { Request,Response } from "express";
-import handleError from "../helpers/ErrorSenderHelper";
+import handleError from "../helpers/ErrorSenderHelper.js";
 
 export default class UserController{
     userService: UserService;

@@ -1,4 +1,4 @@
-import UserRepository from "../repositories/UserRepository";
+import UserRepository from "../repositories/UserRepository.js";
 
 export default class UserService{
     #userRepository: UserRepository;

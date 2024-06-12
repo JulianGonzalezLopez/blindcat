@@ -1,7 +1,7 @@
-import UserController from "../controllers/UserController";
-import UserRepository from "../repositories/UserRepository";
-import UserService from "../services/UserService";
-import AuthHelper from "../helpers/AuthHelper";
+import UserController from "../controllers/UserController.js";
+import UserRepository from "../repositories/UserRepository.js";
+import UserService from "../services/UserService.js";
+import AuthHelper from "../helpers/AuthHelper.js";
 import { getMockReq, getMockRes } from '@jest-mock/express'
 
 
