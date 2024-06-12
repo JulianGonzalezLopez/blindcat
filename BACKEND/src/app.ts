@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import signup from "./routes/signup.js";
+import signup from "./routes/signup";
 import login from "./routes/login.js";
 import post from "./routes/post.js";
 import AuthHelper from "./helpers/AuthHelper.js";
@@ -57,4 +57,6 @@ app.use(function(err : Error, req: Request, res: Response, next: Function) {
     res.status(500).send('Something broke!');
   });
 
-export default app;
+app.listen(3001, () => {
+  console.log("Example app listening on port 3001!");
+});

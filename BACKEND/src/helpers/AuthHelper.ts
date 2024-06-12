@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
 import { Request,Response } from "express";
-import handleError from "./ErrorSenderHelper";
+import handleError from "./ErrorSenderHelper.js";
 dotenv.config();
 
 
