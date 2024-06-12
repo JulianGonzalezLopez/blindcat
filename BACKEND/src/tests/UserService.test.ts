@@ -232,7 +232,7 @@ describe("UserService - createNewUser",()=>{
         }
     });
 
-    it('Debe rear un usuario', async () => {
+    it('Debe crear un usuario', async () => {
         expect.assertions(2);
         // Mockeamos el método getUsers de UserRepository
         const existingUsers = [{ username: 'user1', cantidad_posts: 10, karma: 20 }];
@@ -264,6 +264,73 @@ describe("UserService - createNewUser",()=>{
 
         }
         
+    });
+
+});
+
+describe('UserService - matchData', ()=>{
+    beforeEach(() => {
+        // Limpiar cualquier mock antes de cada prueba
+        jest.clearAllMocks();
+    });
+
+    const mockData = { username: 'user1', password:"password1", cantidad_posts: 10, karma: 20 };
+    const mockMatchData = jest.fn().mockImplementation((user)=>{
+        
+        console.log(user);
+        console.log(mockData);
+        //@ts-ignore
+        if(user.password == mockData.password && user.username == mockData.username){
+            return true;
+        }
+        else{
+            return false;
+        }
+    })
+
+    it('Fallar en matchear info (Contraseña erronea)', async () => {
+        // Mockeamos el método getUsers de UserRepository
+
+        UserRepository.prototype.matchData = mockMatchData;
+
+        // Creamos una instancia de UserService con el UserRepository mockeado
+        const userService = new UserService(new UserRepository());
+
+        // Llamamos al método getUsers de UserService
+        let res = await userService.matchData({username: "user1", password:"password2"});
+
+        expect(res).toEqual(false);
+        expect(mockMatchData).toHaveBeenCalled();
+    });
+
+    it('Fallar en matchear info (username erroneo)', async () => {
+        // Mockeamos el método getUsers de UserRepository
+
+        UserRepository.prototype.matchData = mockMatchData;
+
+        // Creamos una instancia de UserService con el UserRepository mockeado
+        const userService = new UserService(new UserRepository());
+
+        // Llamamos al método getUsers de UserService
+        let res = await userService.matchData({username: "user2", password:"password1"});
+
+        expect(res).toEqual(false);
+        expect(mockMatchData).toHaveBeenCalled();
+    });
+
+    it('Matchear info', async () => {
+        // Mockeamos el método getUsers de UserRepository
+
+        UserRepository.prototype.matchData = mockMatchData;
+
+        // Creamos una instancia de UserService con el UserRepository mockeado
+        const userService = new UserService(new UserRepository());
+
+        // Llamamos al método getUsers de UserService
+        let res = await userService.matchData({username: "user1", password:"password1"});
+
+        expect(res).toEqual(true);
+        expect(mockMatchData).toHaveBeenCalled();
     });
 
 });
