@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import signup from "./routes/signup.js";
-import login from "./routes/login.js";
-import post from "./routes/post.js";
-import AuthHelper from "./helpers/AuthHelper.js";
+import signup from "./routes/signup";
+import login from "./routes/login";
+import post from "./routes/post";
+import AuthHelper from "./helpers/AuthHelper";
 //@ts-ignore
 import { Request, Response } from "express";
 import { createConnection } from "mysql2/promise";

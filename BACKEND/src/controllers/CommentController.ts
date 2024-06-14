@@ -1,9 +1,9 @@
-import CommentService from "../services/CommentService.js";
-import PostCommentService from "../services/PostCommentService.js";
-import UserService from "../services/UserService.js";
+import CommentService from "../services/CommentService";
+import PostCommentService from "../services/PostCommentService";
+import UserService from "../services/UserService";
 import { Request, Response } from "express";
-import ageRequired from "../helpers/AgeRequiredHelper.js";
-import handleError from "../helpers/ErrorSenderHelper.js";
+import ageRequired from "../helpers/AgeRequiredHelper";
+import handleError from "../helpers/ErrorSenderHelper";
 
 export default class CommentController {
   #commentService: CommentService;

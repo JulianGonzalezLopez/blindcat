@@ -1,9 +1,9 @@
-import PostService from "../services/PostService.js";
-import PostUserService from "../services/PostUserService.js";
-import UserService from "../services/UserService.js";
-import ageRequired from "../helpers/AgeRequiredHelper.js";
+import PostService from "../services/PostService";
+import PostUserService from "../services/PostUserService";
+import UserService from "../services/UserService";
+import ageRequired from "../helpers/AgeRequiredHelper";
 import { Request, Response } from "express";
-import handleError from "../helpers/ErrorSenderHelper.js";
+import handleError from "../helpers/ErrorSenderHelper";
 
 export default class PostController{
     #postService: PostService;

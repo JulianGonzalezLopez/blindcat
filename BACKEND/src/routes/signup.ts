@@ -1,8 +1,8 @@
 import { Router } from "express";
-import UserController from "../controllers/UserController.js";
-import AuthHelper from "../helpers/AuthHelper.js";
-import UserRepository from "../repositories/UserRepository.js";
-import UserService from "../services/UserService.js";
+import UserController from "../controllers/UserController";
+import AuthHelper from "../helpers/AuthHelper";
+import UserRepository from "../repositories/UserRepository";
+import UserService from "../services/UserService";
 
 const router = Router();
 const UserC = new UserController(new UserService(new UserRepository()), new AuthHelper());

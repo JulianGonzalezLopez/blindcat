@@ -1,4 +1,4 @@
-import { CommentRepository } from "../repositories/CommentRepository.js";
+import { CommentRepository } from "../repositories/CommentRepository";
 
 export default class CommentService{
     #commentRepository: CommentRepository;

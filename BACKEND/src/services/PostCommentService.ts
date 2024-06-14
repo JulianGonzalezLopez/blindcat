@@ -1,4 +1,4 @@
-import PostCommentRepository from "../repositories/PostCommentRepository.js";
+import PostCommentRepository from "../repositories/PostCommentRepository";
 
 export default class PostCommentService{
     #postCommentRepository: PostCommentRepository;

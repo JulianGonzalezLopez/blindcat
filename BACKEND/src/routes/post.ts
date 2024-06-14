@@ -1,16 +1,16 @@
 import { Router, Request, Response } from "express";
-import CommentController from "../controllers/CommentController.js";
-import PostController from "../controllers/PostController.js";
-import { CommentRepository } from "../repositories/CommentRepository.js";
-import PostCommentRepository from "../repositories/PostCommentRepository.js";
-import PostRepository from "../repositories/PostRepository.js";
-import PostUserRepository from "../repositories/PostUserRepository.js";
-import UserRepository from "../repositories/UserRepository.js";
-import CommentService from "../services/CommentService.js";
-import PostCommentService from "../services/PostCommentService.js";
-import PostService from "../services/PostService.js";
-import PostUserService from "../services/PostUserService.js";
-import UserService from "../services/UserService.js";
+import CommentController from "../controllers/CommentController";
+import PostController from "../controllers/PostController";
+import { CommentRepository } from "../repositories/CommentRepository";
+import PostCommentRepository from "../repositories/PostCommentRepository";
+import PostRepository from "../repositories/PostRepository";
+import PostUserRepository from "../repositories/PostUserRepository";
+import UserRepository from "../repositories/UserRepository";
+import CommentService from "../services/CommentService";
+import PostCommentService from "../services/PostCommentService";
+import PostService from "../services/PostService";
+import PostUserService from "../services/PostUserService";
+import UserService from "../services/UserService";
 
 const router = Router();
 const PostC = new PostController(new PostService(new PostRepository()), new PostUserService(new PostUserRepository), new UserService(new UserRepository()));
