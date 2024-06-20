@@ -127,10 +127,11 @@ export default class PostController{
     async getPosts(req: Request, res: Response) {
         const page = req.query.page || "0";
         const order = req.query.order || "new";
-        
+        console.log("GOKU AAAAAAAAAAAAAA");
         try {
           //@ts-ignore
           let response = await this.#postService.getPostsPaged(page, order);
+          console.log("Posts paginados");
           console.log(response);
           if (response != undefined && response.length > 0) {  
             let postsIDs = response.map((post)=>{
@@ -138,6 +139,8 @@ export default class PostController{
               return post.id;
             });
             let posts_users = await this.#postUserService.getPostsUsers(postsIDs);
+            console.log("Post's users");
+            console.log(posts_users);
             //@ts-ignore
             let auxIDArray = [];
             let postsUsersIDs = posts_users.map((pu)=>{
@@ -149,8 +152,11 @@ export default class PostController{
                 return pu.user_id;
               }
             });
+
             postsUsersIDs = postsUsersIDs.filter((elm)=>typeof elm != "undefined");
-            
+            console.log("Posts Users Id");
+            console.log(postsUsersIDs);
+
             //
             //Toda esa tramoya es para filtrar los IDs, ya que en caso de tener 10000 registros, implicaria capaz repetir muchas veces un ID
             //Capaz lo saco a la mierda igual, qcy
@@ -165,9 +171,13 @@ export default class PostController{
                   user_id: posts_users[position].user_id
                 }
             });
-      
-            let usernamesById = await this.#userService.getUsernamesById(postsUsersIDs);
-            
+            console.log("mappedResponse");
+            console.log(mappedResponse);
+
+            let usernamesById = await this.#userService.getUsernamesById(postsUsersIDs); //ACÁ ESTÁ EL ERROR
+            console.log("USERNAMES BY ID");
+            console.log(usernamesById);
+
             let finalMappedResponse = mappedResponse.map((response)=>{
               //@ts-ignore
               let position = usernamesById.findIndex(item=>item.id == response.user_id);
@@ -178,6 +188,8 @@ export default class PostController{
                 user_id: null
               }
             });
+
+            console.log("VAS A CAGAR FREEZER");
             res.send(finalMappedResponse);
           }
           

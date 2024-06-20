@@ -52,13 +52,14 @@ export default class UserService{
         }
     }
 
-    async getUsernamesById(users_ids: Array<number>){
+    async getUsernamesById(users_ids: Array<Text>){
         try{
             let users = await this.#userRepository.getUsernamesById(users_ids);
+            console.log("pasó");
             return users;
         }
         catch(e){
-
+            throw e;
         }
     }
 

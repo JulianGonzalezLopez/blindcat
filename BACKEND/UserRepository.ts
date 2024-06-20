@@ -156,12 +156,7 @@ export default class UserRepository{
                 console.log("USE IDS: " );
                 console.log(users_ids);
 
-                const uuidsString = users_ids.map(uuid => `'${uuid}'`).join(',');
-                console.log("uuidsString");
-                console.log(uuidsString);
-
-
-                const [results, fields] = await pool.execute(`SELECT id, username FROM users WHERE  id IN (${uuidsString})`);
+                const [results, fields] = await pool.execute(`SELECT id, username FROM users WHERE  id IN (${users_ids})`);
                 console.log("Result sql:");
                 console.log(results);
                 if (Array.isArray(results) && results.length !== 0) {

@@ -112,8 +112,8 @@ export default class CommentController {
       if (content == null || post_id == null || user_id == null) {
         throw {statusCode: 400, errorMessage:"Alguno de los campos está vacio"};
       }
-      if (typeof user_id != "number") {
-        throw {statusCode: 400, errorMessage:"user_id no es numerico"};
+      if (typeof user_id != "string") {
+        throw {statusCode: 400, errorMessage:"user_id no es texto"};
       }
       if (typeof content != "string") {
         throw {statusCode: 400, errorMessage:"content no es de tipo string"};

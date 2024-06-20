@@ -2,7 +2,7 @@ CREATE DATABASE blindcat;
 USE blindcat;
 
 CREATE TABLE users(
-    id varchar NOT NULL,
+    id varchar(36) NOT NULL,
     username varchar(16) NOT NULL,
     password varchar(16) NOT NULL,
     cantidad_posts INT NOT NULL DEFAULT 0,
@@ -23,7 +23,7 @@ CREATE TABLE posts(
 CREATE TABLE comments(
     id int not null AUTO_INCREMENT,
     content varchar(300) NOT NULL,
-    creator_id INT NOT NULL,
+    creator_id varchar(36) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(creator_id) REFERENCES users(id)
 );
@@ -45,7 +45,7 @@ CREATE TABLE posts_tags(
 );
 
 CREATE TABLE users_posts(
-    user_id INT NOT NULL,
+    user_id varchar(36) NOT NULL,
     post_id INT NOT NULL,
     PRIMARY KEY(user_id,post_id),
     FOREIGN KEY(user_id) REFERENCES users(id),
@@ -54,7 +54,7 @@ CREATE TABLE users_posts(
 
 CREATE TABLE opened_posts(
     post_id INT NOT NULL,
-    user_id INT NOT NULL,
+    user_id varchar(36) NOT NULL,
     PRIMARY KEY(post_id,user_id),
     FOREIGN KEY(post_id) REFERENCES posts(id),
     FOREIGN KEY(user_id) REFERENCES users(id)
