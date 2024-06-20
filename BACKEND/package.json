@@ -6,7 +6,10 @@
   "main": "app.ts",
   "scripts": {
     "test": "jest --forceExit --detectOpenHandles",
-    "dev": " npx tsx src/app.ts"
+    "dev": " npx tsx src/app.ts",
+    "dev-transilled":"node dist/app.js",
+    "installation-guide": "node -e \"console.log('Se ha de instalar las dependencias del programa, ejecutar el script de creacion sql y correr -npm run dev-')\"",
+    "help": "node -e \"console.log('Para ejecutar correctamente este programa en producción, a pesar de que el compilador no pedirá las extensiones de archivo, este comienza a fallar una vez transpilado de typescript a javascript. Por favor, eliminar extensiones SOLO cuando se vaya a pasar a producción')\""
   },
   "author": "",
   "license": "ISC",

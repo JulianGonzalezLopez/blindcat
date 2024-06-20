@@ -72,18 +72,6 @@ export default class UserService{
         }
     }
 
-    // async createNewUser(user: User){
-    //     try{
-    //         let results = await this.getUser(user.username);
-    //             await this.#userRepository.createNewUser(user);
-    //             return {"en":"The user has been created successfully"}
-
-    //     }
-    //     catch(e){
-    //         throw e;
-    //     }
-    // }
-
     async createNewUser(user: User) {
         try {
             await this.getUser(user.username);
@@ -95,6 +83,7 @@ export default class UserService{
                     if (e.errorMessage === "No existe tal usuario") {
                         // Tratar el caso en que el usuario no se encuentra
                         // En este ejemplo, se crea un nuevo usuario
+
                         await this.#userRepository.createNewUser(user);
                         return {statusCode:201, message:"El usuario fue creado correctamente"};
                     } else if(e.errorMessage === "El usuario ya existe") {

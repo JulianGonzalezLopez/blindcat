@@ -29,27 +29,27 @@ app.get("/ok",(req,res)=>{
     res.status(200).end();
 })
 
-//Rutas sin token
-app.get("/authorize/check", (req: Request, res: Response)=>{
-    try{
-        if(typeof req.headers["authorization"] !== "undefined"){
-            jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
-                if(typeof authData == "undefined"){
-                  throw err;
-                }
-                res.send(true);
-              });
-        }
-        res.send(false);
-    }
-    catch(err){
-        res.status(401).send(err);
-    };
-});
+// //Rutas sin token
+// app.get("/authorize/check", (req: Request, res: Response)=>{
+//     try{
+//         if(typeof req.headers["authorization"] !== "undefined"){
+//             jwt.verify(req.headers["authorization"], SECRET , (err,authData)=>{
+//                 if(typeof authData == "undefined"){
+//                   throw err;
+//                 }
+//                 res.send(true);
+//               });
+//         }
+//         res.send(false);
+//     }
+//     catch(err){
+//         res.status(401).send(err);
+//     };
+// });
 
 app.use("/signup",signup);
 app.use("/login", login);
-app.use(AuthH.checkAuthorization);
+//app.use(AuthH.checkAuthorization);
 app.use("/post",post);
 
 app.use(function(err : Error, req: Request, res: Response, next: Function) {

@@ -9,9 +9,9 @@ export default function handleError(res: Response, e: Object | unknown) {
         res.status(e.statusCode).send("Default error");
       }
     } else {
-      res.status(500).send("Default error");
+      res.status(500).send(res || e);
     }
   } else {
-    res.status(500).send("Default error -");
+    res.status(500).send(res || e);
   }
 }

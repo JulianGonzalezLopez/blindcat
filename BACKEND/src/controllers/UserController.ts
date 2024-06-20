@@ -77,13 +77,15 @@ export default class UserController{
             })
         }
         catch(e){
+            console.log(e);
             handleError(res,e);
         }
     }
 
     async loginUser(req: Request, res: Response){
         const {username, password} = req.body;
-
+        console.log(req.body);
+        console.log("aaa");
         try{
 
             if(username == "" && password == ""){
@@ -125,6 +127,7 @@ export default class UserController{
              }
         }
         catch(err){
+            console.log(err);
             handleError(res,err);
         }
     }

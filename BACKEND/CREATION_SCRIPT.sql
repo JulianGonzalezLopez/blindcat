@@ -2,7 +2,7 @@ CREATE DATABASE blindcat;
 USE blindcat;
 
 CREATE TABLE users(
-    id INT NOT NULL AUTO_INCREMENT,
+    id varchar NOT NULL,
     username varchar(16) NOT NULL,
     password varchar(16) NOT NULL,
     cantidad_posts INT NOT NULL DEFAULT 0,

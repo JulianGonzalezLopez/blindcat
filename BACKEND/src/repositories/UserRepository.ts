@@ -6,6 +6,23 @@ export default class UserRepository{
 
       }
 
+    async getUsersIds(){
+        try{
+    
+            if (pool instanceof Error || typeof pool === "undefined"){
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+            }
+            else{
+                    let res = await pool.execute("SELECT ID from users");  
+                    console.log(res);
+                    return Promise.resolve(res);
+            }
+        }
+        catch(e){
+            throw e;
+        }
+    } 
+
     async createNewUser(user : User){
         console.log("USER A CREAR");
         console.log(user);
