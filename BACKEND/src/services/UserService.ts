@@ -32,7 +32,7 @@ export default class UserService{
         }
     }
 
-    async getUserById(id:Text){
+    async getUserById(id:string){
         try{
             let user = await this.#userRepository.getUserById(id);
             return user;
@@ -42,7 +42,7 @@ export default class UserService{
         }
     }
 
-    async getUserDataById(id:Text){ //HAY QUE BORRAR ESTE METODO
+    async getUserDataById(id:string){ //HAY QUE BORRAR ESTE METODO
         try{
             let user = await this.#userRepository.getUserDataById(id);
             return user;
@@ -52,7 +52,7 @@ export default class UserService{
         }
     }
 
-    async getUsernamesById(users_ids: Array<Text>){
+    async getUsernamesById(users_ids: Array<string>){
         try{
             let users = await this.#userRepository.getUsernamesById(users_ids);
             console.log("pasó");

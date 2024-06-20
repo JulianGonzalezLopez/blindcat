@@ -20,7 +20,7 @@ interface Post{
 interface Comment{
     id?: number,
     content: string,
-    creator_id: number,
+    creator_id: string,
 }
 
 interface PostComment{
@@ -35,11 +35,11 @@ interface Posts_Tags{
 }
 
 interface UserPost{
-    user_id: number,
+    user_id: string,
     post_id: number
 }
 
 interface Opened_posts{
     post_id: number,
-    user_id: number
+    user_id: string
 }

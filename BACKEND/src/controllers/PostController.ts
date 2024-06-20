@@ -106,11 +106,11 @@ export default class PostController{
           throw {statusCode: 400, errorMessage:"No puede estar vacio el campo post_id"};
         }
   
-        if(typeof user_id != "string" || typeof user_id != "number"){
+        if(typeof user_id != "string"){
           throw {statusCode: 400, errorMessage:"El campo user_id tiene que ser de tipo texto"};
         }
   
-        if(typeof post_id != "string" || typeof post_id != "number"){
+        if(typeof post_id != "string"){
           throw {statusCode: 400, errorMessage:"El campo post_id tiene que ser de tipo texto"};
         }
 

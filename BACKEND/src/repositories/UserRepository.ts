@@ -95,7 +95,7 @@ export default class UserRepository{
         }
     }
 
-    async getUserById(id: Text){
+    async getUserById(id: string){
         try {
             // if (id == null) {
             //     throw new Error("You forgot to send an id, silly");
@@ -121,7 +121,7 @@ export default class UserRepository{
         }
     }
 
-    async getUserDataById(id: Text){
+    async getUserDataById(id: string){
         try {
             // if (id == null) {
             //     throw new Error("You forgot to send an id, silly");
@@ -147,7 +147,7 @@ export default class UserRepository{
         }
     }
 
-    async getUsernamesById(users_ids: Array<Text>){
+    async getUsernamesById(users_ids: Array<string>){
         try {
             if (pool instanceof Error || typeof pool === "undefined") {
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
