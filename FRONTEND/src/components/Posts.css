@@ -9,7 +9,7 @@
 .orden-btn-container{
     display: flex;
     flex-direction: row;
-}
+  }
 
 .orden-btn{
     border: none;
@@ -33,4 +33,10 @@
   .orden-btn:hover {
     filter: brightness(95%); /* Cambia el brillo al pasar el ratón */
     border-bottom: 1px solid #3DD1E7 !important;
+  }
+
+  @media screen and (max-width: 800px) {
+    .posts{
+      margin-top: 2rem;
+    }
   }

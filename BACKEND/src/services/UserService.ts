@@ -32,7 +32,7 @@ export default class UserService{
         }
     }
 
-    async getUserById(id:number){
+    async getUserById(id:Text){
         try{
             let user = await this.#userRepository.getUserById(id);
             return user;
@@ -42,7 +42,7 @@ export default class UserService{
         }
     }
 
-    async getUserDataById(id:number){ //HAY QUE BORRAR ESTE METODO
+    async getUserDataById(id:Text){ //HAY QUE BORRAR ESTE METODO
         try{
             let user = await this.#userRepository.getUserDataById(id);
             return user;

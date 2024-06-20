@@ -12,10 +12,23 @@
     margin: b;
     padding: 0;
     height: 10vh;
+    flex-wrap: wrap;
 }
 
-.header > *{
+.header *{
   margin: 0;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 800px) {
+  .username {
+    order: 5; /* Cambia el orden para que sea el último */
+    background-color: black;
+    width: 100%;
+    text-align: left;
+    padding-left: .5rem;
+    font-size: 14px;
+  }
 }
 
 .header > {
@@ -30,6 +43,7 @@
 .logo{   
     height: 4vw;
     width: auto;
+    min-height: 50px;
 }
 
 
@@ -39,7 +53,7 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
+    width: 50px;
     height: 34px;
   }
   
@@ -110,13 +124,13 @@
     font-weight: 700;
     justify-content: center;
     line-height: 1.75rem;
-    padding: .50rem 1rem;
+    padding: .50rem 1.2rem;
     position: relative;
     text-align: center;
     text-decoration: none #000000 solid;
     text-decoration-thickness: auto;
     width: 100%;
-    max-width: 150px;
+    max-width: 100px;
     position: relative;
     cursor: pointer;
     user-select: none;

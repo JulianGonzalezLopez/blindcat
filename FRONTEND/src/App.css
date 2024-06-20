@@ -10,6 +10,9 @@
   /*width: 100vw;*/
 }
 
+#root > * {
+  box-sizing: border-box;
+}
 
 .main{
   display: grid;
