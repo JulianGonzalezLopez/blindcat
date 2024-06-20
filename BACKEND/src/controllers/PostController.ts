@@ -22,7 +22,7 @@ export default class PostController{
       let {nsfw} = req.body;
       console.log(req.body);
       nsfw == "on" ? nsfw = true : nsfw = false; 
-    
+
       try {
 
         if(!user_id && title == "" && content == ""){
@@ -131,13 +131,12 @@ export default class PostController{
         try {
           //@ts-ignore
           let response = await this.#postService.getPostsPaged(page, order);
-          
-          if (response != undefined) {  
+          console.log(response);
+          if (response != undefined && response.length > 0) {  
             let postsIDs = response.map((post)=>{
               //@ts-ignore
               return post.id;
             });
-      
             let posts_users = await this.#postUserService.getPostsUsers(postsIDs);
             //@ts-ignore
             let auxIDArray = [];

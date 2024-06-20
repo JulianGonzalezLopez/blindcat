@@ -37,7 +37,7 @@ export default class PostUserService{
         }
     }
 
-    async getPostsUsers(posts_ids: Array<number>){
+    async getPostsUsers(posts_ids: Array<number> = []){
         try{
             let postsUsers = await this.#postUserRepository.getPostsUsers(posts_ids);
             return postsUsers;
