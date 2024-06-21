@@ -17,6 +17,8 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
         })
       });
       let relatedCommentsJSON = await relatedCommentsJS.json();
+      console.log("AAAAAAAAAAAAAAAAAA");
+      console.log(relatedCommentsJSON);
       setRelatedCommets(relatedCommentsJSON);
     } catch (error) {
       console.error("Error al obtener los comentarios relacionados:", error);
@@ -47,23 +49,23 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
   }  
 
 
-  async function fetchData(token, post_id) {
-    try {
-      let url = `http://localhost:3001/post/${post_id}/comments`;
-      let relatedComments = await fetch(url, {
-        headers: new Headers({
-          "Authorization": token
-        })
-      });
-      let relatedCommentsJSON = await relatedComments.json();
-      setRelatedCommets(relatedCommentsJSON);
-      return relatedCommentsJSON;
+  // async function fetchData(token, post_id) {
+  //   try {
+  //     let url = `http://localhost:3001/post/${post_id}/comments`;
+  //     let relatedComments = await fetch(url, {
+  //       headers: new Headers({
+  //         "Authorization": token
+  //       })
+  //     });
+  //     let relatedCommentsJSON = await relatedComments.json();
+  //     setRelatedCommets(relatedCommentsJSON);
+  //     return relatedCommentsJSON;
 
-    } catch (error) {
-      console.error("Error al obtener los comentarios relacionados:", error);
-      throw error;
-    }
-  }
+  //   } catch (error) {
+  //     console.error("Error al obtener los comentarios relacionados:", error);
+  //     throw error;
+  //   }
+  // }
 
   let date =new Date(creation_date);
   date.setHours(date.getHours() - 3);
@@ -79,13 +81,13 @@ function Post({title,content, creation_date, setSelectedPost, post_id, token, ns
           localStorage.setItem("current_post",title);
           createRelationship(token, post_id);
           setSelectedPost(post_id);
-          fetchComments(token,post_id, setRelatedCommets);
           setShowComments(!showComments)
+          fetchComments(token,post_id, setRelatedCommets);
         }}>
             <h3 className="title">{title}</h3>
             <p className="post-content">{content}</p>
             <p className="creator"> {formatedDate} - {creator_username}</p> 
-            {showComments && screen.width < 800 && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={aux} token={token} post_id={post_id} ></CommentsSection>}
+            {showComments && screen.width < 800 && <CommentsSection setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={post_id} ></CommentsSection>}
     </div>
   )
 }

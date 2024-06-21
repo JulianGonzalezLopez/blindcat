@@ -18,17 +18,29 @@ function Header({username, setUsername, openModal, token, setToken, setLogged, s
 
   return (
     <header className="header">
-        <img className="logo" src={logo} alt="" />
-        {token && <>
-          <p className="username"> {"> " + username || ""}</p>
-          <button className="header-button" onClick={handleClick}>Create</button>
-          <label className="switch">
-            <input type="checkbox" onClick={()=>{setNsfw(!nsfw)}} />
-            <span className="slider round"></span>
-          </label>
-          <button className="header-button" onClick={logout}>Log out</button>
-        </>     
-        }
+
+          <div className="top-header">
+            <img className="logo" src={logo} alt="" />
+            {token && 
+            <>
+              <p className="username"> {"> " + username || ""}</p>
+              <button className="header-button" onClick={logout}>Cerrar</button>
+            </>}
+          </div>
+
+      {token && 
+          <div className="bottom-header">
+            <div className="checkbox-parent">
+              <p>NSFW</p>
+            <label className="switch">
+              <input type="checkbox" onClick={()=>{setNsfw(!nsfw)}} />
+              <span className="slider round"></span>
+            </label>
+            </div>
+            <button className="header-button" onClick={handleClick}>Crear</button>
+          </div>
+          }
+          
     </header>
   )
 }

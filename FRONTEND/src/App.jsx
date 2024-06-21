@@ -106,6 +106,7 @@ import { useEffect, useState, useRef } from "react";
             <>
               <Posts order={order} setLastPosts={setLastPosts} setOrder={setOrder} page={page} setPage={setPage} nsfw={nsfw} lastPosts={lastPosts} token={token} setSelectedPost={setSelectedPost} setRelatedCommets={setRelatedCommets}></Posts>
               {selectedPost && <CommentsSection openErrorModal={() => setErrorModal(true)} setCurrentError={setCurrentError} setRelatedCommets={setRelatedCommets} relatedComments={relatedComments} token={token} post_id={selectedPost} ></CommentsSection>}
+              {console.log(relatedComments)}
             </> : 
             <FormsContainer setCurrentError={setCurrentError} openErrorModal={() => setErrorModal(true)} token={token} setToken={setToken} logged={logged} setLogged={setLogged} setLastPosts={setLastPosts} username={username} setUsername={setUsername} setPage={setPage} openModal={() => setErrorModal(true)}></FormsContainer>  
           }

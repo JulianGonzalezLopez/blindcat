@@ -6,6 +6,7 @@ function Comments({relatedComments}) {
 
   return (
     <div className="comments">
+      {console.log(relatedComments)}
       {relatedComments?.map(commentData=>(
         <Comment content={commentData.content} username={commentData.username} key={commentData.id}></Comment>
         // <p>{commentData.content}</p>
