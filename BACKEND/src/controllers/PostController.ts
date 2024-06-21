@@ -91,9 +91,7 @@ export default class PostController{
 
     async createOpenedPost(req: Request, res: Response) {
       const { user_id, post_id} = req.body;
-      console.log("esto de aca buscamos")
-      console.log(user_id);
-      console.log(post_id);
+
       try {
 
         if(user_id == "" && post_id == ""){
