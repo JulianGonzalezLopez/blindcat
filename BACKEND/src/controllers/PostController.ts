@@ -91,7 +91,9 @@ export default class PostController{
 
     async createOpenedPost(req: Request, res: Response) {
       const { user_id, post_id} = req.body;
-
+      console.log("esto de aca buscamos")
+      console.log(user_id);
+      console.log(post_id);
       try {
 
         if(user_id == "" && post_id == ""){
@@ -110,7 +112,7 @@ export default class PostController{
           throw {statusCode: 400, errorMessage:"El campo user_id tiene que ser de tipo texto"};
         }
   
-        if(typeof post_id != "string"){
+        if(typeof post_id != "number"){
           throw {statusCode: 400, errorMessage:"El campo post_id tiene que ser de tipo texto"};
         }
 
