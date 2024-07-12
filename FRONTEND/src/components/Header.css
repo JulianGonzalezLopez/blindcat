@@ -8,14 +8,17 @@
     justify-content: left;
     width: 100%;
     background-color: white;
+    background-color: black;
     margin: 0;
     padding: 0;
     height: 10vh;
+    flex-wrap: wrap;
 }
 
 
+
 .header > *{
-  margin: 1rem;
+  margin: .5rem;
   box-sizing: border-box;
 }
 
@@ -35,7 +38,7 @@
 }
 
 .header > p, .header >form,.header > div{
-    color: black;
+    color: white;
 }
 
 .logo{   
@@ -96,3 +99,23 @@
   .logout-button{
     margin-left: auto;
   }
+
+@media screen and (max-width:600px) {
+
+  .header{
+    height: 21vh;
+  }
+
+  .logo{
+    order:-1;
+  }
+  
+  .username{
+    order: -1;
+  }
+  
+  .logout-button{
+    order: -1;
+  }
+
+}

@@ -1,5 +1,5 @@
 .header-select{
-    background-color: white;
+  background-color: #66b3ff;
     border: 0 solid #E5E7EB;
     box-sizing: border-box;
     color: #000000;
@@ -12,8 +12,8 @@
     padding: .50rem 1.2rem;
     text-align: center;
     text-decoration: none;
-    width: 100%;
     max-width: 200px;
+    min-width: 100px;
     position: relative;
     cursor: pointer;
     user-select: none;
@@ -21,6 +21,7 @@
     touch-action: manipulation;
     transition: all .5s;
     text-align: center;
+    height: 44px;
   }
 
   /* Contenedor para la flecha personalizada */

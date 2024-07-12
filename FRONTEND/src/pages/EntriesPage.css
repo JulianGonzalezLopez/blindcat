@@ -1,8 +1,16 @@
 .main{
     flex: 1; /* O cualquier número para ajustar el tamaño */
     min-width: 300px;
+    margin-top: 10vh;
 }
+
 
 .posts{
     width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    .main{
+        margin-top: 20vh;
+    }
 }

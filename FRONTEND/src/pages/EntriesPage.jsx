@@ -84,9 +84,9 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
       <>
         <header className="header">
           <img className="logo" src={b} alt="blindcat logo" />
-          <p className="username"> {"> " + username || ""}</p>
-          <CategorySelector className="header-button" categories={categories} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory}></CategorySelector>
-          <button className="header-button" onClick={()=>{console.log("CREAR")}}>Crear</button>
+          <p className="username"> {"> pepepepepe" + username}</p>
+          <CategorySelector className="header-button category-selector" categories={categories} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory}></CategorySelector>
+          <button className="header-button create-button" onClick={()=>{console.log("CREAR")}}>Crear</button>
           <button className="header-button logout-button" onClick={()=>{handleLogout()}}>Cerrar</button>
         </header>        
         
