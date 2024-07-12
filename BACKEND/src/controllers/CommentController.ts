@@ -101,6 +101,10 @@ export default class CommentController {
         throw {statusCode: 400, errorMessage:"No puede estar vacio el campo content"};
       }
 
+      if(content.length > 299){
+        throw {statusCode: 400, errorMessage:"Un comentario puede tener 300 caracteres como maximo"};
+      }
+
       if(!post_id){
         throw {statusCode: 400, errorMessage: "No puede estar vacio el campo post_id"};
       }
@@ -128,7 +132,7 @@ export default class CommentController {
       console.log("LLEGÓ ACÁ");
       console.log(user_id);
       let creator_id = user_id;
-      let response = await this.#commentService.createNewComment({content,creator_id,});
+      let response = await this.#commentService.createNewComment({content,creator_id});
       console.log("AHORA ESTO Y LISTO");
       console.log(response);
       let comment_id = response;

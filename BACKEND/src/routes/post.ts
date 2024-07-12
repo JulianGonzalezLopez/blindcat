@@ -11,23 +11,23 @@ import PostCommentService from "../services/PostCommentService";
 import PostService from "../services/PostService";
 import PostUserService from "../services/PostUserService";
 import UserService from "../services/UserService";
+import PostCategoryService from "../services/PostCategoryService";
+import PostCategoryRepository from "../repositories/PostCategoryRepository";
 
 const router = Router();
-const PostC = new PostController(new PostService(new PostRepository()), new PostUserService(new PostUserRepository), new UserService(new UserRepository()));
+const PostC = new PostController(new PostService(new PostRepository()), new PostUserService(new PostUserRepository), new UserService(new UserRepository()), new PostCategoryService(new PostCategoryRepository));
 const CommentC = new CommentController(new CommentService(new CommentRepository()), new PostCommentService(new PostCommentRepository()), new UserService(new UserRepository()));
 
-router.get("/",(req,res)=>{
-    res.send("PAGINA LOGIN");
-});
+router.post("/posts/comment", CommentC.commentPost.bind(CommentC)); //FALTA TEST
 
-router.post("/comment", CommentC.commentPost.bind(CommentC)); //FALTA TEST
+router.post("/posts/",PostC.createPost.bind(PostC)); //FALTA TEST
 
-router.post("/",PostC.createPost.bind(PostC)); //FALTA TEST
+router.get("/entry", PostC.getPost.bind(PostC));
 
-router.get("/all", PostC.getPosts.bind(PostC));
+router.get("/posts/", PostC.getPosts.bind(PostC));
 
-router.get("/:post_id/comments/", CommentC.getComments.bind(CommentC));
+router.get("/posts/:post_id/comments/", CommentC.getComments.bind(CommentC));
 
-router.post("/opened", PostC.createOpenedPost.bind(PostC)); //FALTA TEST
+router.post("/posts/opened", PostC.createOpenedPost.bind(PostC)); //FALTA TEST
 
 export default router;

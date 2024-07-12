@@ -43,6 +43,28 @@ export default class PostRepository{
         }
     }
 
+    
+    async getPost(post_id: number | string){
+        try{
+            if (pool instanceof Error || typeof pool === "undefined"){
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+            }
+            else{
+                const [results, fields] = await pool.execute("SELECT * from posts WHERE id = ?",[post_id]);
+                console.log(results);
+                if(Array.isArray(results) && results.length !== 0){
+                    return Promise.resolve(results);
+                }
+                else{
+                    return Promise.resolve([]);
+                }
+            }
+        }
+        catch(e){;
+            Promise.reject([]);
+        }
+    }
+
     async getPostsPaged(page: string, order: string){
         const PAGE_SIZE = 5;
 
@@ -64,6 +86,63 @@ export default class PostRepository{
                 const [results, fields] = await pool.execute(query, [PAGE_SIZE.toString(), OFFSET.toString()]);
                 if(Array.isArray(results) && results.length !== 0){
                     return Promise.resolve(results);
+                }
+                else{
+                    return Promise.resolve([]);
+                }
+            }
+        }
+        catch(e){
+            throw e;
+        }
+    }
+
+    async getPostsByCategoryPaged(tag: string, page: string, order: string){
+        const PAGE_SIZE = 5;
+        console.log("AHORA POR ACÁ 1");
+        let OFFSET;
+        Number.parseInt(page) == 0 ? OFFSET = 0 : OFFSET = (Number.parseInt(page)) * PAGE_SIZE;
+
+        console.log("AHORA POR ACÁ 2");
+        try{
+            if (pool instanceof Error || typeof pool === "undefined"){
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+            }
+            else{
+    
+                const [posts_ids,fieldss] = await pool.execute("SELECT post_id FROM posts_categories WHERE category_tag = ?", [tag]);
+                console.log("UYUYUYUYUYUYUYUYUYUYUY");
+                console.log("------------------------");
+                console.log(posts_ids);
+                console.log("------------------------");
+                //@ts-ignore
+                const posts_ids_halfway = posts_ids.map(item => item.post_id);
+                if(posts_ids_halfway.length == 0){
+                    return Promise.resolve([]);
+                }
+                const posts_ids_flattened = posts_ids_halfway.join(",");
+                console.log(posts_ids_flattened);       
+                //Se que está mal, pero weno, no me andaba
+                let query = (order == "new") ?
+                `SELECT * FROM posts WHERE id IN (${posts_ids_flattened}) ORDER BY creation_date DESC LIMIT ${PAGE_SIZE} OFFSET ${OFFSET}` :
+                `SELECT * FROM posts WHERE id IN (${posts_ids_flattened}) ORDER BY opened DESC LIMIT ${PAGE_SIZE} OFFSET ${OFFSET}`;
+
+                const [results, fields] = await pool.execute(query);
+
+                // let query = "SELECT * FROM posts WHERE id IN (?)";
+
+                // const [results, fields] = await pool.execute(query, posts_ids_flattened);
+
+                console.log("------------------------");
+                console.log(results);
+                console.log("------------------------");
+                console.log("UYUYUYUYUYUYUYUYUYUYUY");
+                if(Array.isArray(results) && results.length !== 0){
+                    console.log("------------------------");
+                    console.log(results);
+                    console.log("------------------------");
+                    return Promise.resolve(results);
+
                 }
                 else{
                     return Promise.resolve([]);
