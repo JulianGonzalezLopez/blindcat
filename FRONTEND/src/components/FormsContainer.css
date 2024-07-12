@@ -1,7 +1,0 @@
-.forms-container{
-    grid-area: 1 / 1 / 2 / 6;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content:space-evenly;
-}

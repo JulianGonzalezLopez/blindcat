@@ -1,0 +1,8 @@
+.main{
+    flex: 1; /* O cualquier número para ajustar el tamaño */
+    min-width: 300px;
+}
+
+.posts{
+    width: 100%;
+}

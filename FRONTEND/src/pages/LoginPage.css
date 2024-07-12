@@ -1,0 +1,38 @@
+.parent-container-login{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 100vh;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.login-logo{
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.register-link {
+    position: relative; /* Para posicionar la línea debajo */
+    display: inline-block;
+    color: #007bff; /* Color del texto */
+    cursor: pointer; /* Cambiar el cursor a una mano */
+    text-decoration: none; /* Quitar subrayado predeterminado */
+  }
+  
+  .register-link::after {
+    content: ''; /* Contenido del seudoelemento */
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Posición de la línea debajo del texto */
+    width: 0%;
+    height: 2px; /* Grosor de la línea */
+    background-color: #007bff; /* Color de la línea */
+    transition: width 0.3s ease; /* Animación de la línea */
+  }
+  
+  .register-link:hover::after {
+    width: 100%; /* Ancho de la línea al pasar el mouse */
+  }

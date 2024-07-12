@@ -1,7 +1,9 @@
 import "./Modal.css";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { TokenContext } from "../App";
+import { CreateModalContext } from "../App";
 
-function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentError, openErrorModal}) {
+function CreateModal({ }) {
   const ref = useRef();
   const [formData, setFormData] = useState({
     title: '',
@@ -27,7 +29,6 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
       title: formData.get('title'),
       content: formData.get('content'),
       nsfw: formData.get("nsfw"),
-      category: formData.get("category"),
       creation_date: date
     };
 
@@ -38,7 +39,7 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
     });
 
     try {
-      const response = await fetch('http://localhost:3001/posts', {
+      const response = await fetch('http://localhost:3001/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,33 +68,17 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
     }
   };
 
-  useEffect(() => {
-    if (openModal) {
-      ref.current?.showModal();
-    } else {
-      ref.current?.close();
-    }
-  }, [openModal]);
-
   return (
     <>
     <dialog className="modal"
       ref={ref}
       onCancel={closeModal}
     >
-
       <form onSubmit={handleSubmit} className="modal-form">
         <label htmlFor="title">Titulo</label>
         <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} required />
         <label htmlFor="nsfw">NSFW?</label>
         <input type="checkbox" name="nsfw" id="nsfw" checked={formData.nsfw} onChange={handleChange}/>
-        <label htmlFor="category">Category</label>
-        <select name="category" id="category" required>
-            <option value=""></option>
-            <option value="gen">General</option>
-            <option value="dep">Deportes</option>
-            <option value="ani">Anime</option>
-        </select>
         <label htmlFor="content">Contenido</label>
         <textarea name="content" id="content" cols="30" rows="10" value={formData.content} onChange={handleChange} required></textarea>
         <button className="send" type="submit">Enviar</button>
@@ -106,4 +91,4 @@ function Modal({ openModal, closeModal, token, userId, fetchData, setCurrentErro
   );
 }
 
-export default Modal;
+export default CreateModal;

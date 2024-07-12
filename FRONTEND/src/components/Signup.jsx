@@ -3,9 +3,9 @@ import "./FormLoginSignup.css";
 import { useState } from "react";
 
 
-function Signup({username, setUsername, logged, setLogged, setCurrentError, openErrorModal}) {
+function Signup({setError}) {
 
-  const handleSubmit = async (event, setCurrentError, openErrorModal) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);
@@ -35,23 +35,14 @@ function Signup({username, setUsername, logged, setLogged, setCurrentError, open
       });
 
       if (response.ok) {
-
-        event.target.reset();
-        let positiveVerificacion = document.getElementById("positive-verification");
-        positiveVerificacion.classList.add("show-verification"); 
-
+        window.location.reload();
       } else {
         let responseJSON = await response.json();
-        console.log(responseJSON);
-        setCurrentError(responseJSON.error);
-        openErrorModal();
-
+        setError(responseJSON.error);
       }
     } catch (error) {
       console.error('Error al conectarse al servidor:', error);
-      let negativeVerification = document.getElementById("negative-verification");
-      negativeVerification.classList.add("show-verification");
-      // Aquí puedes manejar errores de conexión de red
+
     }
   };
 
@@ -59,7 +50,7 @@ function Signup({username, setUsername, logged, setLogged, setCurrentError, open
   return (
     <div className="form-container">
       <h2>Sign Up</h2>
-      <form action="http://localhost:3001/signup" method="post" onSubmit={()=>{handleSubmit(event, setCurrentError, openErrorModal)}}>
+      <form action="http://localhost:3001/signup" method="post" onSubmit={()=>{handleSubmit(event)}}>
         <label htmlFor="username">Username</label>
         <input type="text" id="username" name="username" required />
         <label htmlFor="password">Password</label>

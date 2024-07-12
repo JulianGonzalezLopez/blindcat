@@ -1,29 +1,21 @@
 .header{
     display: flex;
-    position: sticky;
+    position:fixed;
     left: 0;
     right: 0;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    background-color: black;
+    justify-content: left;
     width: 100%;
+    background-color: white;
     margin: 0;
-    margin: b;
     padding: 0;
     height: 10vh;
 }
 
-.top-header, .bottom-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: row;
-  width: 50%;
-}
 
-.header *{
-  margin: 0;
+.header > *{
+  margin: 1rem;
   box-sizing: border-box;
 }
 
@@ -38,32 +30,19 @@
 }
 
 
-@media screen and (max-width: 600px) {
-  .header{
-    flex-wrap: wrap;
-    height: 20vh;
-  }
-  .top-header,.bottom-header{
-    min-width: 300px;
-  }
-}
-
 .header > {
     color: white;
 }
 
 .header > p, .header >form,.header > div{
-    color: white;
+    color: black;
 }
-
 
 .logo{   
-    height: 4vw;
+  box-sizing: content-box;
+    height: 30px;
     width: auto;
-    min-height: 50px;
 }
-
-
 
 /*CSS DEL BOTON DE SWITCH NSFW*/
 /* The switch - the box around the slider */
@@ -81,57 +60,8 @@
     height: 0;
   }
   
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
-    background-color: #3DD1E7;
-  }
-  
-  input:focus + .slider {
-    box-shadow: 0 0 1px #3DD1E7;
-  }
-  
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
-
-
   .header-button{
-    background-color: white;
+    background-color: #66b3ff;
     border: 0 solid #E5E7EB;
     box-sizing: border-box;
     color: #000000;
@@ -160,4 +90,9 @@
 
   .header-button:HOVER{
     background-color: #3DD1E7;
+  }
+
+
+  .logout-button{
+    margin-left: auto;
   }

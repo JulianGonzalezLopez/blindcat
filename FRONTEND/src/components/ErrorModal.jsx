@@ -1,28 +1,35 @@
 import "./ErrorModal.css";
-import { useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-function ErrorModal({ error, openModal, closeModal}) {
-  const ref = useRef();
+function ErrorModal({message, setError}){
+    const [visible, setVisible] = useState(true);
+    const [fade, setFade] = useState(false);
+  
+    useEffect(() => {
+      // Agregar la clase fade-out inmediatamente
+      setFade(true);
+  
+      // Después de 5 segundos, ocultar el popup y realizar acciones adicionales
+      const timer = setTimeout(() => {
+        setFade(false);
+        setVisible(false);
+        setError("");
+      }, 5000); // 5 segundos
+  
+      // Limpieza del temporizador cuando el componente se desmonte
+      return () => clearTimeout(timer);
+    }, [message]);
+  
+    return (
+      <>
+        {visible && (
+          <div className={`disappearing-div error-container ${fade ? "fade-out" : ""}`}>
+            <p className="error-text">{message}</p>
+          </div>
+        )}
+      </>
+    );
+  };
 
-  useEffect(() => {
-    if (openModal) {
-        ref.current?.show();
-        document.getElementById("error-modal").classList.add("disappear");
-        setTimeout(function() {
-            document.getElementById("error-modal").classList.remove("disappear");
-            ref.current?.close();
-            closeModal();
-          }, 1000);
-    } else {
-      ref.current?.close();
-    }
-  }, [openModal]);
-
-  return (
-    <dialog ref={ref} onCancel={closeModal} className="error-modal" id="error-modal">
-    <p>{error}</p>
-    </dialog>
-  );
-}
 
 export default ErrorModal;

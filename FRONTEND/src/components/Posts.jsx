@@ -1,10 +1,11 @@
 
 import "./Posts.css";
 import Post from "./Post";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { TokenContext } from "../App";
 
-function Posts({token, page, setPage, setOrder, lastPosts, setSelectedPost, order, setRelatedCommets, setLastPosts, relatedCommets, post_id, nsfw}) {
-  const [focus, setFocus] = useState(false);
+function Posts({ page, setPage, setOrder, lastPosts, setSelectedPost, order, setRelatedCommets, setLastPosts, relatedCommets, post_id, nsfw}) {
+  const [token, setToken] = useContext(TokenContext);
 
   return (
     <>
@@ -29,7 +30,7 @@ function Posts({token, page, setPage, setOrder, lastPosts, setSelectedPost, orde
           setRelatedCommets={setRelatedCommets}
           relatedCommets={relatedCommets}
         />
-      );
+      )
   })}
   <button className="button-53" onClick={()=>{setPage(page+1)}}>Leer mas...</button>
 </div>

@@ -1,24 +1,30 @@
 .comments-section{
-    grid-area: 1 / 3 / 2 / 6;
-    align-self: start;
-    width: 100%;
     display: flex;
+    align-self: start;
+    flex: 1; /* O cualquier número para ajustar el tamaño */
+    min-width: 400px;
+    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
-    margin-top: 1rem;
+    background-color: rebeccapurple;
+    margin: .5rem;
 }
 
 .comment-form{
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 90%;
-    height: 30vh;
+    min-height: 30vh;
+    margin: .5rem;
 }
 
 .comment-form textarea{
     box-sizing: border-box;
     resize: none;
+    width: 500px;
     width: 100%;
+    height: 200px;
     padding: .5rem;
     font-family:inherit;
 }
@@ -29,3 +35,17 @@
     width: 100px;
     align-self: flex-end !important;
 }   
+
+.comments{
+    width: 90%;
+    height: 50vh;
+    padding: 0;
+    margin: 0;
+}
+
+
+@media screen and (width < 600px){
+    .comments-section{
+        min-width: 300px;
+    }
+}

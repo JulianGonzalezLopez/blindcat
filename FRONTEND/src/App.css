@@ -4,35 +4,24 @@
   max-height: 100vh;
   margin: 0;
   padding: 0;
+  width: 100vw;
+  min-height: 100%;
+  min-width: 320px;
   box-sizing: border-box;
   text-align: center;
   font-family: "Roboto", sans-serif;
   /*width: 100vw;*/
 }
 
-#root > * {
+#root *{
   box-sizing: border-box;
+  
 }
 
-.main{
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  justify-content: start;
-  height: 90vh;
-  width: 100vw;
-}
-
-.main-mobile{
+.app{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  height: 90vh;
+  justify-content: center;
+  height: 100vh;
   width: 100vw;
 }
-
-
 

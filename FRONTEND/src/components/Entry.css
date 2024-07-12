@@ -1,0 +1,40 @@
+.entry_container{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    padding: .5rem;
+    margin: .5rem;
+    border: 1px solid black;
+    flex: 1;
+    min-width: 600px;
+    max-width: 600px;
+    box-sizing: border-box;
+    background-color: lightgray;
+}
+
+.entry_container:hover, .entry_container:hover *{
+    filter: brightness(0.97);
+}
+
+
+.entry_container *{
+    overflow-wrap: anywhere;
+}
+
+.content{
+    text-overflow: ellipsis; /* Muestra "..." al final */
+}
+
+
+.blurred{
+    filter: blur(4px); /* ajusta el valor de px según lo necesites */
+}
+
+@media screen and (width < 600px){
+    .entry_container{
+        min-width: 300px;
+    }
+}
+
+
