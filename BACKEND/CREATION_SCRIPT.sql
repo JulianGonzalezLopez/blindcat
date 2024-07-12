@@ -1,3 +1,4 @@
+DROP DATABASE blindcat;
 CREATE DATABASE blindcat;
 USE blindcat;
 
@@ -17,6 +18,7 @@ CREATE TABLE posts(
     nsfw boolean DEFAULT FALSE, 
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     opened int not null DEFAULT 0,
+    category varchar(3) not null DEFAULT "gen",
     PRIMARY KEY(id)
 );
 
@@ -26,6 +28,28 @@ CREATE TABLE comments(
     creator_id varchar(36) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(creator_id) REFERENCES users(id)
+);
+
+CREATE TABLE categories(
+    tag varchar(3) not null,
+    name varchar(32) not null,
+    nsfw boolean DEFAULT FALSE, 
+    PRIMARY KEY(tag)
+);
+
+INSERT INTO categories(tag,name) values("dep","deportes");
+INSERT INTO categories(tag,name) values("gen","general");
+INSERT INTO categories(tag,name) values("hen","hentai");
+INSERT INTO categories(tag,name) values("dev","desarrollo");
+INSERT INTO categories(tag,name) values("ani","anime");
+
+
+CREATE TABLE posts_categories(
+    category_tag varchar(3) not null,
+    post_id int not null,
+    PRIMARY KEY(category_tag,post_id),
+    FOREIGN KEY(category_tag) REFERENCES categories(tag),
+    FOREIGN KEY(post_id) REFERENCES posts(id)
 );
 
 CREATE TABLE posts_comments(
