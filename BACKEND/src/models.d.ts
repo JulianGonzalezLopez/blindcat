@@ -14,7 +14,7 @@ interface Post{
     content: string,
     nsfw?: boolean,
     creation_date: Date,
-    opened?: number
+    opened?: number,
 }
 
 interface Comment{
@@ -38,6 +38,12 @@ interface UserPost{
     user_id: string,
     post_id: number
 }
+
+interface CategoryPost{
+    category: string,
+    post_id: number
+}
+
 
 interface Opened_posts{
     post_id: number,
