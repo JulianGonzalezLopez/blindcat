@@ -31,7 +31,17 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
     console.log(token);
 
     async function fetchPosts(tk){
-        let posts = await fetch(`http://localhost:3001/posts/?page=${page}&order=${order}&category=${selectedCategory}`,
+        
+      let url;
+      
+      if(selectedCategory == "none"){
+        url = `http://localhost:3001/posts/?page=${page}&order=${order}`;
+      }
+      else{
+        url = `http://localhost:3001/posts/?page=${page}&order=${order}&category=${selectedCategory}`;
+      }
+
+      let posts = await fetch(url,
       {
         headers: new Headers({
           "Authorization": tk
@@ -50,10 +60,6 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
       setUsername("");
       navegate("/login");
     }
-
-    // function handleCreate(){
-
-    // }
 
     useEffect(()=>{
 
