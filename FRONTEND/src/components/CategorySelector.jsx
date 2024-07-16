@@ -9,7 +9,7 @@ const CategorySelector = ({ categories, selectedCategory, onCategoryChange }) =>
 
   return (
     <select className='header-select' value={selectedCategory} onChange={(e) => onCategoryChange(e.target.value)}>
-      <option value="none" defaultValue>Categorias</option>
+      <option value="none" defaultValue>Ver todo</option>
       {categories.map((category) => (
         <option key={category.key} value={category.value}>
           {category.key}

@@ -6,7 +6,6 @@
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
-    background-color: rebeccapurple;
     margin: .5rem;
 }
 
@@ -38,7 +37,6 @@
 
 .comments{
     width: 90%;
-    height: 50vh;
     padding: 0;
     margin: 0;
 }

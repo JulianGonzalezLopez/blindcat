@@ -64,9 +64,9 @@ function Entry({title,content, creation_date, setSelectedPost, post_id, token, n
             navegate("/entry");
           }
           }}>
-            <h3 className="title">{entryData.title} asdasdsad</h3>
-            <p className="content">{entryData.content} asdasdasd</p>
-            <p className="creator"> {entryData.creation_date} - {entryData.creator_username} asdasd</p> 
+            <h3 className="title">{entryData.title}</h3>
+            <p className="content">{entryData.content}</p>
+            <p className="creator"> {entryData.creation_date} - {entryData.creator_username} </p> 
         </div>
   )
 }

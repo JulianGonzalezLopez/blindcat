@@ -24,7 +24,8 @@ import fetchAuthorization from './helpers/fetchAuthorization';
     const [error, setError] = useState("");
     const [currentEntry,setCurrentEntry] = useState({title:"", content:"", id:0, username:""});
     const [currentComments, setCurrentComments] = useState([]);
-    const [showCreateModal, setShowCreateModal] = useState(true);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [categories] = useState([{key:"General", value:"gen"},{key:"Deporte", value:"dep"},{key:"Anime", value:"ani"}]); // Ejemplo de categorías
 
     //Constantes nuevas
     const navegate = useNavigate();
@@ -94,13 +95,13 @@ import fetchAuthorization from './helpers/fetchAuthorization';
             <EntryContext.Provider value={[currentEntry, setCurrentEntry, currentComments, setCurrentComments]}> 
               <Routes>
                 <Route path="/login" element={<LoginPage  setUsername={setUsername} setError={setError} />}/>
-                <Route path="/app" element={<EntriesPage username={username} setUsername={setUsername}/>}/>
+                <Route path="/app" element={<EntriesPage categories={categories} cusername={username} setUsername={setUsername}/>}/>
                 <Route path="/entry" element={<EntryPage></EntryPage>}></Route>
               </Routes>
             </EntryContext.Provider>
           </CreateModalContext.Provider>
+          {showCreateModal && <CreateModal setShowCreateModal={setShowCreateModal} categories={categories} ></CreateModal>}
         </TokenContext.Provider>
-        {/* {showCreateModal && <CreateModal></CreateModal>} */}
         {error && <ErrorModal message={error} type="error" setError={setError}></ErrorModal>}
       </div>
     )

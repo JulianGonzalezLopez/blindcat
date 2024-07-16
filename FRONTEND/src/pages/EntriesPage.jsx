@@ -13,15 +13,16 @@ import { useEffect, useState, useContext} from "react";
 import { useNavigate } from "react-router-dom";
 //CONTEXT IMPORTS
 import { TokenContext } from "../App";
+import { CreateModalContext } from "../App";
 //HELPERS IMPORTS
 import fetchAuthorization from "../helpers/fetchAuthorization";
 
-  function EntriesPage({username, setUsername}) {
+  function EntriesPage({username, setUsername, categories}) {
     const [token,setToken] = useContext(TokenContext);
+    const [showCreateModal, setShowCreateModal] = useContext(CreateModalContext)
     const navegate = useNavigate();
-    const [lastPosts,setLastPosts] = useState([]); //NECESITO UN BOTON FIXED QUE SE ENCARGUE DE ACTUALIZAR A PEDIDO DE LA PERSONA
+    const [lastPosts,setLastPosts] = useState([]);
     const [nsfw,setNsfw] = useState(false);
-    const [categories] = useState([{key:"General", value:"gen"},{key:"Deporte", value:"dep"},{key:"Anime", value:"ani"}]); // Ejemplo de categorías
     //A tener en cuenta para pedidos de información
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState("new");
@@ -39,7 +40,7 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
       );
       let postsJSON = await posts.json();   
       if(postsJSON.length > 0){
-        setLastPosts([...lastPosts, ...postsJSON]);
+        return postsJSON;
       }
     }
 
@@ -55,38 +56,63 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
     // }
 
     useEffect(()=>{
-      fetchPosts(token);
+
+      async function auxFunction(){
+        try{
+          let res = await fetchPosts(token);
+          setLastPosts(res);
+        }
+        catch(err){
+          console.log(err);
+        }
+      }
+
+      auxFunction();
+
     },[token]);
 
+    useEffect(()=>{
 
+      async function auxFunction(){
+        try{
+          let res = await fetchPosts(token);
+          let final = [...lastPosts, ...res]
+          setLastPosts(final);
+        }
+        catch(err){
+          console.log(err);
+        }
+      }
 
-    // useEffect(()=>{
-    //   setLastPosts([]);
-    //   fetchPosts(token);
-    // },[selectedCategory])
+      auxFunction();
 
+    },[page]);
 
+    useEffect(()=>{
 
+      async function auxFunction(){
+        try{
+          setPage(0)
+          setLastPosts([]);
+          let res = await fetchPosts(token);
+          setLastPosts(res);
+        }
+        catch(err){
+          console.log(err);
+        }
+      }
+      
+      auxFunction();
 
-    // useEffect(() => {
-  
-
-    //   fetchAuthorization();
-  
-    //   return () => {
-    //     // Realizar limpieza, si es necesario
-    //   };
-    // }, [page, order]);
-  
-
+    },[order, selectedCategory]);
 
     return (
       <>
         <header className="header">
           <img className="logo" src={b} alt="blindcat logo" />
-          <p className="username"> {"> pepepepepe" + username}</p>
+          <p className="username"> {"> "}</p>
           <CategorySelector className="header-button category-selector" categories={categories} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory}></CategorySelector>
-          <button className="header-button create-button" onClick={()=>{console.log("CREAR")}}>Crear</button>
+          <button className="header-button create-button" onClick={()=>{setShowCreateModal(true)}}>Crear</button>
           <button className="header-button logout-button" onClick={()=>{handleLogout()}}>Cerrar</button>
         </header>        
         

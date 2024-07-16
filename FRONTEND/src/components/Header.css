@@ -13,6 +13,7 @@
     padding: 0;
     height: 10vh;
     flex-wrap: wrap;
+    z-index: 1;
 }
 
 
@@ -92,7 +93,7 @@
   }
 
   .header-button:HOVER{
-    background-color: #3DD1E7;
+    background-color: lightskyblue;
   }
 
 

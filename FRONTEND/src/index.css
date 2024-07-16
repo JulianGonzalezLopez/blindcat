@@ -15,8 +15,8 @@ body {
 
 /* CSS */
 .button-53 {
-  background-color: #3DD1E7;
-  border: 0 solid #E5E7EB;
+  background-color: #66b3ff;
+  border: 1px solid black;
   box-sizing: border-box;
   color: #000000;
   display: flex;
@@ -34,7 +34,7 @@ body {
   max-width: 200px;
   position: relative;
   cursor: pointer;
-  transform: rotate(-2deg);
+  /* transform: rotate(-2deg); */
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
