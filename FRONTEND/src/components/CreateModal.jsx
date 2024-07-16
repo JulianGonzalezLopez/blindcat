@@ -1,5 +1,5 @@
 import "./CreateModal.css";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { TokenContext } from "../App";
 import { CreateModalContext } from "../App";
 
@@ -75,6 +75,19 @@ function CreateModal({setShowCreateModal, categories}) {
       // Aquí puedes manejar errores de conexión de red
     }
   };
+
+  useEffect(() => {
+    const manejarTeclaPresionada = (evento) => {
+      if (evento.key === 'Escape') {
+        setShowCreateModal(false);
+      }
+    };
+
+    window.addEventListener('keydown', manejarTeclaPresionada);
+    return () => {
+      window.removeEventListener('keydown', manejarTeclaPresionada);
+    };
+  }, []);
 
   return (
       <form className="create-modal" onSubmit={handleSubmit}>
