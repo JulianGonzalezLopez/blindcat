@@ -10,7 +10,7 @@ export default class PostCommentService{
 
     async createNewPostComment(postComment: PostComment){
         try{
-            let result = await this.#postCommentRepository.createNewPostComment(postComment);
+            const result = await this.#postCommentRepository.createNewPostComment(postComment);
             return result;
         }
         catch(e){
@@ -20,7 +20,7 @@ export default class PostCommentService{
 
     async getPostComments(post_id: any){
         try{
-            let postComments = await this.#postCommentRepository.getPostsCommets(post_id);
+            const postComments = await this.#postCommentRepository.getPostsCommets(post_id);
             console.log(postComments);
             return postComments;
         }

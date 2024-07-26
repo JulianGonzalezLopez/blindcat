@@ -29,7 +29,7 @@ describe('UserService - getUser', ()=>{
    
         // Llamamos al método getUsers de UserService
         try{
-            let res = await userService.getUser("user01");
+            const res = await userService.getUser("user01");
         }
         catch{
             expect(mockGetUser).toHaveBeenCalled();
@@ -53,7 +53,7 @@ describe('UserService - getUser', ()=>{
         const userService = new UserService(new UserRepository());
         // Llamamos al método getUsers de UserService
         
-        let res = await userService.getUser("user1");
+        const res = await userService.getUser("user1");
         
         expect(res).toEqual([{ username: 'user1', cantidad_posts: 10, karma: 20 }]);
         expect(mockGetUser).toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('UserService - getUser', ()=>{
         // Creamos una instancia de UserService con el UserRepository mockeado
         const userService = new UserService(new UserRepository());
         // Llamamos al método getUsers de UserService
-        let res = await userService.getUser("user1");
+        const res = await userService.getUser("user1");
         expect(mockGetUser).toHaveBeenCalled();
         expect(res).toEqual(mockValue);
     });
@@ -97,7 +97,7 @@ describe('UserService - getUsers', () => {
         const userService = new UserService(new UserRepository());
 
         // Llamamos al método getUsers de UserService
-        let res = await userService.getUsers();
+        const res = await userService.getUsers();
 
         expect(mockGetUsers).toHaveBeenCalled();
         expect(res).toEqual(mockValue);
@@ -113,7 +113,7 @@ describe('UserService - getUsers', () => {
         const userService = new UserService(new UserRepository());
 
         // Llamamos al método getUsers de UserService
-        let res = await userService.getUsers();
+        const res = await userService.getUsers();
 
         expect(mockGetUsers).toHaveBeenCalled();
         expect(res).toEqual(mockValue);
@@ -133,7 +133,7 @@ describe('UserService - getUsers', () => {
         const userService = new UserService(new UserRepository());
 
         // Llamamos al método getUsers de UserService
-        let res = await userService.getUsers();
+        const res = await userService.getUsers();
 
         expect(mockGetUsers).toHaveBeenCalled();
         expect(res).toEqual(mockValue);
@@ -167,7 +167,7 @@ describe('UserService - getUserById', ()=>{
         const userService = new UserService(new UserRepository());
         // Llamamos al método getUsers de UserService
         try{
-            let res = await userService.getUserById(999);
+            const res = await userService.getUserById(999);
         }
         catch{
             expect(mockGetUserById).toHaveBeenCalled();
@@ -191,7 +191,7 @@ describe('UserService - getUserById', ()=>{
         const userService = new UserService(new UserRepository());
         // Llamamos al método getUsers de UserService
         
-        let res = await userService.getUserById(1);
+        const res = await userService.getUserById(1);
         
         expect(res).toEqual({ id: 1, username: 'user1', cantidad_posts: 10, karma: 20 });
         expect(mockGetUserById).toHaveBeenCalled();
@@ -224,7 +224,7 @@ describe("UserService - createNewUser",()=>{
 
         // Llamamos al método getUsers de UserService
         try{
-            let res = await userService.createNewUser({username:"user1", password:"passwordUser1"});
+            const res = await userService.createNewUser({username:"user1", password:"passwordUser1"});
         }
         catch(err){
             expect(mockGetUser).toHaveBeenCalled();
@@ -256,7 +256,7 @@ describe("UserService - createNewUser",()=>{
 
         // Llamamos al método getUsers de UserService
         try{
-            let res = await userService.createNewUser({username:"user2", password:"passwordUser2"});
+            const res = await userService.createNewUser({username:"user2", password:"passwordUser2"});
             expect(res).toEqual({statusCode: 201, message: 'El usuario fue creado correctamente' });
             expect(mockGetUser).toHaveBeenCalled();
         }
@@ -297,7 +297,7 @@ describe('UserService - matchData', ()=>{
         const userService = new UserService(new UserRepository());
 
         // Llamamos al método getUsers de UserService
-        let res = await userService.matchData({username: "user1", password:"password2"});
+        const res = await userService.matchData({username: "user1", password:"password2"});
 
         expect(res).toEqual(false);
         expect(mockMatchData).toHaveBeenCalled();
@@ -312,7 +312,7 @@ describe('UserService - matchData', ()=>{
         const userService = new UserService(new UserRepository());
 
         // Llamamos al método getUsers de UserService
-        let res = await userService.matchData({username: "user2", password:"password1"});
+        const res = await userService.matchData({username: "user2", password:"password1"});
 
         expect(res).toEqual(false);
         expect(mockMatchData).toHaveBeenCalled();
@@ -327,7 +327,7 @@ describe('UserService - matchData', ()=>{
         const userService = new UserService(new UserRepository());
 
         // Llamamos al método getUsers de UserService
-        let res = await userService.matchData({username: "user1", password:"password1"});
+        const res = await userService.matchData({username: "user1", password:"password1"});
 
         expect(res).toEqual(true);
         expect(mockMatchData).toHaveBeenCalled();

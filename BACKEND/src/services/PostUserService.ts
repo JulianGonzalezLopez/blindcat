@@ -9,7 +9,7 @@ export default class PostUserService{
 
     async createNewUserPosts(userPost: UserPost){
         try{
-            let result = this.#postUserRepository.createNewUsersPosts(userPost);
+            const result = this.#postUserRepository.createNewUsersPosts(userPost);
             return result;
         }
         catch(e){
@@ -19,7 +19,7 @@ export default class PostUserService{
 
     async getUsersPosts(){
         try{
-            let result = await this.#postUserRepository.getUsersPosts();
+            const result = await this.#postUserRepository.getUsersPosts();
             return result;
         }
         catch(e){
@@ -29,7 +29,7 @@ export default class PostUserService{
 
     async getUserPosts(user_id: number){
         try{
-            let result = await this.#postUserRepository.getUserPosts(user_id);
+            const result = await this.#postUserRepository.getUserPosts(user_id);
             return result;
         }
         catch(e){
@@ -40,7 +40,7 @@ export default class PostUserService{
 
     async getPostUser(post_id: number){
         try{
-           let postUser = this.#postUserRepository.getPostUser(post_id); 
+           const postUser = this.#postUserRepository.getPostUser(post_id); 
            return postUser;
         } 
         catch(e){
@@ -50,7 +50,7 @@ export default class PostUserService{
 
     async getPostsUsers(posts_ids: Array<number> = []){
         try{
-            let postsUsers = await this.#postUserRepository.getPostsUsers(posts_ids);
+            const postsUsers = await this.#postUserRepository.getPostsUsers(posts_ids);
             return postsUsers;
         }
         catch(e){
@@ -60,7 +60,7 @@ export default class PostUserService{
 
     async getUserPost(userPost: UserPost){
         try{
-            let userPostData = await this.#postUserRepository.getUserPost(userPost);
+            const userPostData = await this.#postUserRepository.getUserPost(userPost);
             return userPostData;
         }
         catch(e){
@@ -70,7 +70,7 @@ export default class PostUserService{
 
     async createOpenedPost(userPost: UserPost){
         try{
-            let result = this.#postUserRepository.createOpenedPost(userPost);
+            const result = this.#postUserRepository.createOpenedPost(userPost);
             return result;
         }
         catch(e){
@@ -80,7 +80,7 @@ export default class PostUserService{
 
     async getOpenedPostsCount(post_id: number){
         try{
-            let openedPostsCount = this.#postUserRepository.getOpenedPostsCount(post_id);
+            const openedPostsCount = this.#postUserRepository.getOpenedPostsCount(post_id);
             return openedPostsCount;
         }
         catch(e){

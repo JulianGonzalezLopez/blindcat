@@ -1,4 +1,4 @@
 export default function generateID(){
-    let uuid = crypto.randomUUID();
+    const uuid = crypto.randomUUID();
     return uuid;
 }

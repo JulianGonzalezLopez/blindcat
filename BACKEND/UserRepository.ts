@@ -14,7 +14,7 @@ export default class UserRepository{
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
-                    let res = await pool.execute("SELECT ID from users");  
+                    const res = await pool.execute("SELECT ID from users");  
                     console.log(res);
                     return Promise.resolve(res);
             }
@@ -34,7 +34,7 @@ export default class UserRepository{
                 let unique = false;
                 while(unique == false){
                     uuid = generateID();    
-                    let res = await pool.execute("SELECT * FROM  users WHERE id = (?)",[uuid]);
+                    const res = await pool.execute("SELECT * FROM  users WHERE id = (?)",[uuid]);
                     //@ts-ignore
                     if(res[0].length == 0){
                         unique = true;  

@@ -79,7 +79,7 @@ export default class UserController{
                 throw {statusCode:400, errorMessage:"El campo password tiene que tener 16 caracteres como maximo"}
             }
 
-            let response = await this.userService.createNewUser({username, password, rePassword, creation_date})
+            const response = await this.userService.createNewUser({username, password, rePassword, creation_date})
             .then(data=>{
                 res.json(data); //The user has been created successfully
             })
@@ -127,9 +127,9 @@ export default class UserController{
                 throw {statusCode:400, errorMessage:"El campo password tiene que tener 16 caracteres como maximo"}
              }
                 
-             let response = await this.userService.matchData({username, password});
+             const response = await this.userService.matchData({username, password});
              if(response.status == true){
-                let token = this.authHelper.authorize(response.user_id);
+                const token = this.authHelper.authorize(response.user_id);
                 console.log("Logged in");
                 res.json({token:token}); 
              }
@@ -146,7 +146,7 @@ export default class UserController{
     async getInteractions(req: Request, res: Response){
         try{
             console.log("COMIENZA LA COPA PISTON!");
-            let username = req.params.username;
+            const username = req.params.username;
             console.log(username);
 
             if(username == ""){
@@ -157,8 +157,8 @@ export default class UserController{
                 throw {statusCode: 400, errorMessage: 'El campo username debe ser tipo string'}; 
             }
             //HAY QUE VER COMO DEVUELVE LA INFORMACION getUser    
-            let udata = await this.userService.getUser(username);
-            let uid = udata[0].id;
+            const udata = await this.userService.getUser(username);
+            const uid = udata[0].id;
             console.log(udata);
             console.log(udata[0]);
             console.log(udata[0].id);
@@ -167,10 +167,10 @@ export default class UserController{
             let posts_ids = await this.postUserService.getUserPosts(uid);
             //@ts-ignore
             posts_ids = posts_ids.map((post)=>post.post_id)
-            let posts = await this.postService.getPostsByID(posts_ids);
+            const posts = await this.postService.getPostsByID(posts_ids);
             //NO CREADO (METODO NI CLASE)
             //@ts-ignore
-            let comments = await this.commentService.getCommentsByUID(uid);
+            const comments = await this.commentService.getCommentsByUID(uid);
             console.log(comments);
 
 

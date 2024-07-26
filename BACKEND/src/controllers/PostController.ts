@@ -111,7 +111,7 @@ export default class PostController{
         };
         console.log("LLEGAMOS AHORA ACÁAAAAAAAA");
 
-        let userData = await this.#userService.getUserDataById(user_id);
+        const userData = await this.#userService.getUserDataById(user_id);
         
         // if("creation_date" in userData){
         //   ageRequired(userData.creation_date);
@@ -120,13 +120,13 @@ export default class PostController{
         //   throw {statusCode:404, errorMessage:"Datos del usuario invalidos, falta fecha"}
         // }
 
-        let response = await this.#postService.createPost({
+        const response = await this.#postService.createPost({
           title,
           content,
           nsfw,
           creation_date
         });
-        let post_id = response;
+        const post_id = response;
     
         await this.#postUserService.createNewUserPosts({ user_id, post_id });
         res.send("ok"); // => Esto lo tengo que cambiar
@@ -227,15 +227,15 @@ export default class PostController{
             response = await this.#postService.getPostsPaged(page, order);
           }
           if (response != undefined && response.length > 0) {  
-            let postsIDs = response.map((post)=>{
+            const postsIDs = response.map((post)=>{
               //@ts-ignore
               return post.id;
             });
-            let posts_users = await this.#postUserService.getPostsUsers(postsIDs);
+            const posts_users = await this.#postUserService.getPostsUsers(postsIDs);
             console.log("Post's users");
             console.log(posts_users);
             //@ts-ignore
-            let auxIDArray = [];
+            const auxIDArray = [];
             let postsUsersIDs = posts_users.map((pu)=>{
               //@ts-ignore
               if(auxIDArray.findIndex(item=>pu.user_id == item) == -1){
@@ -255,9 +255,9 @@ export default class PostController{
             //Capaz lo saco a la mierda igual, qcy
             //
       
-            let mappedResponse = response.map((post)=>{
+            const mappedResponse = response.map((post)=>{
               //@ts-ignore
-              let position = posts_users.findIndex(item => item.post_id == post.id);
+              const position = posts_users.findIndex(item => item.post_id == post.id);
               return {
                   ...post,
                   //@ts-ignore
@@ -267,13 +267,13 @@ export default class PostController{
             console.log("mappedResponse");
             console.log(mappedResponse);
 
-            let usernamesById = await this.#userService.getUsernamesById(postsUsersIDs); //ACÁ ESTÁ EL ERROR
+            const usernamesById = await this.#userService.getUsernamesById(postsUsersIDs); //ACÁ ESTÁ EL ERROR
             console.log("USERNAMES BY ID");
             console.log(usernamesById);
 
-            let finalMappedResponse = mappedResponse.map((response)=>{
+            const finalMappedResponse = mappedResponse.map((response)=>{
               //@ts-ignore
-              let position = usernamesById.findIndex(item=>item.id == response.user_id);
+              const position = usernamesById.findIndex(item=>item.id == response.user_id);
               return{
                 ...response,
                 //@ts-ignore
@@ -303,21 +303,21 @@ export default class PostController{
             throw "post_id no es del tipo apropiado";
           }
 
-          let response = await this.#postService.getPost(post_id);
+          const response = await this.#postService.getPost(post_id);
           if (response != undefined && response.length > 0) {  
             //@ts-ignore
-            let post_id = response[0].id;
+            const post_id = response[0].id;
             console.log("LLEGAMOS ACÁ");
             console.log(response[0].id);
-            let post_user = await this.#postUserService.getPostUser(post_id);
+            const post_user = await this.#postUserService.getPostUser(post_id);
             console.log("Post's users");
             console.log(post_user);
-            let getUserByIdResponse = await this.#userService.getUserById(post_user.user_id); //ACÁ ESTÁ EL ERROR
-            let username = getUserByIdResponse[0].username;
+            const getUserByIdResponse = await this.#userService.getUserById(post_user.user_id); //ACÁ ESTÁ EL ERROR
+            const username = getUserByIdResponse[0].username;
             console.log("USERNAMES BY ID");
             console.log(username);
             //@ts-ignore
-            let final = {
+            const final = {
               ...response[0],
               username
             }

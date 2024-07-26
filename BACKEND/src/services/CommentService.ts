@@ -9,7 +9,7 @@ export default class CommentService{
 
     async createNewComment(comment: Comment){
         try{
-            let result = this.#commentRepository.createNewComment(comment);
+            const result = this.#commentRepository.createNewComment(comment);
             return result;
         }
         catch(e){
@@ -19,7 +19,7 @@ export default class CommentService{
 
     async getComments(comment_id: number){
         try{
-            let comments = await this.#commentRepository.getComments(comment_id);
+            const comments = await this.#commentRepository.getComments(comment_id);
             console.log(comments);
             return comments;
         }
@@ -30,7 +30,7 @@ export default class CommentService{
 
     async getCommentsByUID(user_id: number){
         try{
-            let comments = await this.#commentRepository.getCommentsByUID(user_id);
+            const comments = await this.#commentRepository.getCommentsByUID(user_id);
             console.log(comments);
             return comments;
         }

@@ -26,7 +26,7 @@ export default class CommentController {
         throw {statusCode: 400, errorMessage:"El id del post a comentar es indefinido"};
       }
 
-      let response = await this.#postCommentService.getPostComments(
+      const response = await this.#postCommentService.getPostComments(
         req.params.post_id
       );
 
@@ -36,7 +36,7 @@ export default class CommentController {
         //@ts-ignore;
         const promises = response.map(async (comment) => {
           //@ts-ignore
-          let aux = await this.#commentService.getComments(comment.comment_id);
+          const aux = await this.#commentService.getComments(comment.comment_id);
           return aux;
         });
 
@@ -55,7 +55,7 @@ export default class CommentController {
             throw "err";
           }
           if("creator_id" in comment[0]){
-            let user = await this.#userService.getUserById(comment[0].creator_id);
+            const user = await this.#userService.getUserById(comment[0].creator_id);
             return {
               //@ts-ignore
               id: comment[0].id,
@@ -124,7 +124,7 @@ export default class CommentController {
         throw {statusCode: 400, errorMessage:"content no es de tipo string"};
       }
       console.log("MINIMO");
-      let userData = await this.#userService.getUserDataById(user_id);
+      const userData = await this.#userService.getUserDataById(user_id);
       console.log("MINIMO X2");
       console.log(userData);
       //@ts-ignore
@@ -132,11 +132,11 @@ export default class CommentController {
       //@ts-ignore
       console.log("LLEGÓ ACÁ");
       console.log(user_id);
-      let creator_id = user_id;
-      let response = await this.#commentService.createNewComment({content,creator_id});
+      const creator_id = user_id;
+      const response = await this.#commentService.createNewComment({content,creator_id});
       console.log("AHORA ESTO Y LISTO");
       console.log(response);
-      let comment_id = response;
+      const comment_id = response;
 
       console.log(post_id);
       console.log(comment_id);

@@ -11,7 +11,7 @@ export default class UserService{
 
     async getUsers(){
         try{
-            let users = await this.#userRepository.getUsers();
+            const users = await this.#userRepository.getUsers();
             return users;
         }
         catch(e){
@@ -21,7 +21,7 @@ export default class UserService{
 
     async getUser(username: string){
         try{
-            let user = await this.#userRepository.getUser(username);
+            const user = await this.#userRepository.getUser(username);
             if(Array.isArray(user) && user.length !== 0){
                 return user;
             }
@@ -34,7 +34,7 @@ export default class UserService{
 
     async getUserById(id:string){
         try{
-            let user = await this.#userRepository.getUserById(id);
+            const user = await this.#userRepository.getUserById(id);
             return user;
         }
         catch(e){
@@ -44,7 +44,7 @@ export default class UserService{
 
     async getUserDataById(id:string){ //HAY QUE BORRAR ESTE METODO
         try{
-            let user = await this.#userRepository.getUserDataById(id);
+            const user = await this.#userRepository.getUserDataById(id);
             return user;
         }
         catch(e){
@@ -54,7 +54,7 @@ export default class UserService{
 
     async getUsernamesById(users_ids: Array<string>){
         try{
-            let users = await this.#userRepository.getUsernamesById(users_ids);
+            const users = await this.#userRepository.getUsernamesById(users_ids);
             console.log("pasó");
             return users;
         }
@@ -65,7 +65,7 @@ export default class UserService{
 
     async matchData(user: User){
         try{
-            let result = await this.#userRepository.matchData(user);
+            const result = await this.#userRepository.matchData(user);
             return result
         }
         catch(e){

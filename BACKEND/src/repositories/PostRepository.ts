@@ -66,7 +66,7 @@ export default class PostRepository{
     }
     
         
-    async getPostsByID(posts_ids: String[] | Number[]){
+    async getPostsByID(posts_ids: string[] | number[]){
         try{
             console.log("25/7");
             console.log(posts_ids)
@@ -106,7 +106,7 @@ export default class PostRepository{
                 const totalPostsQuery = "SELECT COUNT(*) AS totalPosts FROM posts";
                 const [totalPostsRows,asd] = await pool.execute(totalPostsQuery);               
                 
-                let query = order == "new" ? "SELECT * from posts ORDER BY creation_date DESC LIMIT ? OFFSET ?" : "SELECT * from posts ORDER BY opened DESC LIMIT ? OFFSET ? "
+                const query = order == "new" ? "SELECT * from posts ORDER BY creation_date DESC LIMIT ? OFFSET ?" : "SELECT * from posts ORDER BY opened DESC LIMIT ? OFFSET ? "
     
                 const [results, fields] = await pool.execute(query, [PAGE_SIZE.toString(), OFFSET.toString()]);
                 if(Array.isArray(results) && results.length !== 0){
@@ -148,7 +148,7 @@ export default class PostRepository{
                 const posts_ids_flattened = posts_ids_halfway.join(",");
                 console.log(posts_ids_flattened);       
                 //Se que está mal, pero weno, no me andaba
-                let query = (order == "new") ?
+                const query = (order == "new") ?
                 `SELECT * FROM posts WHERE id IN (${posts_ids_flattened}) ORDER BY creation_date DESC LIMIT ${PAGE_SIZE} OFFSET ${OFFSET}` :
                 `SELECT * FROM posts WHERE id IN (${posts_ids_flattened}) ORDER BY opened DESC LIMIT ${PAGE_SIZE} OFFSET ${OFFSET}`;
 

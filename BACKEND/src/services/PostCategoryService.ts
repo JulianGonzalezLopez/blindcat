@@ -8,7 +8,7 @@ export default class PostCategoryService{
 
     async createNewCategoryPost(categoryPost: CategoryPost){
         try{
-            let result = this.#postCategoryRepository.createNewCategoryPost(categoryPost);
+            const result = this.#postCategoryRepository.createNewCategoryPost(categoryPost);
             return result;
         }
         catch(e){

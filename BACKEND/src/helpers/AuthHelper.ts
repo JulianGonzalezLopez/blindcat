@@ -83,7 +83,7 @@ export default class AuthHelper{
     authorize(user_id: number){ //La idea de usar el user_id es tener un valor que en teoria la persona nunca podria ni deberia ser capaz de adquirir (y en el caso de pasar uno que no es, la autenticacion va a fallar)
             try{
                 //@ts-ignore
-              let token = jwt.sign({ user_id }, process.env.SECRET, { expiresIn: "3h" });
+              const token = jwt.sign({ user_id }, process.env.SECRET, { expiresIn: "3h" });
               return token;
           }
           catch(err){

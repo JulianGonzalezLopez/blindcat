@@ -30,7 +30,7 @@ async function getConnection(){
             idleTimeout: 60000
           });
           
-        let connection = await pool.getConnection();
+        const connection = await pool.getConnection();
         
         return connection;
           

@@ -157,7 +157,7 @@ export default class PostUserRepository{
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
-                let [results,rows] = await pool.execute("SELECT * FROM opened_posts WHERE post_id = ? AND user_id = ?",[usersPost.post_id, usersPost.user_id])
+                const [results,rows] = await pool.execute("SELECT * FROM opened_posts WHERE post_id = ? AND user_id = ?",[usersPost.post_id, usersPost.user_id])
                 if(results != undefined && Array.isArray(results) && results.length !== 0){
                     console.log("Ya existe esta relación");
                     return null;

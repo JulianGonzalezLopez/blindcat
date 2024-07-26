@@ -9,7 +9,7 @@ export default class PostService{
 
     async createPost(post: Post){
         try{
-            let result = await this.#postRepository.createPost(post);
+            const result = await this.#postRepository.createPost(post);
             return result;
         }
         catch(e){
@@ -19,7 +19,7 @@ export default class PostService{
 
     async getPosts(){
         try{
-            let posts = await this.#postRepository.getPosts();
+            const posts = await this.#postRepository.getPosts();
             return posts;
         }
         catch(e){
@@ -29,7 +29,7 @@ export default class PostService{
 
     async getPost(post_id: number | string){
         try{
-            let post = await this.#postRepository.getPost(post_id);
+            const post = await this.#postRepository.getPost(post_id);
             return post;
         }
         catch(e){
@@ -40,7 +40,7 @@ export default class PostService{
 
     async getPostsByID(post_ids: number | string){
         try{
-            let post = await this.#postRepository.getPostsByID(post_ids);
+            const post = await this.#postRepository.getPostsByID(post_ids);
             return post;
         }
         catch(e){
@@ -50,7 +50,7 @@ export default class PostService{
 
     async getPostsPaged(page:string, order: string = "new"){
         try{
-            let posts = await this.#postRepository.getPostsPaged(page, order);
+            const posts = await this.#postRepository.getPostsPaged(page, order);
             return posts;
         }
         catch(e){
@@ -60,7 +60,7 @@ export default class PostService{
 
     async getPostsByCategoryPaged(tag:string, page:string, order: string = "new"){
         try{
-            let posts = await this.#postRepository.getPostsByCategoryPaged(tag, page, order);
+            const posts = await this.#postRepository.getPostsByCategoryPaged(tag, page, order);
             return posts;
         }
         catch(e){
