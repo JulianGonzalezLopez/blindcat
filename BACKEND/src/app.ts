@@ -50,7 +50,7 @@ app.get("/authorize/check", (req: Request, res: Response)=>{
 
 app.use("/signup",signup);
 app.use("/login", login);
-//app.use(AuthH.checkAuthorization);
+app.use(AuthH.checkAuthorization);
 app.use("/",post);
 app.use("/user", user);
 
