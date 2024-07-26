@@ -58,6 +58,7 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
       localStorage.removeItem("token");
       setToken("");
       setUsername("");
+      localStorage.removeItem("username");
       navegate("/login");
     }
 
@@ -116,7 +117,7 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
       <>
         <header className="header">
           <img className="logo" src={b} alt="blindcat logo" />
-          <p className="username"> {"> "}</p>
+          <p className="username" onClick={()=>{navegate("/user")}} > {"> " + localStorage.getItem("username")}</p>
           <CategorySelector className="header-button category-selector" categories={categories} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory}></CategorySelector>
           <button className="header-button create-button" onClick={()=>{setShowCreateModal(true)}}>Crear</button>
           <button className="header-button logout-button" onClick={()=>{handleLogout()}}>Cerrar</button>

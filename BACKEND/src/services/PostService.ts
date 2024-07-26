@@ -37,6 +37,17 @@ export default class PostService{
         }
     }
 
+
+    async getPostsByID(post_ids: number | string){
+        try{
+            let post = await this.#postRepository.getPostsByID(post_ids);
+            return post;
+        }
+        catch(e){
+            throw e;
+        }
+    }
+
     async getPostsPaged(page:string, order: string = "new"){
         try{
             let posts = await this.#postRepository.getPostsPaged(page, order);

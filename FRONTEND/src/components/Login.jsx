@@ -36,6 +36,7 @@ function Login({setUsername, setError}) {
         localStorage.setItem("token", tk);
         console.log(tk);
         console.log(token);
+        localStorage.setItem("username", formData.get('username'));
         setUsername(formData.get('username'));
         navegate("/app");
       } else {

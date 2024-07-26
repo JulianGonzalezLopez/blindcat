@@ -64,6 +64,31 @@ export default class PostRepository{
             Promise.reject([]);
         }
     }
+    
+        
+    async getPostsByID(posts_ids: String[] | Number[]){
+        try{
+            console.log("25/7");
+            console.log(posts_ids)
+            if (pool instanceof Error || typeof pool === "undefined"){
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+            }
+            else{
+                const [results, fields] = await pool.execute(`SELECT * FROM posteos WHERE id IN (?)`, [posts_ids]);
+                console.log(results);
+                if(Array.isArray(results) && results.length !== 0){
+                    return Promise.resolve(results);
+                }
+                else{
+                    return Promise.resolve([]);
+                }
+            }
+        }
+        catch(e){;
+            Promise.reject([]);
+        }
+    }
+
 
     async getPostsPaged(page: string, order: string){
         const PAGE_SIZE = 5;

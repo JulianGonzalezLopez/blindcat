@@ -28,6 +28,17 @@ export default class CommentService{
         }
     }
 
+    async getCommentsByUID(user_id: number){
+        try{
+            let comments = await this.#commentRepository.getCommentsByUID(user_id);
+            console.log(comments);
+            return comments;
+        }
+        catch(e){
+            throw e;
+        }
+    }
+
     
 
 }

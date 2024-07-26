@@ -45,6 +45,31 @@ export class CommentRepository{
         }
     }
 
+        
+    async getCommentsByUID(user_id: number){
+        
+        try{
+            if (pool instanceof Error || typeof pool === "undefined"){
+                throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+            }
+            else{
+                const [results, fields] = await pool.execute("SELECT * from comments where creator_id = ?",[user_id]);
+                console.log("WAOS");
+                console.log(results);
+                if(Array.isArray(results) && results.length !== 0){
+                    console.log("Informacion del comentario con id: " + user_id + ":")
+                    console.log(results);
+                    return results;
+                }
+                else{
+                    return Promise.resolve([]);
+                }
+            }
+        }
+        catch(e){
+            throw e;
+        }
+    }
 
 
 

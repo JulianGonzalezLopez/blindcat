@@ -27,6 +27,17 @@ export default class PostUserService{
         }
     }
 
+    async getUserPosts(user_id: number){
+        try{
+            let result = await this.#postUserRepository.getUserPosts(user_id);
+            return result;
+        }
+        catch(e){
+            throw e;
+        }
+    }
+
+
     async getPostUser(post_id: number){
         try{
            let postUser = this.#postUserRepository.getPostUser(post_id); 

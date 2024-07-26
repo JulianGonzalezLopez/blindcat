@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import EntriesPage from './pages/EntriesPage';
 import EntryPage from './pages/EntryPage';
 import ErrorModal from './components/ErrorModal';
+import UserPage from './pages/UserPage';
 //COMPONENTS IMPORTS
 import CreateModal from './components/CreateModal';
 //CONTEXT EXPORTS
@@ -95,8 +96,9 @@ import fetchAuthorization from './helpers/fetchAuthorization';
             <EntryContext.Provider value={[currentEntry, setCurrentEntry, currentComments, setCurrentComments]}> 
               <Routes>
                 <Route path="/login" element={<LoginPage  setUsername={setUsername} setError={setError} />}/>
-                <Route path="/app" element={<EntriesPage categories={categories} cusername={username} setUsername={setUsername}/>}/>
+                <Route path="/app" element={<EntriesPage categories={categories} username={username} setUsername={setUsername}/>}/>
                 <Route path="/entry" element={<EntryPage></EntryPage>}></Route>
+                <Route path="/user" element={<UserPage></UserPage>}></Route>
               </Routes>
             </EntryContext.Provider>
           </CreateModalContext.Provider>

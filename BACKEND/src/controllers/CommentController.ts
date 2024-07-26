@@ -68,6 +68,7 @@ export default class CommentController {
         });
         Promise.all(promisesUsername).then((final) => {
           console.log("FINALLLLLLLLLLL");
+          console.log("questa pasando");
           console.log(promisesUsername);
           res.json(final);
         });

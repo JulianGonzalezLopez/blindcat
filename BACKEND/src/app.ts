@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import signup from "./routes/signup";
 import login from "./routes/login";
 import post from "./routes/post";
+import user from "./routes/user";
 import AuthHelper from "./helpers/AuthHelper";
 //@ts-ignore
 import { Request, Response } from "express";
@@ -49,8 +50,9 @@ app.get("/authorize/check", (req: Request, res: Response)=>{
 
 app.use("/signup",signup);
 app.use("/login", login);
-app.use(AuthH.checkAuthorization);
+//app.use(AuthH.checkAuthorization);
 app.use("/",post);
+app.use("/user", user);
 
 app.use(function(err : Error, req: Request, res: Response, next: Function) {
     console.error(err.stack);

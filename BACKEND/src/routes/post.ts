@@ -30,4 +30,6 @@ router.get("/posts/:post_id/comments/", CommentC.getComments.bind(CommentC));
 
 router.post("/posts/opened", PostC.createOpenedPost.bind(PostC)); //FALTA TEST
 
+
+
 export default router;
