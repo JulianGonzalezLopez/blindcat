@@ -4,7 +4,6 @@ import pool from "../pool";
 export default class PostCommentRepository{
 
     async createNewPostComment(postComment : PostComment){
-        try{
             if(postComment.post_id == null || postComment.comment_id == null){
                 return Promise.reject({"en":"At least one of the inputs is null"});
             }
@@ -19,16 +18,9 @@ export default class PostCommentRepository{
                 //@ts-ignore
                 return Promise.resolve(rows.insertId)
             }
-        }
-        catch(e){
-            console.log(e);
-            return e;
-        }
     }
 
     async getPostsCommets(post_id: any){
-
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -44,19 +36,6 @@ export default class PostCommentRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
-
-
-
-
-
-
-
-
-
 
 }

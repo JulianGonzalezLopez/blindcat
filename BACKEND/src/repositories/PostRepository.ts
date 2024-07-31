@@ -3,9 +3,6 @@ import pool from "../pool";
 export default class PostRepository{
 
     async createPost(post: Post){
-        try{
-
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -16,14 +13,9 @@ export default class PostRepository{
                 //@ts-ignore
                 return Promise.resolve(rows.insertId)
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getPosts(){
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -37,15 +29,10 @@ export default class PostRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){;
-            Promise.reject([]);
-        }
     }
 
     
     async getPost(post_id: number | string){
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -59,22 +46,17 @@ export default class PostRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){;
-            Promise.reject([]);
-        }
     }
     
         
     async getPostsByID(posts_ids: string[] | number[]){
-        try{
             console.log("25/7");
             console.log(posts_ids)
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
-                const [results, fields] = await pool.execute(`SELECT * FROM posteos WHERE id IN (?)`, [posts_ids]);
+                const [results, fields] = await pool.execute(`SELECT * FROM posts WHERE id IN (?)`, [posts_ids]);
                 console.log(results);
                 if(Array.isArray(results) && results.length !== 0){
                     return Promise.resolve(results);
@@ -83,10 +65,6 @@ export default class PostRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){;
-            Promise.reject([]);
-        }
     }
 
 
@@ -97,7 +75,6 @@ export default class PostRepository{
     
         Number.parseInt(page) == 0 ? OFFSET = 0 : OFFSET = (Number.parseInt(page)) * PAGE_SIZE;
     
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -116,10 +93,6 @@ export default class PostRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getPostsByCategoryPaged(tag: string, page: string, order: string){
@@ -129,7 +102,6 @@ export default class PostRepository{
         Number.parseInt(page) == 0 ? OFFSET = 0 : OFFSET = (Number.parseInt(page)) * PAGE_SIZE;
 
         console.log("AHORA POR ACÁ 2");
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -173,9 +145,5 @@ export default class PostRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 }

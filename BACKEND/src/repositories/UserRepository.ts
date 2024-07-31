@@ -8,8 +8,6 @@ export default class UserRepository{
       }
 
     async getUsersIds(){
-        try{
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -18,14 +16,9 @@ export default class UserRepository{
                     console.log(res);
                     return Promise.resolve(res);
             }
-        }
-        catch(e){
-            throw e;
-        }
     } 
 
     async createNewUser(user : User){
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -45,17 +38,11 @@ export default class UserRepository{
                     console.log(await pool.execute("SELECT * FROM users"));
                     return Promise.resolve({"en":"The user has been created successfully"})
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     
 
     async getUsers(){
-        try{
-
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -68,15 +55,9 @@ export default class UserRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getUser(username: string){
-        try{
-
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -89,18 +70,9 @@ export default class UserRepository{
                     throw {statusCode: 404, errorMessage:"No existe tal usuario"};
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getUserById(id: string){
-        try {
-            // if (id == null) {
-            //     throw new Error("You forgot to send an id, silly");
-            // } //VALIDACION NIVEL CONTROLLER
-    
             if (pool instanceof Error || typeof pool === "undefined") {
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
@@ -115,17 +87,10 @@ export default class UserRepository{
                 } else {
                     throw {statusCode: 404, errorMessage:"No existe tal usuario"};
                 }
-            }
-        } catch (e) {
-            throw e;
         }
     }
 
     async getUserDataById(id: string){
-        try {
-            // if (id == null) {
-            //     throw new Error("You forgot to send an id, silly");
-            // } //validacion nivel controlador
     
             if (pool instanceof Error || typeof pool === "undefined") {
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
@@ -141,14 +106,11 @@ export default class UserRepository{
                 } else {
                     throw new Error("The user does not exist");
                 }
-            }
-        } catch (e) {
-            throw e;
-        }
+       }
     }
 
     async getUsernamesById(users_ids: Array<string>){
-        try {
+
             if (pool instanceof Error || typeof pool === "undefined") {
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
@@ -172,14 +134,9 @@ export default class UserRepository{
                     throw {statusCode: 404, errorMessage:"No existen tales usuarios"};
                 }
             }
-        } catch (e) {
-            console.log(e);
-            throw e;
-        }
     }
 
     async matchData(user: User){
-        try{
             if(user.username == ""){
                 throw "No se envió un username";
             }
@@ -202,9 +159,5 @@ export default class UserRepository{
                     throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
                 }
             }
-        }
-        catch(e){
-            throw e;
-        } 
     }
 }

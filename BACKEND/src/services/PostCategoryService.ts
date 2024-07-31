@@ -7,13 +7,8 @@ export default class PostCategoryService{
     }
 
     async createNewCategoryPost(categoryPost: CategoryPost){
-        try{
             const result = this.#postCategoryRepository.createNewCategoryPost(categoryPost);
             return result;
-        }
-        catch(e){
-            throw e;
-        }
     }   
 
     // async getUsersPosts(){

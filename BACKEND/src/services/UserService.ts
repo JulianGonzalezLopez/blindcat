@@ -10,67 +10,36 @@ export default class UserService{
 
 
     async getUsers(){
-        try{
-            const users = await this.#userRepository.getUsers();
-            return users;
-        }
-        catch(e){
-            throw e;
-        }
+            return await this.#userRepository.getUsers();
     }
 
     async getUser(username: string){
-        try{
             const user = await this.#userRepository.getUser(username);
             if(Array.isArray(user) && user.length !== 0){
                 return user;
             }
             throw {statusCode: 404, errorMessage:"No existe tal usuario"};
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getUserById(id:string){
-        try{
             const user = await this.#userRepository.getUserById(id);
             return user;
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getUserDataById(id:string){ //HAY QUE BORRAR ESTE METODO
-        try{
             const user = await this.#userRepository.getUserDataById(id);
             return user;
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getUsernamesById(users_ids: Array<string>){
-        try{
             const users = await this.#userRepository.getUsernamesById(users_ids);
             console.log("pasó");
             return users;
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async matchData(user: User){
-        try{
             const result = await this.#userRepository.matchData(user);
             return result
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async createNewUser(user: User) {

@@ -3,9 +3,7 @@ import pool from "../pool";
 export default class PostCategoryRepository{
 
     async createNewCategoryPost(categoryPost : CategoryPost){
-        console.log("ENTRA?????????????");
-        try{
-    
+
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -14,10 +12,6 @@ export default class PostCategoryRepository{
                 await pool.execute("INSERT INTO posts_categories(category_tag, post_id) VALUES (?,?)",[categoryPost.category, categoryPost.post_id]);    
                 return Promise.resolve({"en":"The usersPost has been created successfully"})
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
     
     // async getUsersPosts(){

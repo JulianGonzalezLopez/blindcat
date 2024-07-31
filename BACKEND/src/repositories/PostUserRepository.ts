@@ -4,12 +4,6 @@ export default class PostUserRepository{
 
     async createNewUsersPosts(usersPost : UserPost){
         console.log("ENTRA?????????????");
-        try{
-            // if(usersPost.user_id == null || usersPost.post_id == null){
-            //     return Promise.reject({"en":"At least one of the inputs is null"});
-            // } VALIDACION DE TIPOS - CONTROLLER
-    
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -18,16 +12,9 @@ export default class PostUserRepository{
                 await pool.execute("INSERT INTO users_posts(user_id, post_id) VALUES (?,?)",[usersPost.user_id, usersPost.post_id]);    
                 return Promise.resolve({"en":"The usersPost has been created successfully"})
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
     
     async getUsersPosts(){
-        
-        try{
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -42,16 +29,9 @@ export default class PostUserRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
     
     async getUserPosts(user_id: number){
-        
-        try{
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -66,16 +46,9 @@ export default class PostUserRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
     async getPostUser(post_id: number) {
-        
-        try {
-    
             if (pool instanceof Error || typeof pool === "undefined") {
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             } else {
@@ -90,16 +63,11 @@ export default class PostUserRepository{
                     return []; // No es necesario usar Promise.resolve, ya que estamos devolviendo un valor estático
                 }
             }
-        } catch (e) {
-            throw e; 
         }
-    }
     
     async getPostsUsers(posts_ids: Array<number>) {
-        try {
             if (pool instanceof Error || typeof pool === "undefined") {
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
-            
     
             } else {
                 if (!posts_ids){
@@ -114,16 +82,10 @@ export default class PostUserRepository{
                     return []; // No es necesario usar Promise.resolve, ya que estamos devolviendo un valor estático
                 }
             }
-        } catch (e) {
-            throw e;
-        }
     }
     
     
     async getUserPost(usersPost: UserPost){
-        
-        try{
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 Promise.reject([]);
             }
@@ -138,21 +100,10 @@ export default class PostUserRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            console.log(e);
-            Promise.reject([]);
-        }
     }
     
     async createOpenedPost(usersPost : UserPost){
         console.log("ENTRA?????????????");
-        try{
-            // if(usersPost.user_id == null || usersPost.post_id == null){
-            //     return Promise.reject({"en":"At least one of the inputs is null"});
-            // } //VALIDACION NIVEL CONTROLLER
-    
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -171,17 +122,10 @@ export default class PostUserRepository{
     
                 return Promise.resolve({"en":"The opened_posts relationship has been created successfully"})
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
     
     
     async getOpenedPostsCount(post_id: number){
-        
-        try{
-    
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -198,10 +142,6 @@ export default class PostUserRepository{
                     return Promise.resolve(null);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
     
 }

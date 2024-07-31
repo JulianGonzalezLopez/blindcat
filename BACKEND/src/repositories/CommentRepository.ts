@@ -3,7 +3,6 @@ import pool from "../pool";
 export class CommentRepository{
 
     async createNewComment(comment : Comment){  
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -14,16 +13,10 @@ export class CommentRepository{
                 //@ts-ignore
                 return Promise.resolve(rows.insertId)
             } 
-        }
-        catch(e){
-            throw e;
-        }
     }
     
     
     async getComments(comment_id: number){
-        
-        try{
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -39,16 +32,11 @@ export class CommentRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
         
     async getCommentsByUID(user_id: number){
-        
-        try{
+
             if (pool instanceof Error || typeof pool === "undefined"){
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
@@ -65,10 +53,6 @@ export class CommentRepository{
                     return Promise.resolve([]);
                 }
             }
-        }
-        catch(e){
-            throw e;
-        }
     }
 
 
