@@ -1,0 +1,1 @@
+export default [{key:"General", value:"gen"},{key:"Deporte", value:"dep"},{key:"Anime", value:"ani"}]

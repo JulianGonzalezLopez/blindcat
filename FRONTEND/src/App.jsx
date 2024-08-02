@@ -18,6 +18,7 @@ export const TokenContext = createContext();
 export const CreateModalContext = createContext();
 //HELPERS IMPORTS
 import fetchAuthorization from './helpers/fetchAuthorization';
+import cat from './helpers/categories';
 
   function App() {
     const [token, setToken] = useState("");    
@@ -26,7 +27,7 @@ import fetchAuthorization from './helpers/fetchAuthorization';
     const [currentEntry,setCurrentEntry] = useState({title:"", content:"", id:0, username:""});
     const [currentComments, setCurrentComments] = useState([]);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const [categories] = useState([{key:"General", value:"gen"},{key:"Deporte", value:"dep"},{key:"Anime", value:"ani"}]); // Ejemplo de categorías
+    const [categories] = useState(cat); // Ejemplo de categorías
 
     //Constantes nuevas
     const navegate = useNavigate();

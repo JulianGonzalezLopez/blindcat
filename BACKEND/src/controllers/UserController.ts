@@ -159,20 +159,10 @@ export default class UserController{
             //HAY QUE VER COMO DEVUELVE LA INFORMACION getUser    
             const udata = await this.userService.getUser(username);
             const uid = udata[0].id;
-            console.log(udata);
-            console.log(udata[0]);
-            console.log(udata[0].id);
-            //NO CREADO (METODO)
-            //@ts-ignore
-            let posts_ids = await this.postUserService.getUserPosts(uid);
-            //@ts-ignore
-            posts_ids = posts_ids.map((post)=>post.post_id)
-            const posts = await this.postService.getPostsByID(posts_ids);
-            //NO CREADO (METODO NI CLASE)
-            //@ts-ignore
+            const posts = await this.userService.getUserPosts(uid);
             const comments = await this.commentService.getCommentsByUID(uid);
             console.log(comments);
-
+            console.log(posts);
 
 
             res.json({
@@ -185,5 +175,18 @@ export default class UserController{
         }
     }
     
+    async getUserPosts(req: Request, res: Response){     
+        try{
+            let uid = req.body.user_id;
+            if(typeof uid != "string"){
+                throw {statusCode: 400, errorMessage: "Tipo de dato invalido para UID"}
+            }
+            return await this.userService.getUserPosts(uid);
+        }
+        catch(e){
+            handleError(res,e)
+        }
+    }
+
 
 }

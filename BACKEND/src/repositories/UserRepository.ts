@@ -160,4 +160,21 @@ export default class UserRepository{
                 }
             }
     }
+
+
+    async getUserPosts(user_id: string){
+        if (pool instanceof Error || typeof pool === "undefined"){
+            throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+        }
+        else{
+            const [results, fields] = await pool.execute("SELECT users.username as 'creator_username' , posts.id as 'post_id', posts.title as 'posts_title', posts.content as 'post_content', posts.creation_date as 'post_creation_date' FROM users JOIN users_posts ON users.id = users_posts.user_id LEFT JOIN posts ON users_posts.post_id = posts.id WHERE users.id = ?;",[user_id]);
+            if(Array.isArray(results) && results.length !== 0){
+                console.log(results);
+                return Promise.resolve(results);
+            }
+            else{
+                return Promise.resolve([]);
+            }
+        }
+    }
 }

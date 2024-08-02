@@ -42,6 +42,10 @@ export default class UserService{
             return result
     }
 
+    async getUserPosts(user_id: string){
+        return await this.#userRepository.getUserPosts(user_id);
+    }
+
     async createNewUser(user: User) {
         try {
             await this.getUser(user.username);

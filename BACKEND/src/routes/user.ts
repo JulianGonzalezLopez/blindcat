@@ -15,5 +15,6 @@ const UserC = new UserController(new UserService(new UserRepository()), new Post
 
 router.get("/:username/interactions", UserC.getInteractions.bind(UserC));
 
+router.get("/myPosts", UserC.getUserPosts.bind(UserC));
 
 export default router;
