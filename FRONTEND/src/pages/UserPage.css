@@ -11,13 +11,8 @@
     text-align: left;
 }
 
-.curtain {
-    transition: transform 0.5s ease-in-out;
-    transform: scaleY(1); /* Inicia en estado abierto */
-  }
-
 .closed {
-    transform: scaleY(0); /* Colapsa el div (efecto de cierre) */
+    display: none;
   }
 
 .posteos > div{
@@ -29,6 +24,11 @@
     word-wrap: break-word; /* CSS estándar */
     overflow-wrap: anywhere; /* También estándar, pero más reciente */
 
+}
+
+.post{
+    position: relative;
+    
 }
 
 .delete-button{

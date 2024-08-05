@@ -9,13 +9,6 @@ import { useNavigate } from "react-router-dom";
 function EntryPage(){
     const navigate = useNavigate();
     let post_id = localStorage.getItem("post_id");
-
-    // useEffect(()=>{
-
-
-
-    // },[]);
-
     return(
         <div className="entry_page_container">
             <img className="back_arrow" src={back_arrow} alt="back_arrow" onClick={()=>{ localStorage.removeItem("post_id"); navigate("/app");}}/>

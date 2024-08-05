@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useContext } from "react";
 import { TokenContext } from "../App";
 
+import deletePost from "../helpers/deletePost";
 import retrieveAllUserInteractions from "../helpers/retrieveAllUserInteractions";
 import CategorySelector from "../components/CategorySelector";
 
@@ -51,11 +52,11 @@ export default function UserPage(){
                     <div className="curtain" id="posts">
                         {myPosts.map(myPost=>{
                             return (
-                                <div>
+                                <div className="post" onClick={()=>{}}>
                                     <p>Titulo: {myPost.post_title}</p>
                                     <p>Contenido: {myPost.post_content}</p>
                                     <p>Fecha: {myPost.post_creation_date}</p>
-                                    <button className="delete-button" onClick={()=>{deletePost(myPost.post_id,token)}}>🗑️</button>
+                                    <button className="delete-button" onClick={()=>{deletePost(token, myPost.post_id)}}>🗑️</button>
                                 </div>
                             )
                         })}
