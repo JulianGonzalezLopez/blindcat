@@ -24,6 +24,8 @@ router.post("/posts/",PostC.createPost.bind(PostC)); //FALTA TEST
 
 router.get("/entry", PostC.getPost.bind(PostC));
 
+router.delete("/entry/:post_id", PostC.deleteEntry.bind(PostC));
+
 router.get("/posts/", PostC.getPosts.bind(PostC));
 
 router.get("/posts/:post_id/comments/", CommentC.getComments.bind(CommentC));

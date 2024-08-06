@@ -22,6 +22,16 @@ export default class PostService{
             return post;
     }
 
+    async deleteEntry(uid:string, eid: number){
+        const relationship = await this.#postRepository.confirmEntryOwnership(uid,eid);
+        if(relationship == true){
+                await this.#postRepository.deleteEntry(eid);
+                await this.#postRepository.deleteAssociatedComments(eid);
+        }
+        else{
+                throw {statusCode: 400, errorMessage: "No existe una relación entre UID y EID"};
+        }
+    }
 
     async getPostsByID(post_ids: number | string){
             const post = await this.#postRepository.getPostsByID(post_ids);

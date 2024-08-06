@@ -95,6 +95,63 @@ export default class PostRepository{
             }
     }
 
+    async confirmEntryOwnership(uid: string, eid: number){
+        if (pool instanceof Error || typeof pool === "undefined"){
+            throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+        }
+        else{
+            const [results, fields] = await pool.execute("SELECT COUNT(*) FROM users JOIN users_posts ON users.id = users_posts.user_id LEFT JOIN posts ON users_posts.post_id = posts.id WHERE users.id = ? AND post_id = ?;",[uid,eid]);
+            console.log("Checking entry ownership");
+            console.log(results);
+            if(Array.isArray(results) && results.length !== 0){
+                console.log("pasamos 1");
+                if(results[0].hasOwnProperty('COUNT(*)')){
+                    //@ts-ignore
+                    if(results[0]['COUNT(*)'] == 1){
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            else{
+                throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
+            }
+        }
+    }
+
+    async deleteEntry(eid: number){
+        if (pool instanceof Error || typeof pool === "undefined"){
+            throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+        }
+        else{
+            const [results, fields] = await pool.execute("DELETE FROM posts WHERE id = ?",[eid]);
+            console.log(results);
+            if(Array.isArray(results) && results.length !== 0){
+                return results;
+            }
+            else{
+                throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
+            }
+        }
+    }
+
+    async deleteAssociatedComments(eid: number){
+        if (pool instanceof Error || typeof pool === "undefined"){
+            throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
+        }
+        else{
+            const [results, fields] = await pool.execute("DELETE FROM posts_comments WHERE post_id = ?",[eid]);
+            console.log(results);
+            if(Array.isArray(results) && results.length !== 0){
+                return results;
+            }
+            else{
+                throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
+            }
+        }
+    }
+    
+
     async getPostsByCategoryPaged(tag: string, page: string, order: string){
         const PAGE_SIZE = 5;
         console.log("AHORA POR ACÁ 1");

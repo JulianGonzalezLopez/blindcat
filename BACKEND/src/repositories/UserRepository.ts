@@ -161,7 +161,6 @@ export default class UserRepository{
             }
     }
 
-
     async getUserPosts(user_id: string){
         if (pool instanceof Error || typeof pool === "undefined"){
             throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};

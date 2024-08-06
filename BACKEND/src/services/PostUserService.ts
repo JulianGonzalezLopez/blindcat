@@ -8,23 +8,14 @@ export default class PostUserService{
     }
 
     async createNewUserPosts(userPost: UserPost){
-        try{
-            const result = this.#postUserRepository.createNewUsersPosts(userPost);
-            return result;
-        }
-        catch(e){
-            throw e;
-        }
+        const result = this.#postUserRepository.createNewUsersPosts(userPost);
+        return result;
     }   
 
     async getUsersPosts(){
-        try{
-            const result = await this.#postUserRepository.getUsersPosts();
-            return result;
-        }
-        catch(e){
-            throw e;
-        }
+        const result = await this.#postUserRepository.getUsersPosts();
+        return result;
+
     }
 
     async getUserPosts(user_id: number){

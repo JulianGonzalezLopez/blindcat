@@ -404,4 +404,38 @@ export default class PostController{
       //   }
       // }
 
+
+      async deleteEntry(req: Request, res: Response){
+        try{
+          const uid = req.body.user_id;
+          let eid: string | number = req.params.post_id;
+
+          console.log(uid);
+          console.log(eid);
+          console.log(req.params);
+  
+          if(typeof uid != "string"){
+            throw {statusCode: 400, errorMessage:"Error tipo de dato UID"};
+          }
+  
+          if(typeof eid == "string"){
+            eid = Number(eid);
+          }
+
+          if(typeof eid != "number"){
+            throw {statusCode: 400, errorMessage:"Error tipo de dato EID"};
+          }
+          
+          await this.#postService.deleteEntry(uid,eid);
+
+
+        }
+        catch(err){
+          console.log("DIOS");
+          console.log(err);
+          handleError(res,err);
+        }
+
+      }
+
 }
