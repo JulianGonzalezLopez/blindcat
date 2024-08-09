@@ -47,6 +47,20 @@ export default class CommentController {
     }
   }
 
+  async deleteComment(req: Request, res: Response){
+    try{
+      const uid = req.body.user_id;
+      let cid: string | number = req.params.comment_id;  
+      //FALTAN VERIFICACIONES
+      await this.#commentService.deleteComment(cid,uid);
+      res.status(200).send("Commentario eliminado con exito");
+  
+    }
+    catch(err){
+      handleError(res,err);
+    }
+  }
+
   async commentPost(req: Request, res: Response) {
     const { content, post_id, user_id } = req.body;
     try {
@@ -95,7 +109,8 @@ export default class CommentController {
 
       console.log("Nos centramos en esto");
       const cid = await this.#commentService.createNewComment(content);
-      await this.#commentService.createNewCommentRelationship(cid, post_id, user_id);
+      await this.#commentService.createNewPostCommentRelationship(cid, post_id);
+      await this.#commentService.createNewUserCommentRelationship(cid, user_id);
       console.log("Se creo relacion en el comentario");
       res.status(201).send("ok");
     } catch (err) {

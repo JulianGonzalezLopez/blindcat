@@ -12,8 +12,13 @@ export default class CommentService{
             return cid;
     }
 
-    async createNewCommentRelationship(cid: number, pid: number, uid: string){
-        const result = await this.#commentRepository.createNewCommentRelationship(cid, pid, uid);
+    async createNewPostCommentRelationship(cid: number, pid: number){
+        const result = await this.#commentRepository.createNewPostCommentRelationship(cid, pid);
+        return result;
+    }
+
+    async createNewUserCommentRelationship(cid: number, uid: string){
+        const result = await this.#commentRepository.createNewUserCommentRelationship(cid, uid);
         return result;
     }
 
@@ -29,6 +34,17 @@ export default class CommentService{
             return comments;
     }
 
+    async deleteComment(cid, uid){
+        console.log(cid);
+        console.log(uid);
+        const relationship = await this.#commentRepository.confirmCommentOwnership(cid, uid);
+        if(relationship){
+                await this.#commentRepository.deleteComment(cid);
+        }
+        else{
+                throw {statusCode: 400, errorMessage: "No existe una relacion entre ese uid y cid"};
+        }
+    }
     
 
 }

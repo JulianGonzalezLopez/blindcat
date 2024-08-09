@@ -22,7 +22,7 @@ export default class PostService{
             return post;
     }
 
-    async deleteEntry(uid:string, eid: number){
+    async deleteEntry(uid:string, eid: number){ //CREO QUE ESTO DEJÓ DE ANDAR DEBIDO A LOS CAMBIOS, NECESITO ADAPTARLO A ESO (COMMIT SOBRE CAMBIOS DE NODE A DB)
         const relationship = await this.#postRepository.confirmEntryOwnership(uid,eid);
         console.log(relationship);
         if(relationship == true){

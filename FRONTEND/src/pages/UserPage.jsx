@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { TokenContext } from "../App";
 
 import deletePost from "../helpers/deletePost";
+import deleteComment from "../helpers/deleteComment";
 import retrieveAllUserInteractions from "../helpers/retrieveAllUserInteractions";
 import CategorySelector from "../components/CategorySelector";
 
@@ -60,7 +61,29 @@ export default function UserPage(){
                                 </div>
                             )
                         })}
+                </div>
+                <div className="comentarios">
+                    <h4>Comentarios</h4>
+                    <button onClick={(e)=>{
+                        let curtain = document.getElementById("comments");
+                        curtain.classList.toggle('closed');
+                    }}>▼</button>
+                    <div className="curtain" id="comments">
+                        {myComments.map(myComment=>{
+                                return (
+                                    <div className="post" onClick={()=>{}}>
+                                        <p>Post original: {myComment.original_post_title}</p>
+                                        <p>Contenido: {myComment.comment_content}</p>
+                                        <button className="delete-button" onClick={()=>{deleteComment(token, myComment.comment_id)}}>🗑️</button>
+                                    </div>
+                                )
+                            })}
                     </div>
+                </div>
+
+
+                
+
             </div>   
             </div>
 

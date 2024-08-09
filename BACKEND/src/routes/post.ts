@@ -26,6 +26,8 @@ router.get("/entry", PostC.getPost.bind(PostC));
 
 router.delete("/entry/:post_id", PostC.deleteEntry.bind(PostC));
 
+router.delete("/entry/comment/:comment_id", CommentC.deleteComment.bind(CommentC));
+
 router.get("/posts/", PostC.getPosts.bind(PostC));
 
 router.get("/posts/:post_id/comments/", CommentC.getComments.bind(CommentC));

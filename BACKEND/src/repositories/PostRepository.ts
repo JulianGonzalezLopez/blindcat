@@ -134,7 +134,6 @@ export default class PostRepository{
             throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
         }
         else{
-            const [results, fields] = await pool.execute("SELECT * FROM p")
             await pool.execute("DELETE FROM posts_comments WHERE post_id = ?",[eid]);
             console.log("Comments de " + eid + " eliminados");
         }
