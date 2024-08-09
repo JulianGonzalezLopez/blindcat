@@ -25,17 +25,22 @@ CREATE TABLE posts (
 CREATE TABLE comments (
     id INT NOT NULL AUTO_INCREMENT,
     content VARCHAR(300) NOT NULL,
-    PRIMARY KEY(id),
-    FOREIGN KEY(creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY(id)
 );
 
-CREATE TABLE comments_posts_users(
-	comment_id int not null,
-    post_id int not null,
-    user_id varchar(36) not null,
-    PRIMARY KEY(comment_id, post_id, user_id),
+CREATE TABLE posts_comments(
+	post_id int not null,
+    comment_id int not null,
+    PRIMARY KEY(post_id, comment_id),
     FOREIGN KEY(comment_id) REFERENCES comments(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY(post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE users_comments(
+	user_id varchar(36) not null,
+    comment_id int not null,
+    PRIMARY KEY(user_id,comment_id),
+    FOREIGN KEY(comment_id) REFERENCES comments(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
