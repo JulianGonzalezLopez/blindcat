@@ -25,9 +25,18 @@ CREATE TABLE posts (
 CREATE TABLE comments (
     id INT NOT NULL AUTO_INCREMENT,
     content VARCHAR(300) NOT NULL,
-    creator_id VARCHAR(36) NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(creator_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE comments_posts_users(
+	comment_id int not null,
+    post_id int not null,
+    user_id varchar(36) not null,
+    PRIMARY KEY(comment_id, post_id, user_id),
+    FOREIGN KEY(comment_id) REFERENCES comments(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE categories (
@@ -48,14 +57,6 @@ CREATE TABLE posts_categories (
     post_id INT NOT NULL,
     PRIMARY KEY(category_tag, post_id),
     FOREIGN KEY(category_tag) REFERENCES categories(tag) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY(post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE posts_comments (
-    comment_id INT NOT NULL,
-    post_id INT NOT NULL,
-    PRIMARY KEY(comment_id, post_id),
-    FOREIGN KEY(comment_id) REFERENCES comments(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY(post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

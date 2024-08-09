@@ -425,8 +425,10 @@ export default class PostController{
           if(typeof eid != "number"){
             throw {statusCode: 400, errorMessage:"Error tipo de dato EID"};
           }
-          
+          console.log("Esto se ejecuta?");
           await this.#postService.deleteEntry(uid,eid);
+
+          res.status(200).send("Contenido eliminado");
 
 
         }

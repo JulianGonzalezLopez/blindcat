@@ -7,13 +7,18 @@ export default class CommentService{
         this.#commentRepository = commentRepository;
     }
 
-    async createNewComment(comment: Comment){
-            const result = this.#commentRepository.createNewComment(comment);
-            return result;
+    async createNewComment(content: string){
+            const cid = await this.#commentRepository.createNewComment(content);
+            return cid;
+    }
+
+    async createNewCommentRelationship(cid: number, pid: number, uid: string){
+        const result = await this.#commentRepository.createNewCommentRelationship(cid, pid, uid);
+        return result;
     }
 
     async getComments(comment_id: number){
-            const comments = await this.#commentRepository.getComments(comment_id);
+            const comments = await this.#commentRepository.getCommentsByPID(comment_id);
             console.log(comments);
             return comments;
     }

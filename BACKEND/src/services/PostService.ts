@@ -24,9 +24,13 @@ export default class PostService{
 
     async deleteEntry(uid:string, eid: number){
         const relationship = await this.#postRepository.confirmEntryOwnership(uid,eid);
+        console.log(relationship);
         if(relationship == true){
+                console.log("Llegamos a deletear la entrada?");
                 await this.#postRepository.deleteEntry(eid);
+                console.log("Llegamos a esta ejecucion");
                 await this.#postRepository.deleteAssociatedComments(eid);
+                console.log("Completamos a esta ejecucion");
         }
         else{
                 throw {statusCode: 400, errorMessage: "No existe una relación entre UID y EID"};

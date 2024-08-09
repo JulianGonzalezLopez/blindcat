@@ -125,13 +125,7 @@ export default class PostRepository{
         }
         else{
             const [results, fields] = await pool.execute("DELETE FROM posts WHERE id = ?",[eid]);
-            console.log(results);
-            if(Array.isArray(results) && results.length !== 0){
-                return results;
-            }
-            else{
-                throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
-            }
+            console.log("Entry " + eid + " eliminada");
         }
     }
 
@@ -140,14 +134,9 @@ export default class PostRepository{
             throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
         }
         else{
-            const [results, fields] = await pool.execute("DELETE FROM posts_comments WHERE post_id = ?",[eid]);
-            console.log(results);
-            if(Array.isArray(results) && results.length !== 0){
-                return results;
-            }
-            else{
-                throw {statusCode: 404, errorMessage:"No existe esa combinacion de usuario y contraseña"};
-            }
+            const [results, fields] = await pool.execute("SELECT * FROM p")
+            await pool.execute("DELETE FROM posts_comments WHERE post_id = ?",[eid]);
+            console.log("Comments de " + eid + " eliminados");
         }
     }
     
