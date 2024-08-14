@@ -50,6 +50,7 @@ function CommentsSection({post_id}) {
         body: JSON.stringify(requestData)
       });
       if (response.ok) { 
+        setComment("");
         console.log("QUE ONDA ACA");
 
       } else {
@@ -80,9 +81,9 @@ function CommentsSection({post_id}) {
           comments && comments.length > 0 ? (
             comments.map(commentData => (
               <Comment 
-                content={commentData.content} 
-                username={commentData.username} 
-                key={commentData.id} 
+                content={commentData.comment_content} 
+                username={commentData.creator_username} 
+                key={commentData.comment_id} 
               />
             ))
           ) : (<p>Se el primero en comentar</p>)

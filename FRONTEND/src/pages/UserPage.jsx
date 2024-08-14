@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useContext } from "react";
 import { TokenContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 import deletePost from "../helpers/deletePost";
 import deleteComment from "../helpers/deleteComment";
@@ -19,7 +20,7 @@ export default function UserPage(){
     const [token] = useContext(TokenContext);
     const [myPosts,setMyPosts] = useState([1,2]);
     const [myComments,setMyComments] = useState([]);
-
+    const navegate = useNavigate();
     useEffect(()=>{
         async function auxFunction(){
             let res = await retrieveAllUserInteractions(token, localStorage.getItem("username"));
@@ -38,10 +39,11 @@ export default function UserPage(){
 
         <>
             <header className="header">
-                <img className="logo" src={b} alt="blindcat logo" />
+                <img onClick={()=>{console.log("app");navegate("/app")}} className="logo" src={b} alt="blindcat logo"/>
                 <p className="username" onClick={()=>{navegate("/user")}} > {"> " + localStorage.getItem("username")}</p>
                 <button className="header-button logout-button" onClick={()=>{handleLogout()}}>Cerrar</button>
             </header>  
+
             <div className="contenido">
                 <h3 className="left-title">Actividad de hoy</h3>
                 <div className="posteos">
@@ -54,14 +56,18 @@ export default function UserPage(){
                         {myPosts.map(myPost=>{
                             return (
                                 <div className="post" onClick={()=>{}}>
-                                    <p>Titulo: {myPost.post_title}</p>
-                                    <p>Contenido: {myPost.post_content}</p>
-                                    <p>Fecha: {myPost.post_creation_date}</p>
-                                    <button className="delete-button" onClick={()=>{deletePost(token, myPost.post_id)}}>🗑️</button>
+                                    <p>{myPost.post_title}</p>
+                                    <p>{myPost.post_creation_date}</p>
+                                    <a onClick={()=>{localStorage.setItem("post_id",myPost.post_id); navegate("/entry")}}> Ver</a>
+                                    <button className="delete-button" onClick={()=>{
+                                        deletePost(token, myPost.post_id);
+                                        window.location.reload();
+                                        }}>🗑️</button>
                                 </div>
                             )
                         })}
                 </div>
+
                 <div className="comentarios">
                     <h4>Comentarios</h4>
                     <button onClick={(e)=>{
@@ -73,8 +79,12 @@ export default function UserPage(){
                                 return (
                                     <div className="post" onClick={()=>{}}>
                                         <p>Post original: {myComment.original_post_title}</p>
-                                        <p>Contenido: {myComment.comment_content}</p>
-                                        <button className="delete-button" onClick={()=>{deleteComment(token, myComment.comment_id)}}>🗑️</button>
+                                        <p>{myComment.comment_content}</p>
+                                        <a onClick={()=>{localStorage.setItem("post_id",myComment.original_post_id); navegate("/entry")}}>Ver post original</a>
+                                        <button className="delete-button" onClick={()=>{
+                                            deleteComment(token, myComment.comment_id);
+                                            window.location.reload();
+                                            }}>🗑️</button>
                                     </div>
                                 )
                             })}

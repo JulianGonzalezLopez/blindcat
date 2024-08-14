@@ -38,13 +38,13 @@ import cat from './helpers/categories';
           let res = await fetchAuthorization(setToken);
           console.log(token);
           if(res == true){
-            console.log(localStorage.getItem("post_id"))
-            if(!localStorage.getItem("post_id")){
-              navegate("/app");
-            }
-            else{
-              navegate("/entry");
-            }
+            // console.log(localStorage.getItem("post_id"))
+            // if(!localStorage.getItem("post_id")){
+            //   navegate("/app");
+            // }
+            // else{
+            //   navegate("/entry");
+            // }
           }
           else{
             navegate("/login");
@@ -61,13 +61,13 @@ import cat from './helpers/categories';
           let res = await fetchAuthorization(setToken);
           console.log(token);
           if(res == true){
-            console.log(localStorage.getItem("post_id"))
-            if(!localStorage.getItem("post_id")){
-              navegate("/app");
-            }
-            else{
-              navegate("/entry");
-            }
+            // console.log(localStorage.getItem("post_id"))
+            // if(!localStorage.getItem("post_id")){
+            //   navegate("/app");
+            // }
+            // else{
+            //   navegate("/entry");
+            // }
           }
           else{
             navegate("/login");
@@ -77,11 +77,11 @@ import cat from './helpers/categories';
       auxFunction();
     },[token]);
 
-    useEffect(()=>{
-      console.log(currentEntry);
-      console.log("!!");
-      navegate("/entry");
-    },[currentEntry]);
+    // useEffect(()=>{
+    //   console.log(currentEntry);
+    //   console.log("!!");
+    //   navegate("/entry");
+    // },[currentEntry]);
 
     //QUE HICE DIOS
     useEffect(()=>{

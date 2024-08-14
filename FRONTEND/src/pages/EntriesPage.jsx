@@ -116,8 +116,8 @@ import fetchAuthorization from "../helpers/fetchAuthorization";
     return (
       <>
         <header className="header">
-          <img className="logo" src={b} alt="blindcat logo" />
-          <p className="username" onClick={()=>{navegate("/user")}} > {"> " + localStorage.getItem("username")}</p>
+        <img onClick={()=>{navegate("/app")}} className="logo" src={b} alt="blindcat logo"/>
+        <p className="username" onClick={()=>{navegate("/user")}} > {"> " + localStorage.getItem("username")}</p>
           <CategorySelector className="header-button category-selector" categories={categories} selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory}></CategorySelector>
           <button className="header-button create-button" onClick={()=>{setShowCreateModal(true)}}>Crear</button>
           <button className="header-button logout-button" onClick={()=>{handleLogout()}}>Cerrar</button>

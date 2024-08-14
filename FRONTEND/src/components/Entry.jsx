@@ -19,13 +19,15 @@ function Entry({title,content, creation_date, setSelectedPost, post_id, token, n
     async function auxFuncion(){
       //SALIDA AUXILIAR - AL REFRESCAR SE MONTA PRIMERO EL COMPONTENTE HIJO Y POR LO TANTO NO PUEDO USAR EL CONTEXTO DEL PADRE
       let res = await fetchEntry(localStorage.getItem("token"),post_id);
-      let date =new Date(entryData.creation_date);
+      let date =new Date(res.creation_date);
       date.setHours(date.getHours() - 3);
       const formatedDate = date.toLocaleTimeString('es-AR', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
       });  
+
+      console.log(formatedDate);
   
       setEntryData({title:res.title,content:res.content,creation_date:formatedDate, creator_username:res.creator_username});
     }

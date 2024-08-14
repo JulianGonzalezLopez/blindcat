@@ -11,7 +11,7 @@ function EntryPage(){
     let post_id = localStorage.getItem("post_id");
     return(
         <div className="entry_page_container">
-            <img className="back_arrow" src={back_arrow} alt="back_arrow" onClick={()=>{ localStorage.removeItem("post_id"); navigate("/app");}}/>
+            <img className="back_arrow" src={back_arrow} alt="back_arrow" onClick={()=>{ localStorage.removeItem("post_id"); navigate(-1);}}/>
             <div className="entry_page">
                 <Entry post_id={post_id}></Entry>
                 <CommentsSection post_id={post_id}></CommentsSection>

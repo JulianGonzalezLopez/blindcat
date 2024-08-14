@@ -28,7 +28,9 @@
 
 .post{
     position: relative;
-    
+    border: 1px solid black;
+    padding: 1rem;
+    margin: .5rem;
 }
 
 .delete-button{
@@ -37,6 +39,6 @@
     color: inherit;           /* Opcional: Hereda el color del texto del elemento padre */
     cursor: pointer;  
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1rem;
+    right: 1rem;
 }

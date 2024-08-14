@@ -46,7 +46,7 @@ export class CommentRepository{
                 throw {statusCode: 500, errorMessage:"Falló la conexión con la base de datos"};
             }
             else{
-                const [results, fields] = await pool.execute("SELECT comments.id as comment_id, comments.content as comment_content, posts.id as original_post_id, posts.title as original_post_title FROM comments JOIN posts_comments ON comments.id = posts_comments.comment_id JOIN posts ON posts_comments.post_id = posts.id WHERE posts_comments.post_id = ?",[pid]);
+                const [results, fields] = await pool.execute("SELECT comments.id as comment_id, comments.content as comment_content, posts.id as original_post_id, posts.title as original_post_title, users.username as creator_username FROM comments JOIN users_comments ON comments.id = users_comments.comment_id JOIN users ON users_comments.user_id = users.id JOIN posts_comments ON comments.id = posts_comments.comment_id JOIN posts ON posts_comments.post_id = posts.id WHERE posts_comments.post_id = ?",[pid]);
                 console.log("Comentarios asociados al PID: " + pid);
                 console.log(results);
                 if(Array.isArray(results) && results.length !== 0){
